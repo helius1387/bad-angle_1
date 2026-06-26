@@ -2,9 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Heliganeh's Secret Sky 🌌</title>
-  <!-- Vazirmatn font for Persian text & elegant Latin -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Heliganeh · Secret Sky</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
   <style>
     * {
@@ -14,34 +13,32 @@
     }
 
     :root {
-      --bg-deep: #0a0a1a;
-      --bg-card: rgba(20, 18, 50, 0.65);
-      --text-primary: #e6e0f0;
-      --text-soft: #c0b0d8;
-      --accent: #d9a6ff;
-      --accent2: #ffb3d9;
-      --gold: #fae37c;
-      --gold-glow: #f5d742;
-      --error: #ff8a8a;
-      --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-      --border-glow: rgba(217, 166, 255, 0.4);
-      --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+      --bg: #060612;
+      --card-bg: rgba(18, 15, 40, 0.7);
+      --border-glow: rgba(200, 160, 255, 0.35);
+      --gold: #fad974;
+      --gold-bright: #ffeaa7;
+      --accent: #c4a1ff;
+      --text: #e6e0f5;
+      --text-soft: #b8a9d4;
+      --error: #ffb3b3;
     }
 
     body {
-      font-family: var(--font);
-      background: var(--bg-deep);
-      color: var(--text-primary);
+      font-family: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      position: relative;
     }
 
-    /* Background canvas for living sky */
+    /* ── canvas background with nebula & dust ── */
     #skyCanvas {
       position: fixed;
       top: 0;
@@ -52,278 +49,261 @@
       pointer-events: none;
     }
 
-    /* Overlay containers – all positioned above canvas */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    /* ── main UI container ── */
+    .app-layer {
+      position: relative;
       z-index: 10;
+      width: 100%;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(8px);
-      background: rgba(8, 8, 20, 0.5);
-      transition: opacity 0.6s ease, visibility 0.6s;
-    }
-    .overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
     }
 
-    /* ===== LANDING PAGE ===== */
-    .landing-card {
-      text-align: center;
-      padding: 2rem 1.8rem;
-      background: var(--bg-card);
-      border-radius: 2.5rem;
-      border: 1px solid var(--border-glow);
-      box-shadow: 0 0 60px rgba(180, 130, 255, 0.15);
+    /* ── glass cards ── */
+    .glass {
+      background: rgba(20, 16, 45, 0.6);
       backdrop-filter: blur(20px);
-      animation: float 4s ease-in-out infinite;
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(120, 100, 200, 0.1);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      max-width: 380px;
+      width: 90%;
+      animation: float 6s ease-in-out infinite;
     }
     @keyframes float {
       0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-6px); }
     }
-    .landing-card h1 {
-      font-size: 2.2rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      color: #f0e5ff;
-      margin-bottom: 0.4rem;
+
+    .glass h1, .glass h2 {
+      font-weight: 400;
+      letter-spacing: 2px;
     }
-    .landing-card .sub {
-      font-size: 0.95rem;
+    .glass h1 {
+      font-size: 2.6rem;
+      color: #f0e6ff;
+      text-shadow: 0 0 25px #b79aff;
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
       color: var(--text-soft);
-      margin-bottom: 2rem;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      margin-bottom: 2.2rem;
+      letter-spacing: 3px;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #b982f0, #d89cff);
+
+    .btn {
+      background: linear-gradient(135deg, #9f7aea, #c084fc);
       border: none;
       color: #1a0a2e;
       font-weight: 600;
       padding: 0.9rem 2.8rem;
       border-radius: 3rem;
-      font-size: 1.1rem;
-      letter-spacing: 0.8px;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(180, 120, 240, 0.4);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(200, 140, 255, 0.6);
-    }
-
-    /* ===== LOGIN MODAL ===== */
-    .login-box {
-      background: var(--bg-card);
-      backdrop-filter: blur(30px);
-      border-radius: 2.2rem;
-      padding: 2.5rem 2rem;
-      border: 1px solid var(--border-glow);
-      text-align: center;
-      max-width: 380px;
-      width: 85%;
-      animation: fadeUp 0.6s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .login-box h2 {
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-      color: #e9dbff;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 3rem;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(217,166,255,0.5);
-      color: #f0e5ff;
       font-size: 1rem;
-      text-align: center;
-      letter-spacing: 2px;
-      margin: 1.8rem 0 1.2rem;
-      outline: none;
-      font-family: var(--font);
-      transition: 0.3s;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(150, 100, 250, 0.4);
+      transition: all 0.3s ease;
+      font-family: inherit;
     }
-    .login-box input:focus {
-      border-color: #e2b0ff;
-      box-shadow: 0 0 25px rgba(200,150,255,0.3);
-    }
-    .login-error {
-      color: var(--error);
-      font-size: 0.9rem;
-      min-height: 1.5rem;
-      margin-top: 0.3rem;
-      animation: shake 0.5s ease;
-    }
-    @keyframes shake {
-      0%,100%{transform:translateX(0);}
-      25%{transform:translateX(-5px);}
-      75%{transform:translateX(5px);}
-    }
-
-    /* ===== MUSIC PROMPT ===== */
-    .music-prompt {
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 2rem;
-      text-align: center;
-      backdrop-filter: blur(20px);
-    }
-    .music-prompt p {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-    }
-    .music-prompt .btn-row {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(170, 130, 255, 0.6);
     }
     .btn-ghost {
       background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 0.7rem 2rem;
+      border: 1px solid rgba(200, 160, 255, 0.5);
+      color: #d0b8ff;
+      padding: 0.65rem 2rem;
       border-radius: 3rem;
       font-weight: 500;
       cursor: pointer;
       transition: 0.3s;
+      font-family: inherit;
     }
     .btn-ghost:hover {
-      background: rgba(217,166,255,0.15);
+      background: rgba(180, 140, 255, 0.15);
     }
 
-    /* ===== MAIN SKY (YEGANEH VIEW) ===== */
-    #yeganehView {
-      position: relative;
-      z-index: 5;
+    input {
       width: 100%;
-      height: 100vh;
+      padding: 1rem 1.2rem;
+      border-radius: 3rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(200, 160, 255, 0.4);
+      color: #f0e5ff;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 3px;
+      outline: none;
+      font-family: inherit;
+      margin: 1.8rem 0 1.2rem;
+      transition: 0.3s;
+    }
+    input:focus {
+      border-color: #dbb5ff;
+      box-shadow: 0 0 30px rgba(180, 130, 255, 0.3);
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 0.9rem;
+      min-height: 1.5rem;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%,100%{transform:translateX(0);}
+      20%{transform:translateX(-6px);}
+      40%{transform:translateX(6px);}
+      60%{transform:translateX(-3px);}
+      80%{transform:translateX(3px);}
+    }
+
+    /* ── hidden overlays ── */
+    .overlay {
+      position: fixed;
+      top:0;left:0;width:100%;height:100%;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(6,6,18,0.6);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s ease;
+    }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ── sky view ── */
+    #skyView {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem 1rem 2rem;
+      padding: 2rem 1rem 1.5rem;
       opacity: 0;
-      transition: opacity 0.7s;
-      pointer-events: none;
+      visibility: hidden;
+      transition: 0.6s;
     }
-    #yeganehView.active {
+    #skyView.active {
       opacity: 1;
-      pointer-events: auto;
+      visibility: visible;
     }
+
     .sky-header {
-      margin-top: 2.5rem;
       text-align: center;
+      margin-bottom: 1rem;
       z-index: 2;
     }
-    .discovered-counter {
-      background: rgba(30,20,60,0.7);
-      padding: 0.4rem 1.5rem;
+    .counter {
+      background: rgba(20,15,45,0.6);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 2rem;
       border-radius: 3rem;
-      font-size: 0.9rem;
-      color: var(--gold);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(250,227,124,0.3);
       display: inline-block;
-      margin-top: 0.8rem;
+      color: var(--gold);
+      font-size: 0.9rem;
+      border: 1px solid rgba(250,217,116,0.3);
+      margin-top: 0.5rem;
     }
-    .stars-field {
+
+    .stars-container {
       flex: 1;
       width: 100%;
       position: relative;
-      margin-top: 2rem;
+      overflow: hidden;
     }
+
     .star {
       position: absolute;
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
       z-index: 1;
     }
-    .star:hover {
-      transform: scale(1.2);
-    }
-    .star:active {
-      transform: scale(0.9);
-    }
+    .star:hover { transform: scale(1.25); }
+    .star:active { transform: scale(0.85); }
+
     .star svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 6px rgba(200,180,255,0.5));
-      transition: filter 0.5s;
+      filter: drop-shadow(0 0 6px rgba(180,160,240,0.5));
+      transition: filter 0.6s;
     }
-    .star.opened svg {
-      filter: drop-shadow(0 0 20px #fae37c) drop-shadow(0 0 40px #f5d742);
-      animation: pulseGlow 2.5s infinite;
+    .star.unlocked svg {
+      filter: drop-shadow(0 0 18px #fad974) drop-shadow(0 0 40px #f5d742);
+      animation: starGlow 3s infinite;
     }
-    @keyframes pulseGlow {
-      0%,100% { filter: drop-shadow(0 0 18px #fae37c) drop-shadow(0 0 35px #f5d742); }
-      50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #f5d742); }
+    @keyframes starGlow {
+      0%,100% { filter: drop-shadow(0 0 16px #fad974) drop-shadow(0 0 35px #f5d742); }
+      50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974); }
     }
+
     .star-number {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%,-50%);
       font-size: 0.7rem;
       font-weight: bold;
-      color: #3a2a4a;
+      color: #2d1b3a;
       pointer-events: none;
     }
+
     .sparkle {
       position: absolute;
-      width: 5px;
-      height: 5px;
-      background: #fffbe6;
+      width: 4px; height: 4px;
+      background: white;
       border-radius: 50%;
-      box-shadow: 0 0 10px #fae37c;
+      box-shadow: 0 0 10px #ffeaa7;
       pointer-events: none;
-      animation: sparkleDrift 1.8s infinite;
+      animation: sparkleDrift 2s infinite;
       opacity: 0;
     }
     @keyframes sparkleDrift {
-      0% { opacity: 0; transform: translate(0,0) scale(0.5); }
-      30% { opacity: 1; transform: translate(6px,-10px) scale(1.2); }
-      100% { opacity: 0; transform: translate(15px,-25px) scale(0.3); }
+      0% { opacity:0; transform: translate(0,0) scale(0.3); }
+      30% { opacity:1; transform: translate(8px,-12px) scale(1); }
+      100% { opacity:0; transform: translate(20px,-28px) scale(0.2); }
     }
 
-    /* ===== ADMIN PANEL ===== */
+    /* ── admin panel ── */
     #adminPanel {
-      position: relative;
-      z-index: 5;
-      width: 100%;
-      min-height: 100vh;
+      position: fixed;
+      top:0;left:0;width:100%;height:100%;
+      z-index: 15;
+      background: rgba(5,5,18,0.9);
+      backdrop-filter: blur(20px);
       padding: 2rem 1.5rem;
-      background: rgba(5,5,20,0.9);
-      backdrop-filter: blur(15px);
+      overflow-y: auto;
       display: none;
       flex-direction: column;
       align-items: center;
     }
-    #adminPanel.active {
-      display: flex;
-    }
+    #adminPanel.active { display: flex; }
+
     .admin-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
       gap: 1rem;
       max-width: 900px;
       width: 100%;
       margin-top: 1.5rem;
     }
     .admin-card {
-      background: var(--bg-card);
+      background: rgba(25,20,50,0.7);
       border-radius: 1.5rem;
       padding: 1.2rem;
       border: 1px solid rgba(255,255,255,0.1);
@@ -333,333 +313,260 @@
       color: #b0a0c8;
     }
     .admin-card input, .admin-card select, .admin-card textarea {
-      width: 100%;
-      margin: 0.3rem 0 0.8rem;
+      width:100%;
+      margin:0.3rem 0 0.8rem;
       background: rgba(255,255,255,0.05);
-      border: 1px solid #443366;
-      border-radius: 1rem;
-      padding: 0.5rem 1rem;
-      color: #f0e5ff;
-      font-family: var(--font);
-    }
-    .btn-small {
-      background: var(--accent);
-      color: #1a0a2e;
-      border: none;
-      padding: 0.4rem 1.2rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      cursor: pointer;
+      border:1px solid #443366;
+      border-radius:1rem;
+      padding:0.5rem 1rem;
+      color:#f0e5ff;
+      font-family:inherit;
     }
 
-    /* ===== MODALS ===== */
-    .modal {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: 0.35s;
-    }
-    .modal.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal-card {
-      background: rgba(25,20,55,0.9);
-      border-radius: 2rem;
-      padding: 2rem 1.5rem;
-      max-width: 380px;
-      width: 90%;
-      border: 1px solid var(--border-glow);
-      text-align: center;
-      animation: fadeUp 0.3s ease;
-    }
-    .modal-card input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 1.2rem 0;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid var(--accent);
-      border-radius: 2rem;
-      color: #f0e5ff;
-      text-align: center;
-      font-family: var(--font);
-    }
-    .modal-error {
-      color: var(--error);
-      min-height: 1.2rem;
-      font-size: 0.85rem;
-    }
-
-    /* content modal special */
-    .content-body {
-      margin: 1rem 0;
-      max-height: 55vh;
-      overflow-y: auto;
-    }
-    .content-body img {
-      max-width: 100%;
-      border-radius: 1.2rem;
-    }
-    .content-body audio, .content-body video {
-      width: 100%;
-      border-radius: 1.2rem;
-    }
-
-    /* final message */
+    /* ── final message ── */
     #finalMessage {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.92);
       z-index: 200;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       visibility: hidden;
     }
-    #finalMessage.active {
-      visibility: visible;
-    }
-    .magic-text {
-      font-size: 2.2rem;
+    #finalMessage.active { visibility: visible; }
+    .final-text {
+      font-size: 2rem;
       color: #ffeaa7;
-      text-shadow: 0 0 40px #f5d742;
-      animation: magicPulse 2s infinite;
-      text-align: center;
+      text-shadow: 0 0 50px #f5d742;
+      animation: finalPulse 2s infinite;
       padding: 1rem;
+      text-align: center;
     }
-    @keyframes magicPulse {
+    @keyframes finalPulse {
       0%,100% { text-shadow: 0 0 35px #f5d742; }
-      50% { text-shadow: 0 0 70px #ffeaa7; }
+      50% { text-shadow: 0 0 70px #ffeaa7, 0 0 100px #fad974; }
     }
+
+    /* hidden */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <canvas id="skyCanvas"></canvas>
 
   <!-- LANDING PAGE -->
-  <div class="overlay" id="landingOverlay">
-    <div class="landing-card">
-      <h1>✨ Heliganeh ✨</h1>
-      <div class="sub">a secret sky awaits you</div>
-      <button class="btn-primary" onclick="goToLogin()">Enter the night</button>
+  <div id="landing" class="app-layer">
+    <div class="glass">
+      <h1>✦ Heliganeh ✦</h1>
+      <div class="subtitle">a sky full of secrets</div>
+      <button class="btn" onclick="transitionToLogin()">enter the night</button>
     </div>
   </div>
 
   <!-- LOGIN OVERLAY -->
-  <div class="overlay hidden" id="loginOverlay">
-    <div class="login-box">
-      <h2>🔐 whisper the password</h2>
-      <input type="password" id="loginPassword" placeholder="••••••" autocomplete="off">
-      <button class="btn-primary" onclick="handleLogin()" style="width:100%">unlock</button>
-      <div class="login-error" id="loginError"></div>
+  <div id="loginOverlay" class="overlay">
+    <div class="glass">
+      <h2>whisper the word</h2>
+      <input type="password" id="loginPass" placeholder="········" autocomplete="off">
+      <button class="btn" onclick="handleLogin()" style="width:100%">unlock</button>
+      <div class="error-message" id="loginError"></div>
     </div>
   </div>
 
   <!-- MUSIC PROMPT -->
-  <div class="overlay hidden" id="musicPrompt">
-    <div class="music-prompt">
-      <p>🎵 would you like some soft music?</p>
-      <div class="btn-row">
-        <button class="btn-primary" onclick="startMusic(true)">yes, please</button>
-        <button class="btn-ghost" onclick="startMusic(false)">no, thank you</button>
+  <div id="musicPrompt" class="overlay">
+    <div class="glass">
+      <p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p>
+      <div style="display:flex; gap:1rem; justify-content:center;">
+        <button class="btn" onclick="startExperience(true)">yes, please</button>
+        <button class="btn-ghost" onclick="startExperience(false)">no, thank you</button>
       </div>
     </div>
   </div>
 
-  <!-- YEGANEH SKY VIEW -->
-  <div id="yeganehView">
+  <!-- MAIN SKY -->
+  <div id="skyView">
     <div class="sky-header">
-      <div style="font-size:1.4rem; color:#e9dbff;">🌙 the sky of 21 secrets</div>
-      <div class="discovered-counter" id="counterDisplay">0 / 21 stars found</div>
+      <div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div>
+      <div class="counter" id="counterDisplay">0 / 21 stars discovered</div>
     </div>
-    <div class="stars-field" id="starsField"></div>
+    <div class="stars-container" id="starsContainer"></div>
+  </div>
+
+  <!-- STAR CODE MODAL -->
+  <div id="starCodeModal" class="overlay">
+    <div class="glass">
+      <h3>🔑 star code</h3>
+      <input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off">
+      <button class="btn" onclick="submitStarCode()">open</button>
+      <button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button>
+      <div class="error-message" id="starCodeError"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT MODAL -->
+  <div id="contentModal" class="overlay">
+    <div class="glass" style="max-width:400px;">
+      <h3 id="contentTitle">✦</h3>
+      <div id="contentBody" style="margin:1.5rem 0; max-height:55vh; overflow-y:auto;"></div>
+      <button class="btn-ghost" onclick="closeContentModal()">close</button>
+    </div>
   </div>
 
   <!-- ADMIN PANEL -->
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
-      <h2 style="color:#e2b0ff;">🛠 Admin · edit secrets</h2>
+      <h2 style="color:#dbb5ff;">🛠 Admin · edit stars</h2>
       <button class="btn-ghost" onclick="logout()">↩ leave</button>
     </div>
     <div class="admin-grid" id="adminGrid"></div>
   </div>
 
-  <!-- STAR CODE MODAL -->
-  <div class="modal" id="starCodeModal">
-    <div class="modal-card">
-      <h3>🔑 enter the star code</h3>
-      <input type="password" id="starCodeInput" placeholder="secret code">
-      <button class="btn-primary" onclick="submitStarCode()">open</button>
-      <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeStarCodeModal()">cancel</button>
-      <div class="modal-error" id="starCodeError"></div>
-    </div>
-  </div>
-
-  <!-- CONTENT MODAL -->
-  <div class="modal" id="contentModal">
-    <div class="modal-card">
-      <h3 id="contentTitle">🎁</h3>
-      <div class="content-body" id="contentBody"></div>
-      <button class="btn-ghost" onclick="closeContentModal()">close</button>
-    </div>
-  </div>
-
   <!-- FINAL MESSAGE -->
   <div id="finalMessage">
-    <div class="magic-text">✨ world is better with you Heliganeh ♡</div>
+    <div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div>
   </div>
 
   <audio id="bgMusic" loop preload="none"></audio>
 
   <script>
-    // ──────────────────────────────────────
-    // CONFIGURATION
-    // ──────────────────────────────────────
-    const YEGANEH_PASSWORD = 'Heliganeh';
-    const ADMIN_PASSWORD = '221B';
+    // ────────────────────────
+    // CONFIG & STATE
+    // ────────────────────────
+    const YEGANEH_PASS = 'Heliganeh';
+    const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const DEFAULT_MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // peaceful placeholder, replace with your own
+    const MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // replace with your own
 
-    // Star positions (precomputed natural scatter, saved in localStorage)
-    let starPositions = [];
-
-    // ──────────────────────────────────────
-    // STATE MANAGEMENT
-    // ──────────────────────────────────────
     function loadState() {
       let data = JSON.parse(localStorage.getItem('starData')) || [];
-      while(data.length < TOTAL_STARS) data.push({ code: '', type: 'link', content: '' });
+      while(data.length < TOTAL_STARS) data.push({ code:'', type:'text', content:'' });
       if(data.length > TOTAL_STARS) data = data.slice(0,TOTAL_STARS);
       localStorage.setItem('starData', JSON.stringify(data));
 
-      let opened = JSON.parse(localStorage.getItem('yeganehOpened')) || [];
+      let opened = JSON.parse(localStorage.getItem('openedStars')) || [];
       opened = opened.filter(i => i>=0 && i<TOTAL_STARS);
-      localStorage.setItem('yeganehOpened', JSON.stringify(opened));
+      localStorage.setItem('openedStars', JSON.stringify(opened));
 
-      let finalShown = localStorage.getItem('finalMessageShown') === 'true';
-      return { starData: data, opened, finalShown };
+      let final = localStorage.getItem('finalShown') === 'true';
+      return { starData: data, opened, finalShown: final };
     }
 
-    function saveOpened(arr) { localStorage.setItem('yeganehOpened', JSON.stringify(arr)); }
+    function saveOpened(arr) { localStorage.setItem('openedStars', JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData', JSON.stringify(arr)); }
 
-    // Generate or load star positions (consistent sky)
+    // Constellation positions (natural sky-like layout)
     function getStarPositions() {
-      let pos = JSON.parse(localStorage.getItem('starPositions'));
-      if (!pos || pos.length !== TOTAL_STARS) {
-        pos = [];
-        const used = [];
-        for (let i=0; i<TOTAL_STARS; i++) {
-          let x, y, attempts=0;
-          do {
-            x = 15 + Math.random()*70;  // 15%-85% width
-            y = 10 + Math.random()*70;  // 10%-80% height (keep away from edges)
-            attempts++;
-          } while(attempts<50 && used.some(p => Math.hypot(p.x-x, p.y-y) < 12));
-          used.push({x,y});
-          pos.push({x: Math.round(x), y: Math.round(y)});
-        }
-        localStorage.setItem('starPositions', JSON.stringify(pos));
+      let saved = JSON.parse(localStorage.getItem('starPositions'));
+      if (saved && saved.length === TOTAL_STARS) return saved;
+      // Beautiful scattered pattern resembling a loose spiral
+      const pos = [];
+      const centerX = 50, centerY = 50;
+      for (let i=0; i<TOTAL_STARS; i++) {
+        let angle = (i * 0.9) + 0.5;
+        let radius = 15 + (i * 1.5);
+        let x = centerX + Math.cos(angle) * radius + (Math.random()-0.5)*8;
+        let y = centerY + Math.sin(angle) * radius * 0.7 + (Math.random()-0.5)*10;
+        x = Math.min(85, Math.max(10, x));
+        y = Math.min(78, Math.max(12, y));
+        pos.push({x: Math.round(x), y: Math.round(y)});
       }
+      localStorage.setItem('starPositions', JSON.stringify(pos));
       return pos;
     }
+    const positions = getStarPositions();
 
-    // ──────────────────────────────────────
-    // CANVAS BACKGROUND (twinkling stars + shooting)
-    // ──────────────────────────────────────
+    // ────────────────────────
+    // CANVAS NEBULA & DUST
+    // ────────────────────────
     const canvas = document.getElementById('skyCanvas');
     const ctx = canvas.getContext('2d');
-    let bgStars = [], shootingStars = [];
+    let width, height;
+    let dustParticles = [];
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    window.addEventListener('resize', resize);
+    resize();
 
-    function initBgStars() {
-      bgStars = [];
-      let count = Math.floor((canvas.width*canvas.height)/2000);
-      for(let i=0;i<count;i++) {
-        bgStars.push({
-          x: Math.random()*canvas.width,
-          y: Math.random()*canvas.height,
-          r: Math.random()*1.5+0.3,
-          speed: Math.random()*0.02+0.008,
-          offset: Math.random()*Math.PI*2,
-          alpha: Math.random()*0.5+0.3
+    function initDust() {
+      dustParticles = [];
+      for(let i=0; i<180; i++) {
+        dustParticles.push({
+          x: Math.random()*width,
+          y: Math.random()*height,
+          r: Math.random()*1.3+0.2,
+          speedX: (Math.random()-0.5)*0.12,
+          speedY: (Math.random()-0.5)*0.08,
+          alpha: Math.random()*0.6+0.2
         });
       }
     }
-    initBgStars();
-    window.addEventListener('resize', initBgStars);
+    initDust();
+    window.addEventListener('resize', initDust);
 
-    function spawnShootingStar() {
-      if(Math.random()<0.004) {
-        shootingStars.push({
-          x: Math.random()*canvas.width*0.7,
-          y: Math.random()*canvas.height*0.5,
-          vx: Math.random()*5+3,
-          vy: Math.random()*2+1,
-          life: 1,
-          decay: 0.012+Math.random()*0.01,
-          trail: []
-        });
+    function drawNebula() {
+      // deep gradient
+      const grad = ctx.createRadialGradient(width*0.3, height*0.4, 0, width*0.7, height*0.6, width*0.9);
+      grad.addColorStop(0, '#1c1138');
+      grad.addColorStop(0.5, '#0c0820');
+      grad.addColorStop(1, '#040410');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,width,height);
+
+      // soft nebula blobs
+      ctx.globalCompositeOperation = 'screen';
+      for(let i=0;i<3;i++) {
+        let nx = width*(0.2 + i*0.25), ny = height*(0.3 + i*0.15);
+        let radGrad = ctx.createRadialGradient(nx, ny, 0, nx, ny, width*0.35);
+        radGrad.addColorStop(0, 'rgba(120,80,180,0.08)');
+        radGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = radGrad;
+        ctx.fillRect(0,0,width,height);
       }
-    }
+      ctx.globalCompositeOperation = 'source-over';
 
-    function drawSky() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      const t = Date.now()/1000;
-      for(const s of bgStars) {
-        let a = s.alpha + Math.sin(t*s.speed*50 + s.offset)*0.2;
-        ctx.fillStyle = `rgba(220,210,255,${Math.max(0.1, a)})`;
+      // floating dust
+      for(let p of dustParticles) {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if(p.x<0) p.x=width;
+        if(p.x>width) p.x=0;
+        if(p.y<0) p.y=height;
+        if(p.y>height) p.y=0;
+        ctx.fillStyle = `rgba(210,200,255,${p.alpha})`;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
         ctx.fill();
       }
-      for(let i=shootingStars.length-1;i>=0;i--) {
-        let ss = shootingStars[i];
-        ss.x += ss.vx;
-        ss.y += ss.vy;
-        ss.life -= ss.decay;
-        ss.trail.push({x:ss.x, y:ss.y});
-        if(ss.trail.length>25) ss.trail.shift();
-        for(let j=0;j<ss.trail.length;j++) {
-          let p = ss.trail[j];
-          let prog = j/ss.trail.length;
-          ctx.fillStyle = `rgba(255,240,250,${prog*ss.life*0.7})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, prog*2, 0, Math.PI*2);
-          ctx.fill();
-        }
-        if(ss.life<=0 || ss.x>canvas.width+50 || ss.y>canvas.height+50) {
-          shootingStars.splice(i,1);
-        }
-      }
-      spawnShootingStar();
-      requestAnimationFrame(drawSky);
-    }
-    drawSky();
 
-    // ──────────────────────────────────────
-    // DOM ELEMENTS
-    // ──────────────────────────────────────
-    const landingOverlay = document.getElementById('landingOverlay');
+      // occasional shooting stars
+      if(Math.random()<0.003) {
+        let sx = Math.random()*width*0.8, sy = Math.random()*height*0.5;
+        ctx.strokeStyle = 'rgba(255,240,250,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx+80, sy+25);
+        ctx.stroke();
+      }
+      requestAnimationFrame(drawNebula);
+    }
+    drawNebula();
+
+    // ────────────────────────
+    // UI LOGIC
+    // ────────────────────────
+    const landing = document.getElementById('landing');
     const loginOverlay = document.getElementById('loginOverlay');
     const musicPrompt = document.getElementById('musicPrompt');
-    const yeganehView = document.getElementById('yeganehView');
+    const skyView = document.getElementById('skyView');
     const adminPanel = document.getElementById('adminPanel');
-    const starsField = document.getElementById('starsField');
+    const starsContainer = document.getElementById('starsContainer');
     const counterDisplay = document.getElementById('counterDisplay');
     const starCodeModal = document.getElementById('starCodeModal');
     const starCodeInput = document.getElementById('starCodeInput');
@@ -670,139 +577,140 @@
     const finalMessage = document.getElementById('finalMessage');
     const bgMusic = document.getElementById('bgMusic');
 
-    let currentUser = null;
-    let pendingStarIndex = null;
     let state = loadState();
-    starPositions = getStarPositions();
+    let currentUser = null;
+    let pendingStar = null;
 
-    // ──────────────────────────────────────
-    // NAVIGATION
-    // ──────────────────────────────────────
-    function goToLogin() {
-      landingOverlay.classList.add('hidden');
-      loginOverlay.classList.remove('hidden');
-      document.getElementById('loginPassword').focus();
+    function transitionToLogin() {
+      landing.style.display = 'none';
+      loginOverlay.classList.add('active');
+      document.getElementById('loginPass').focus();
     }
 
     function handleLogin() {
-      const pw = document.getElementById('loginPassword').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
       document.getElementById('loginError').textContent = '';
-      if (pw === YEGANEH_PASSWORD) {
+      if (pass === YEGANEH_PASS) {
         currentUser = 'yeganeh';
-        loginOverlay.classList.add('hidden');
-        musicPrompt.classList.remove('hidden');
-      } else if (pw === ADMIN_PASSWORD) {
+        loginOverlay.classList.remove('active');
+        musicPrompt.classList.add('active');
+      } else if (pass === ADMIN_PASS) {
         currentUser = 'admin';
-        loginOverlay.classList.add('hidden');
-        showAdminView();
+        loginOverlay.classList.remove('active');
+        showAdmin();
       } else {
         document.getElementById('loginError').textContent = 'نه یگانه اشتباهه😔🎀';
-        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginPass').value = '';
       }
     }
 
-    function startMusic(play) {
-      musicPrompt.classList.add('hidden');
-      if (play) {
-        bgMusic.src = DEFAULT_MUSIC_URL;
-        bgMusic.volume = 0.25;
+    function startExperience(playMusic) {
+      musicPrompt.classList.remove('active');
+      if (playMusic) {
+        bgMusic.src = MUSIC_URL;
+        bgMusic.volume = 0.2;
         bgMusic.play().catch(()=>{});
       }
-      showYeganehView();
+      showSky();
     }
 
-    function showYeganehView() {
+    function showSky() {
       state = loadState();
-      yeganehView.classList.add('active');
+      skyView.classList.add('active');
       adminPanel.classList.remove('active');
       renderStars();
       updateCounter();
-      checkFinal();
+      if (state.opened.length === TOTAL_STARS && !state.finalShown) {
+        localStorage.setItem('finalShown', 'true');
+        finalMessage.classList.add('active');
+        setTimeout(() => finalMessage.classList.remove('active'), 7000);
+      }
     }
 
-    function showAdminView() {
-      yeganehView.classList.remove('active');
+    function showAdmin() {
+      skyView.classList.remove('active');
       adminPanel.classList.add('active');
-      renderAdmin();
+      renderAdminCards();
     }
 
     function logout() {
       currentUser = null;
-      yeganehView.classList.remove('active');
+      skyView.classList.remove('active');
       adminPanel.classList.remove('active');
-      landingOverlay.classList.remove('hidden');
-      loginOverlay.classList.add('hidden');
-      musicPrompt.classList.add('hidden');
+      landing.style.display = 'flex';
+      loginOverlay.classList.remove('active');
+      musicPrompt.classList.remove('active');
       closeAllModals();
       bgMusic.pause();
     }
 
-    // ──────────────────────────────────────
-    // RENDER STARS (YEGANEH VIEW)
-    // ──────────────────────────────────────
+    // ── stars rendering ──
     function renderStars() {
-      starsField.innerHTML = '';
-      const opened = new Set(state.opened);
+      starsContainer.innerHTML = '';
+      const openedSet = new Set(state.opened);
       for (let i=0; i<TOTAL_STARS; i++) {
-        const pos = starPositions[i];
-        const isOpen = opened.has(i);
+        const pos = positions[i];
+        const unlocked = openedSet.has(i);
         const starEl = document.createElement('div');
-        starEl.className = 'star' + (isOpen ? ' opened' : '');
+        starEl.className = 'star' + (unlocked ? ' unlocked' : '');
         starEl.style.left = pos.x + '%';
         starEl.style.top = pos.y + '%';
         starEl.innerHTML = `
           <svg viewBox="0 0 100 100">
             <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
-              fill="${isOpen ? '#fae37c' : '#7e6d99'}"
-              stroke="${isOpen ? '#ffeaa7' : '#a390c0'}" stroke-width="2.5"/>
+              fill="${unlocked ? '#fad974' : '#7d6c9c'}"
+              stroke="${unlocked ? '#ffeaa7' : '#aa99c4'}" stroke-width="2"/>
           </svg>
           <span class="star-number">${i+1}</span>
         `;
-        if (isOpen) {
+        if (unlocked) {
           for(let s=0;s<3;s++) {
-            let spark = document.createElement('div');
-            spark.className = 'sparkle';
-            spark.style.top = (20+Math.random()*40)+'%';
-            spark.style.left = (20+Math.random()*40)+'%';
-            spark.style.animationDelay = s*0.5+'s';
-            starEl.appendChild(spark);
+            let sp = document.createElement('div');
+            sp.className = 'sparkle';
+            sp.style.top = (20+Math.random()*40)+'%';
+            sp.style.left = (20+Math.random()*40)+'%';
+            sp.style.animationDelay = s*0.5+'s';
+            starEl.appendChild(sp);
           }
         }
-        starEl.addEventListener('click', ()=> onStarClick(i, isOpen));
-        starsField.appendChild(starEl);
+        starEl.addEventListener('click', ()=> handleStarClick(i, unlocked));
+        starsContainer.appendChild(starEl);
       }
     }
 
     function updateCounter() {
-      counterDisplay.textContent = state.opened.length + ' / ' + TOTAL_STARS + ' stars discovered';
+      counterDisplay.textContent = state.opened.length + ' / 21 stars discovered';
     }
 
-    function onStarClick(index, isOpen) {
-      if (isOpen) {
+    function handleStarClick(index, isUnlocked) {
+      if (isUnlocked) {
         showContent(index);
       } else {
-        pendingStarIndex = index;
+        pendingStar = index;
         starCodeInput.value = '';
         starCodeError.textContent = '';
         starCodeModal.classList.add('active');
-        setTimeout(()=> starCodeInput.focus(), 200);
+        starCodeInput.focus();
       }
     }
 
     function submitStarCode() {
       const code = starCodeInput.value.trim();
-      if (!code) { starCodeError.textContent = 'enter a code'; return; }
-      const data = state.starData[pendingStarIndex];
-      if (data && data.code === code) {
-        if (!state.opened.includes(pendingStarIndex)) {
-          state.opened.push(pendingStarIndex);
+      if (!code) return;
+      if (state.starData[pendingStar]?.code === code) {
+        if (!state.opened.includes(pendingStar)) {
+          state.opened.push(pendingStar);
           saveOpened(state.opened);
         }
         starCodeModal.classList.remove('active');
         renderStars();
         updateCounter();
-        showContent(pendingStarIndex);
-        checkFinal();
+        showContent(pendingStar);
+        if (state.opened.length === TOTAL_STARS && !state.finalShown) {
+          localStorage.setItem('finalShown', 'true');
+          finalMessage.classList.add('active');
+          setTimeout(() => finalMessage.classList.remove('active'), 7000);
+        }
       } else {
         starCodeError.textContent = 'نه یگانه اشتباهه😔🎀';
         starCodeInput.value = '';
@@ -811,29 +719,26 @@
 
     function closeStarCodeModal() {
       starCodeModal.classList.remove('active');
-      pendingStarIndex = null;
+      pendingStar = null;
     }
 
-    // ──────────────────────────────────────
-    // CONTENT DISPLAY
-    // ──────────────────────────────────────
     function showContent(index) {
       const d = state.starData[index];
-      contentTitle.textContent = '⭐ star ' + (index+1);
+      contentTitle.textContent = '✦ star ' + (index+1);
       let html = '';
       if (!d || !d.content) {
-        html = '<p style="color:#b0a0c8;">this star is still empty…</p>';
+        html = '<p style="color:#b8a9d4;">this star holds a secret yet to be revealed…</p>';
       } else {
         switch(d.type) {
           case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
-          case 'image': html = `<img src="${escapeHtml(d.content)}" alt="star image" onerror="this.alt='image not found'">`; break;
-          case 'audio': html = `<audio controls src="${escapeHtml(d.content)}"></audio>`; break;
-          case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%;"></video>`; break;
+          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;" alt="star image">`; break;
+          case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
+          case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
           case 'spotify': 
             let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
             html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
             break;
-          case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fae37c;">open link ↗</a>`; break;
+          case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
           default: html = `<p>${escapeHtml(d.content)}</p>`;
         }
       }
@@ -841,26 +746,21 @@
       contentModal.classList.add('active');
     }
 
-    function closeContentModal() {
-      contentModal.classList.remove('active');
-    }
-
+    function closeContentModal() { contentModal.classList.remove('active'); }
     function closeAllModals() {
       starCodeModal.classList.remove('active');
       contentModal.classList.remove('active');
     }
 
-    // ──────────────────────────────────────
-    // ADMIN PANEL
-    // ──────────────────────────────────────
-    function renderAdmin() {
+    // ── Admin ──
+    function renderAdminCards() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
       state.starData.forEach((d,i)=>{
         const card = document.createElement('div');
         card.className = 'admin-card';
         card.innerHTML = `
-          <h4>⭐ star ${i+1} ${state.opened.includes(i) ? '(unlocked)' : ''}</h4>
+          <h4>✦ star ${i+1} ${state.opened.includes(i) ? '· unlocked' : ''}</h4>
           <label>code</label>
           <input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
           <label>type</label>
@@ -869,7 +769,7 @@
             <option value="image" ${d.type==='image'?'selected':''}>image</option>
             <option value="audio" ${d.type==='audio'?'selected':''}>audio</option>
             <option value="video" ${d.type==='video'?'selected':''}>video</option>
-            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify playlist</option>
+            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option>
             <option value="link" ${d.type==='link'?'selected':''}>link</option>
           </select>
           <label>content</label>
@@ -877,7 +777,6 @@
         `;
         grid.appendChild(card);
       });
-      // attach listeners
       document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{
         el.addEventListener('change', (e)=>{
           const idx = parseInt(e.target.dataset.idx);
@@ -888,66 +787,35 @@
       });
     }
 
-    // ──────────────────────────────────────
-    // FINAL MESSAGE
-    // ──────────────────────────────────────
-    function checkFinal() {
-      if (state.opened.length === TOTAL_STARS && !state.finalShown) {
-        localStorage.setItem('finalMessageShown', 'true');
-        finalMessage.classList.add('active');
-        setTimeout(()=> finalMessage.classList.remove('active'), 8000);
-      }
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
     }
 
-    // ──────────────────────────────────────
-    // HELPERS
-    // ──────────────────────────────────────
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text).replace(/[&<>"']/g, function(m) {
-        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
-      });
-    }
-
-    // Close modals on backdrop click
-    window.addEventListener('click', (e)=>{
+    // event listeners
+    document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
+    starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
+    window.addEventListener('click', e => {
       if (e.target === starCodeModal) closeStarCodeModal();
       if (e.target === contentModal) closeContentModal();
     });
-    document.addEventListener('keydown', (e)=>{
-      if (e.key === 'Escape') closeAllModals();
-    });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
 
-    // Enter key for login
-    document.getElementById('loginPassword').addEventListener('keydown', (e)=>{
-      if (e.key==='Enter') handleLogin();
-    });
-    starCodeInput.addEventListener('keydown', (e)=>{
-      if (e.key==='Enter') submitStarCode();
-    });
-
-    // Set initial 5 stars with user's data (if not already set)
-    (function presetData() {
+    // preset initial 5 stars
+    (function preset() {
       let data = loadState().starData;
       const presets = [
-        { code:'2217', type:'link', content:'https://DigiPostal.ir/xvjh8f5' },
-        { code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw' },
-        { code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg' },
-        { code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg' },
-        { code:'5467', type:'audio', content:'https://uupload.ir/view/telegraph_classic_world_is_better_with_you_yeganeh-3_hs.wav/' }
+        {code:'2217', type:'link', content:'https://DigiPostal.ir/xvjh8f5'},
+        {code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},
+        {code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},
+        {code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},
+        {code:'5467', type:'audio', content:'https://uupload.ir/view/telegraph_classic_world_is_better_with_you_yeganeh-3_hs.wav/'}
       ];
       let changed = false;
-      for(let i=0; i<presets.length && i<TOTAL_STARS; i++) {
-        if (!data[i].code && !data[i].content) {
-          data[i] = presets[i];
-          changed = true;
-        }
+      for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) {
+        if(!data[i].code) { data[i]=presets[i]; changed=true; }
       }
-      if (changed) saveStarData(data);
+      if(changed) saveStarData(data);
     })();
-
-    // Load initial state: show landing
-    landingOverlay.classList.remove('hidden');
   </script>
 </body>
 </html>
