@@ -26,13 +26,12 @@
     canvas {
       position: absolute;
       top: 0;
-      left: 0;
+      right: 0;
       width: 100%;
       height: 100%;
       z-index: 1;
     }
 
-    /* باکس رمز و خوشامدگویی */
     .ui-container {
       position: absolute;
       z-index: 10;
@@ -105,7 +104,6 @@
       box-shadow: 0 0 20px #ffd700;
     }
 
-    /* مودال محتوای ستاره */
     .modal {
       position: fixed;
       z-index: 100;
@@ -155,17 +153,6 @@
       line-height: 1;
     }
 
-    .modal-content a, .modal-content iframe {
-      color: #ffd700;
-      word-break: break-word;
-    }
-
-    .modal-content img {
-      max-width: 100%;
-      border-radius: 10px;
-    }
-
-    /* پیام خطا */
     .error-msg {
       color: #ff7b7b;
       font-size: 0.9rem;
@@ -178,7 +165,6 @@
 <body>
   <canvas id="starsCanvas"></canvas>
 
-  <!-- رابط کاربری -->
   <div class="ui-container">
     <div class="welcome" id="welcomeMessage"></div>
     <div class="password-box">
@@ -188,7 +174,6 @@
     <div class="error-msg" id="errorMessage">رمز اشتباهه، دوباره تلاش کن عزیزم 🌙</div>
   </div>
 
-  <!-- مودال محتوا -->
   <div class="modal" id="contentModal">
     <div class="modal-content">
       <button class="close-modal" id="closeModal">&times;</button>
@@ -198,18 +183,15 @@
 
   <script>
     // 🌟 تنظیمات اصلی - این بخش رو می‌تونی شخصی‌سازی کنی 🌟
-    const friendName = "یگانه"; // اسم دوستت
+    const friendName = "یگانه";
     const starsData = [
       { id: 1, password: "ستاره1", content: "<h2>✨ ستاره اول ✨</h2><p>یگانه جان، این اولین قدم آسمون منه...<br>امشب این آهنگ رو گوش بده:</p><iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator' width='100%' height='152' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>" },
       { id: 2, password: "ماه", content: "<h2>🌙 ستاره دوم</h2><p>شبی که ماه کامل بود و تو خندیدی...</p><p style='font-style:italic;'>شعر: <br>ای یگانه‌ی شبای بی‌قرار<br>ماه از شرم رخت شد بی‌کنار</p>" },
       { id: 3, password: "نور", content: "<h2>💫 ستاره سوم</h2><p>امروز یه خاطره برات نوشتم:</p><p>اون روز بارونی... یادته؟</p><img src='https://picsum.photos/300/200' alt='خاطره'>" },
       { id: 4, password: "بارون", content: "<h2>☔ ستاره چهارم</h2><p>این آهنگ بارونی مخصوص توئه...</p><iframe width='100%' height='200' src='https://www.youtube.com/embed/dQw4w9WgXcQ' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" },
-      // ... تا ستاره ۲۱ ادامه بده
-      // الگو:
-      // { id: N, password: "رمزN", content: "<h2>ستاره N</h2><p>متن دلخواه</p>" }
     ];
 
-    // پر کردن خالی‌های باقی‌مونده با محتوای پیش‌فرض (برای نمونه تا ۲۱)
+    // پر کردن ۱۷ ستاره‌ی باقی‌مانده با محتوای پیش‌فرض
     for (let i = starsData.length + 1; i <= 21; i++) {
       starsData.push({
         id: i,
@@ -218,14 +200,12 @@
       });
     }
 
-    // وضعیت باز شدن ستاره‌ها (در localStorage ذخیره بشه تا با رفرش پاک نشه)
     let openedStars = JSON.parse(localStorage.getItem('openedStars_yeganeh')) || {};
 
-    // ================== Canvas و رسم ستاره‌ها ==================
     const canvas = document.getElementById('starsCanvas');
     const ctx = canvas.getContext('2d');
     let width, height;
-    const starPositions = []; // موقعیت ستاره‌های ۲۱تایی
+    const starPositions = [];
 
     function resizeCanvas() {
       width = window.innerWidth;
@@ -233,36 +213,40 @@
       canvas.width = width;
       canvas.height = height;
     }
+
     window.addEventListener('resize', () => {
       resizeCanvas();
-      // بازتولید موقعیت‌های تصادفی برای ستاره‌های بزرگ (فقط یک‌بار)
       if (starPositions.length === 0) generateStarPositions();
     });
 
     function generateStarPositions() {
       starPositions.length = 0;
       const margin = 60;
+      const minDistance = width < 600 ? 50 : 80; // روی موبایل فاصله کمتر
+
       for (let i = 0; i < 21; i++) {
-        // پخش تصادفی، اما نه خیلی نزدیک به هم (برخورد نکنن)
         let x, y, overlapping;
+        let attempts = 0;
         do {
           x = Math.random() * (width - 2 * margin) + margin;
-          y = Math.random() * (height * 0.85) + margin * 2; // کمی پایین‌تر از نوار بالایی
+          y = Math.random() * (height * 0.85) + margin * 2;
           overlapping = false;
           for (let pos of starPositions) {
             const dx = pos.x - x;
             const dy = pos.y - y;
-            if (Math.sqrt(dx * dx + dy * dy) < 100) { // فاصله حداقل 100px
+            if (Math.sqrt(dx * dx + dy * dy) < minDistance) {
               overlapping = true;
               break;
             }
           }
+          attempts++;
+          if (attempts > 1000) break; // جلوگیری از هنگ
         } while (overlapping);
+
         starPositions.push({ x, y, id: i + 1 });
       }
     }
 
-    // رسم یک ستاره (شکل ۵ پر) با درخشش
     function drawStarShape(cx, cy, outerR, innerR, points, rotation = 0) {
       ctx.beginPath();
       for (let i = 0; i < points * 2; i++) {
@@ -279,7 +263,6 @@
     function drawScene() {
       ctx.clearRect(0, 0, width, height);
 
-      // ستاره‌های ریز پس‌زمینه (چشمک‌زن)
       for (let i = 0; i < 200; i++) {
         const sx = (i * 37 + 13) % width;
         const sy = (i * 83 + 7) % height;
@@ -290,30 +273,25 @@
         ctx.fill();
       }
 
-      // ستاره‌های ۲۱گانه
       starPositions.forEach(pos => {
         const isOpened = openedStars[pos.id];
         const color = isOpened ? '#ffd700' : '#4a4a6a';
         const glow = isOpened ? 'rgba(255,215,0,0.8)' : 'rgba(100,100,150,0.3)';
 
-        // هاله دور ستاره
         ctx.shadowColor = glow;
         ctx.shadowBlur = isOpened ? 20 : 5;
 
-        // رسم ستاره
         drawStarShape(pos.x, pos.y, 22, 10, 5, Math.PI / 10);
         ctx.fillStyle = color;
         ctx.fill();
-        ctx.shadowBlur = 0; // ریست برای متن
+        ctx.shadowBlur = 0;
 
-        // شماره ستاره
         ctx.fillStyle = isOpened ? '#1a1a2e' : '#ccccdd';
         ctx.font = 'bold 14px Tahoma';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(pos.id, pos.x, pos.y + 1);
 
-        // اگر باز نشده، کمی مات و بی‌روح
         if (!isOpened) {
           ctx.fillStyle = 'rgba(0,0,0,0.3)';
           ctx.beginPath();
@@ -328,13 +306,11 @@
       requestAnimationFrame(animate);
     }
 
-    // ================== رویدادهای کلیک ==================
     canvas.addEventListener('click', (e) => {
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      // بررسی کلیک روی ستاره‌ها
       for (let pos of starPositions) {
         const dx = mouseX - pos.x;
         const dy = mouseY - pos.y;
@@ -342,7 +318,6 @@
           if (openedStars[pos.id]) {
             showStarContent(pos.id);
           } else {
-            // تکان کوچیک برای نشون دادن قفل بودن
             shakeStar(pos);
           }
           break;
@@ -351,7 +326,6 @@
     });
 
     function shakeStar(pos) {
-      // افکت لرزش خفیف با تغییر موقت موقعیت (با انیمیشن ساده)
       const originalX = pos.x;
       let count = 0;
       const interval = setInterval(() => {
@@ -364,7 +338,6 @@
       }, 30);
     }
 
-    // ================== سیستم رمز ==================
     const passwordInput = document.getElementById('passwordInput');
     const submitBtn = document.getElementById('submitPassword');
     const welcomeDiv = document.getElementById('welcomeMessage');
@@ -385,19 +358,14 @@
       const entered = passwordInput.value.trim();
       if (!entered) return;
 
-      // جستجوی ستاره‌ای که رمز مطابق داشته باشه و هنوز باز نشده
       const star = starsData.find(s => s.password === entered && !openedStars[s.id]);
       if (star) {
-        // باز کردن ستاره
         openedStars[star.id] = true;
         localStorage.setItem('openedStars_yeganeh', JSON.stringify(openedStars));
         passwordInput.value = '';
         showWelcome(star.id);
-        // بلافاصله محتواش رو نشون بده (یا صبر کنه؟ من ترجیح میدم خودش کلیک کنه)
-        // اما می‌تونیم یه مدت کوتاه بعد نشون بدیم
         setTimeout(() => showStarContent(star.id), 1500);
       } else {
-        // شاید رمز درسته ولی قبلاً باز شده
         const alreadyOpened = starsData.find(s => s.password === entered && openedStars[s.id]);
         if (alreadyOpened) {
           showStarContent(alreadyOpened.id);
@@ -414,7 +382,6 @@
       if (e.key === 'Enter') submitPassword();
     });
 
-    // ================== مودال محتوا ==================
     const modal = document.getElementById('contentModal');
     const modalBody = document.getElementById('modalBody');
     const closeModal = document.getElementById('closeModal');
@@ -433,12 +400,11 @@
       if (e.target === modal) modal.classList.remove('active');
     });
 
-    // ================== شروع ==================
+    // راه‌اندازی
     resizeCanvas();
     generateStarPositions();
     animate();
 
-    // اگر قبلاً همه ستاره‌ها باز شده بودن، یه خوشامد بگیم
     const openedCount = Object.keys(openedStars).length;
     if (openedCount > 0 && openedCount < 21) {
       welcomeDiv.textContent = `${friendName} جان، ${openedCount} ستاره‌ات روشنه، منتظر رمزهای بعدی باش 🌙`;
@@ -450,4 +416,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
