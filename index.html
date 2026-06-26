@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>آسمون ستاره‌های یگانه</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Heliganeh's Secret Sky 🌌</title>
+  <!-- Vazirmatn font for Persian text & elegant Latin -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -11,638 +13,941 @@
       box-sizing: border-box;
     }
 
-    body {
-      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      font-family: 'Tahoma', 'Vazirmatn', sans-serif;
-      position: relative;
+    :root {
+      --bg-deep: #0a0a1a;
+      --bg-card: rgba(20, 18, 50, 0.65);
+      --text-primary: #e6e0f0;
+      --text-soft: #c0b0d8;
+      --accent: #d9a6ff;
+      --accent2: #ffb3d9;
+      --gold: #fae37c;
+      --gold-glow: #f5d742;
+      --error: #ff8a8a;
+      --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      --border-glow: rgba(217, 166, 255, 0.4);
+      --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
     }
 
-    canvas {
-      position: absolute;
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Background canvas for living sky */
+    #skyCanvas {
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Overlay containers – all positioned above canvas */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+      background: rgba(8, 8, 20, 0.5);
+      transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    .overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ===== LANDING PAGE ===== */
+    .landing-card {
+      text-align: center;
+      padding: 2rem 1.8rem;
+      background: var(--bg-card);
+      border-radius: 2.5rem;
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 0 60px rgba(180, 130, 255, 0.15);
+      backdrop-filter: blur(20px);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .landing-card h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #f0e5ff;
+      margin-bottom: 0.4rem;
+    }
+    .landing-card .sub {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #b982f0, #d89cff);
+      border: none;
+      color: #1a0a2e;
+      font-weight: 600;
+      padding: 0.9rem 2.8rem;
+      border-radius: 3rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(180, 120, 240, 0.4);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(200, 140, 255, 0.6);
+    }
+
+    /* ===== LOGIN MODAL ===== */
+    .login-box {
+      background: var(--bg-card);
+      backdrop-filter: blur(30px);
+      border-radius: 2.2rem;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--border-glow);
+      text-align: center;
+      max-width: 380px;
+      width: 85%;
+      animation: fadeUp 0.6s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .login-box h2 {
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: #e9dbff;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 3rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(217,166,255,0.5);
+      color: #f0e5ff;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 2px;
+      margin: 1.8rem 0 1.2rem;
+      outline: none;
+      font-family: var(--font);
+      transition: 0.3s;
+    }
+    .login-box input:focus {
+      border-color: #e2b0ff;
+      box-shadow: 0 0 25px rgba(200,150,255,0.3);
+    }
+    .login-error {
+      color: var(--error);
+      font-size: 0.9rem;
+      min-height: 1.5rem;
+      margin-top: 0.3rem;
+      animation: shake 0.5s ease;
+    }
+    @keyframes shake {
+      0%,100%{transform:translateX(0);}
+      25%{transform:translateX(-5px);}
+      75%{transform:translateX(5px);}
+    }
+
+    /* ===== MUSIC PROMPT ===== */
+    .music-prompt {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 2rem;
+      text-align: center;
+      backdrop-filter: blur(20px);
+    }
+    .music-prompt p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+    .music-prompt .btn-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.7rem 2rem;
+      border-radius: 3rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-ghost:hover {
+      background: rgba(217,166,255,0.15);
+    }
+
+    /* ===== MAIN SKY (YEGANEH VIEW) ===== */
+    #yeganehView {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 1rem 2rem;
+      opacity: 0;
+      transition: opacity 0.7s;
+      pointer-events: none;
+    }
+    #yeganehView.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sky-header {
+      margin-top: 2.5rem;
+      text-align: center;
+      z-index: 2;
+    }
+    .discovered-counter {
+      background: rgba(30,20,60,0.7);
+      padding: 0.4rem 1.5rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      color: var(--gold);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(250,227,124,0.3);
+      display: inline-block;
+      margin-top: 0.8rem;
+    }
+    .stars-field {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      margin-top: 2rem;
+    }
+    .star {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
       z-index: 1;
     }
-
-    /* ========== لایهٔ ورود ========== */
-    .login-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    .star:hover {
+      transform: scale(1.2);
+    }
+    .star:active {
+      transform: scale(0.9);
+    }
+    .star svg {
       width: 100%;
       height: 100%;
-      background: #0a0c14;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      color: white;
-      font-family: inherit;
+      filter: drop-shadow(0 0 6px rgba(200,180,255,0.5));
+      transition: filter 0.5s;
     }
-
-    .login-overlay h1 {
-      font-size: 2rem;
-      color: #ffd700;
-      text-shadow: 0 0 20px gold;
+    .star.opened svg {
+      filter: drop-shadow(0 0 20px #fae37c) drop-shadow(0 0 40px #f5d742);
+      animation: pulseGlow 2.5s infinite;
     }
-
-    .login-box {
-      background: rgba(20,20,40,0.8);
-      border-radius: 20px;
-      padding: 2rem;
-      display: flex;
-      gap: 0.5rem;
-      border: 1px solid rgba(255,255,255,0.2);
+    @keyframes pulseGlow {
+      0%,100% { filter: drop-shadow(0 0 18px #fae37c) drop-shadow(0 0 35px #f5d742); }
+      50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #f5d742); }
     }
-
-    .login-box input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      font-size: 1.2rem;
-      text-align: center;
-      font-family: inherit;
-    }
-
-    .login-box button {
-      background: #ffd700;
-      border: none;
-      border-radius: 30px;
-      padding: 0.5rem 2rem;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #1a1a2e;
-      font-weight: bold;
-      font-family: inherit;
-    }
-
-    .login-error {
-      color: #ff7b7b;
-      min-height: 1.5rem;
-    }
-
-    /* ========== رابط اصلی (بعد از ورود) ========== */
-    .ui-container {
+    .star-number {
       position: absolute;
-      z-index: 10;
-      top: 5%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #3a2a4a;
       pointer-events: none;
     }
-
-    .welcome {
-      color: #f0e6d2;
-      font-size: 1.8rem;
-      text-shadow: 0 0 20px #ffd700;
-      min-height: 3rem;
-      text-align: center;
-      padding: 0 1rem;
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #fffbe6;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #fae37c;
+      pointer-events: none;
+      animation: sparkleDrift 1.8s infinite;
       opacity: 0;
-      transition: opacity 1s ease;
+    }
+    @keyframes sparkleDrift {
+      0% { opacity: 0; transform: translate(0,0) scale(0.5); }
+      30% { opacity: 1; transform: translate(6px,-10px) scale(1.2); }
+      100% { opacity: 0; transform: translate(15px,-25px) scale(0.3); }
     }
 
-    .welcome.show {
-      opacity: 1;
+    /* ===== ADMIN PANEL ===== */
+    #adminPanel {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      background: rgba(5,5,20,0.9);
+      backdrop-filter: blur(15px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .password-box {
-      background: rgba(20, 20, 40, 0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 50px;
-      padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+    #adminPanel.active {
       display: flex;
-      gap: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-      pointer-events: auto;
     }
-
-    #passwordInput {
-      background: transparent;
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    .admin-card {
+      background: var(--bg-card);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .admin-card label {
+      font-size: 0.75rem;
+      color: #b0a0c8;
+    }
+    .admin-card input, .admin-card select, .admin-card textarea {
+      width: 100%;
+      margin: 0.3rem 0 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #443366;
+      border-radius: 1rem;
+      padding: 0.5rem 1rem;
+      color: #f0e5ff;
+      font-family: var(--font);
+    }
+    .btn-small {
+      background: var(--accent);
+      color: #1a0a2e;
       border: none;
-      outline: none;
-      color: white;
-      font-size: 1.1rem;
-      width: 180px;
-      text-align: right;
-      font-family: inherit;
-    }
-
-    #passwordInput::placeholder {
-      color: #a0a0b0;
-    }
-
-    #submitPassword {
-      background: #ffd700;
-      border: none;
-      border-radius: 50px;
-      padding: 0.6rem 1.5rem;
-      font-size: 1rem;
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
       cursor: pointer;
-      color: #1a1a2e;
-      font-weight: bold;
-      transition: all 0.3s;
-      font-family: inherit;
     }
 
-    #submitPassword:hover {
-      background: #ffea70;
-      box-shadow: 0 0 20px #ffd700;
-    }
-
-    .error-msg {
-      color: #ff7b7b;
-      font-size: 0.9rem;
-      text-shadow: 0 0 10px red;
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-
-    /* ========== مودال محتوا ========== */
+    /* ===== MODALS ===== */
     .modal {
       position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
       z-index: 100;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
       display: flex;
       align-items: center;
       justify-content: center;
+      visibility: hidden;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
+      transition: 0.35s;
     }
-
     .modal.active {
+      visibility: visible;
       opacity: 1;
-      pointer-events: auto;
     }
-
-    .modal-content {
-      background: rgba(30, 30, 50, 0.95);
-      border: 1px solid #ffd700;
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 500px;
+    .modal-card {
+      background: rgba(25,20,55,0.9);
+      border-radius: 2rem;
+      padding: 2rem 1.5rem;
+      max-width: 380px;
       width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      color: #f0e6d2;
-      position: relative;
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+      border: 1px solid var(--border-glow);
       text-align: center;
+      animation: fadeUp 0.3s ease;
     }
-
-    .close-modal {
-      position: absolute;
-      top: 10px;
-      left: 15px;
-      font-size: 1.8rem;
-      color: #ffd700;
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-    }
-
-    /* ========== پیغام جادویی آخر ========== */
-    .magic-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    .modal-card input {
       width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
+      padding: 0.8rem;
+      margin: 1.2rem 0;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--accent);
+      border-radius: 2rem;
+      color: #f0e5ff;
+      text-align: center;
+      font-family: var(--font);
+    }
+    .modal-error {
+      color: var(--error);
+      min-height: 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    /* content modal special */
+    .content-body {
+      margin: 1rem 0;
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+    .content-body img {
+      max-width: 100%;
+      border-radius: 1.2rem;
+    }
+    .content-body audio, .content-body video {
+      width: 100%;
+      border-radius: 1.2rem;
+    }
+
+    /* final message */
+    #finalMessage {
+      position: fixed;
+      top:0;left:0;width:100%;height:100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 200;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s;
       flex-direction: column;
-      gap: 2rem;
+      visibility: hidden;
     }
-
-    .magic-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+    #finalMessage.active {
+      visibility: visible;
     }
-
     .magic-text {
-      font-size: 3rem;
-      color: #ffd700;
-      text-shadow: 0 0 30px gold, 0 0 60px gold;
-      animation: floatMagic 2s ease-in-out infinite alternate;
+      font-size: 2.2rem;
+      color: #ffeaa7;
+      text-shadow: 0 0 40px #f5d742;
+      animation: magicPulse 2s infinite;
       text-align: center;
       padding: 1rem;
     }
-
-    @keyframes floatMagic {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-15px); }
+    @keyframes magicPulse {
+      0%,100% { text-shadow: 0 0 35px #f5d742; }
+      50% { text-shadow: 0 0 70px #ffeaa7; }
     }
   </style>
 </head>
 <body>
+  <canvas id="skyCanvas"></canvas>
 
-  <!-- ========== صفحهٔ ورود ========== -->
-  <div class="login-overlay" id="loginOverlay">
-    <h1>✨ به آسمون ستاره‌ها خوش اومدی ✨</h1>
+  <!-- LANDING PAGE -->
+  <div class="overlay" id="landingOverlay">
+    <div class="landing-card">
+      <h1>✨ Heliganeh ✨</h1>
+      <div class="sub">a secret sky awaits you</div>
+      <button class="btn-primary" onclick="goToLogin()">Enter the night</button>
+    </div>
+  </div>
+
+  <!-- LOGIN OVERLAY -->
+  <div class="overlay hidden" id="loginOverlay">
     <div class="login-box">
-      <input type="password" id="mainPassword" placeholder="رمز ورود" autocomplete="off">
-      <button id="enterButton">ورود</button>
+      <h2>🔐 whisper the password</h2>
+      <input type="password" id="loginPassword" placeholder="••••••" autocomplete="off">
+      <button class="btn-primary" onclick="handleLogin()" style="width:100%">unlock</button>
+      <div class="login-error" id="loginError"></div>
     </div>
-    <div class="login-error" id="loginError"></div>
   </div>
 
-  <!-- ========== آسمون اصلی (در ابتدا مخفی) ========== -->
-  <canvas id="starsCanvas" style="display: none;"></canvas>
-
-  <div class="ui-container" id="uiContainer" style="display: none;">
-    <div class="welcome" id="welcomeMessage"></div>
-    <div class="password-box" id="starPasswordBox">
-      <input type="text" id="passwordInput" placeholder="رمز ستاره" autocomplete="off">
-      <button id="submitPassword">✨ باز کن ✨</button>
+  <!-- MUSIC PROMPT -->
+  <div class="overlay hidden" id="musicPrompt">
+    <div class="music-prompt">
+      <p>🎵 would you like some soft music?</p>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="startMusic(true)">yes, please</button>
+        <button class="btn-ghost" onclick="startMusic(false)">no, thank you</button>
+      </div>
     </div>
-    <div class="error-msg" id="errorMessage">نه یگانه اشتباهه😔🎀</div>
   </div>
 
-  <!-- مودال -->
+  <!-- YEGANEH SKY VIEW -->
+  <div id="yeganehView">
+    <div class="sky-header">
+      <div style="font-size:1.4rem; color:#e9dbff;">🌙 the sky of 21 secrets</div>
+      <div class="discovered-counter" id="counterDisplay">0 / 21 stars found</div>
+    </div>
+    <div class="stars-field" id="starsField"></div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel">
+    <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
+      <h2 style="color:#e2b0ff;">🛠 Admin · edit secrets</h2>
+      <button class="btn-ghost" onclick="logout()">↩ leave</button>
+    </div>
+    <div class="admin-grid" id="adminGrid"></div>
+  </div>
+
+  <!-- STAR CODE MODAL -->
+  <div class="modal" id="starCodeModal">
+    <div class="modal-card">
+      <h3>🔑 enter the star code</h3>
+      <input type="password" id="starCodeInput" placeholder="secret code">
+      <button class="btn-primary" onclick="submitStarCode()">open</button>
+      <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeStarCodeModal()">cancel</button>
+      <div class="modal-error" id="starCodeError"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT MODAL -->
   <div class="modal" id="contentModal">
-    <div class="modal-content">
-      <button class="close-modal" id="closeModal">&times;</button>
-      <div id="modalBody"></div>
+    <div class="modal-card">
+      <h3 id="contentTitle">🎁</h3>
+      <div class="content-body" id="contentBody"></div>
+      <button class="btn-ghost" onclick="closeContentModal()">close</button>
     </div>
   </div>
 
-  <!-- پیغام جادویی -->
-  <div class="magic-overlay" id="magicOverlay">
-    <div class="magic-text">World is better with you yeganeh:)♡</div>
-    <button style="background:transparent; border:1px solid gold; color:gold; padding:0.5rem 2rem; border-radius:30px; cursor:pointer; font-size:1rem;" onclick="document.getElementById('magicOverlay').classList.remove('active')">✨ فهمیدم ✨</button>
+  <!-- FINAL MESSAGE -->
+  <div id="finalMessage">
+    <div class="magic-text">✨ world is better with you Heliganeh ♡</div>
   </div>
+
+  <audio id="bgMusic" loop preload="none"></audio>
 
   <script>
-    // ========== داده‌های ستاره‌ها ==========
-    const starsData = [
-      { id: 1, password: "2217", content: `<h2>🌟 ستاره اول</h2><p>یه سورپرایز قشنگ واست دارم...</p><a href="https://DigiPostal.ir/xvjh8f5" target="_blank">باز کردن لینک</a>` },
-      { id: 2, password: "4580", content: `<h2>🎵 ستاره دوم</h2><p>پلی‌لیستی که فقط برای تو ساختم:</p><iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7InF5yCRlJ1vs6cIM4PcRB?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>` },
-      { id: 3, password: "3389", content: `<h2>🖼️ ستاره سوم</h2><p>یه عکس که حرفای زیادی داره...</p><img src="https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg" style="max-width:100%; border-radius:12px;" alt="عکس">` },
-      { id: 4, password: "6708", content: `<h2>📝 ستاره چهارم</h2><p>بخون و لبخند بزن...</p><img src="https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg" style="max-width:100%; border-radius:12px;" alt="یادداشت">` },
-      { id: 5, password: "5467", content: `<h2>🎧 ستاره پنجم</h2><p>یه قطعه‌ی صوتی برای گوش‌های تو:</p><audio controls style="width:100%;"><source src="https://uupload.ir/view/telegraph_classic_world_is_better_with_you_yeganeh-3_hs.wav" type="audio/wav"></audio>` }
-    ];
+    // ──────────────────────────────────────
+    // CONFIGURATION
+    // ──────────────────────────────────────
+    const YEGANEH_PASSWORD = 'Heliganeh';
+    const ADMIN_PASSWORD = '221B';
+    const TOTAL_STARS = 21;
+    const DEFAULT_MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // peaceful placeholder, replace with your own
 
-    // پر کردن ستاره‌های ۶ تا ۲۱ با محتوای پیش‌فرض (بعداً می‌تونی عوض کنی)
-    for (let i = starsData.length + 1; i <= 21; i++) {
-      starsData.push({
-        id: i,
-        password: "رمز" + i,  // بعداً می‌تونی تغییر بدی
-        content: `<h2>🌟 ستاره ${i}</h2><p>یگانه جون، این ستاره هنوز رازش رو کامل برات ننوشتم...<br>به‌زودی سورپرایز قشنگتری میاد 🎀</p>`
-      });
+    // Star positions (precomputed natural scatter, saved in localStorage)
+    let starPositions = [];
+
+    // ──────────────────────────────────────
+    // STATE MANAGEMENT
+    // ──────────────────────────────────────
+    function loadState() {
+      let data = JSON.parse(localStorage.getItem('starData')) || [];
+      while(data.length < TOTAL_STARS) data.push({ code: '', type: 'link', content: '' });
+      if(data.length > TOTAL_STARS) data = data.slice(0,TOTAL_STARS);
+      localStorage.setItem('starData', JSON.stringify(data));
+
+      let opened = JSON.parse(localStorage.getItem('yeganehOpened')) || [];
+      opened = opened.filter(i => i>=0 && i<TOTAL_STARS);
+      localStorage.setItem('yeganehOpened', JSON.stringify(opened));
+
+      let finalShown = localStorage.getItem('finalMessageShown') === 'true';
+      return { starData: data, opened, finalShown };
     }
 
-    // ========== متغیرهای سراسری ==========
-    let userMode = null;         // 'yeganeh' یا 'admin'
-    let openedStars = {};        // ستاره‌های باز شده (کلید = شماره)
-    const canvas = document.getElementById('starsCanvas');
+    function saveOpened(arr) { localStorage.setItem('yeganehOpened', JSON.stringify(arr)); }
+    function saveStarData(arr) { localStorage.setItem('starData', JSON.stringify(arr)); }
+
+    // Generate or load star positions (consistent sky)
+    function getStarPositions() {
+      let pos = JSON.parse(localStorage.getItem('starPositions'));
+      if (!pos || pos.length !== TOTAL_STARS) {
+        pos = [];
+        const used = [];
+        for (let i=0; i<TOTAL_STARS; i++) {
+          let x, y, attempts=0;
+          do {
+            x = 15 + Math.random()*70;  // 15%-85% width
+            y = 10 + Math.random()*70;  // 10%-80% height (keep away from edges)
+            attempts++;
+          } while(attempts<50 && used.some(p => Math.hypot(p.x-x, p.y-y) < 12));
+          used.push({x,y});
+          pos.push({x: Math.round(x), y: Math.round(y)});
+        }
+        localStorage.setItem('starPositions', JSON.stringify(pos));
+      }
+      return pos;
+    }
+
+    // ──────────────────────────────────────
+    // CANVAS BACKGROUND (twinkling stars + shooting)
+    // ──────────────────────────────────────
+    const canvas = document.getElementById('skyCanvas');
     const ctx = canvas.getContext('2d');
-    let width, height;
-    const starPositions = [];
-    let shootingStars = [];
+    let bgStars = [], shootingStars = [];
 
-    // ========== ورود اصلی ==========
-    const loginOverlay = document.getElementById('loginOverlay');
-    const mainPassword = document.getElementById('mainPassword');
-    const enterButton = document.getElementById('enterButton');
-    const loginError = document.getElementById('loginError');
-
-    function handleMainLogin() {
-      const pass = mainPassword.value.trim();
-      if (pass === "Heliganeh") {
-        userMode = 'yeganeh';
-        // بارگیری پیشرفت یگانه
-        const saved = localStorage.getItem('yeganeh_openedStars');
-        openedStars = saved ? JSON.parse(saved) : {};
-        startSite();
-      } else if (pass === "221B") {
-        userMode = 'admin';
-        // همه ستاره‌ها باز
-        openedStars = {};
-        for (let i = 1; i <= 21; i++) openedStars[i] = true;
-        startSite();
-      } else {
-        loginError.textContent = "رمز اشتباهه، دوباره تلاش کن";
-        mainPassword.value = '';
-      }
-    }
-
-    enterButton.addEventListener('click', handleMainLogin);
-    mainPassword.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleMainLogin();
-    });
-
-    function startSite() {
-      loginOverlay.style.display = 'none';
-      canvas.style.display = 'block';
-      document.getElementById('uiContainer').style.display = 'flex';
-
-      // اگر حالت مدیر باشه، باکس رمز ستاره رو مخفی کن
-      if (userMode === 'admin') {
-        document.getElementById('starPasswordBox').style.display = 'none';
-        document.getElementById('welcomeMessage').textContent = '✨ حالت مدیریت - همه ستاره‌ها برای تو روشن شدن ✨';
-        document.getElementById('welcomeMessage').classList.add('show');
-      }
-
-      resizeCanvas();
-      generateStarPositions();
-      animate();
-
-      // خوشامدگویی اولیه برای یگانه
-      if (userMode === 'yeganeh') {
-        const openedCount = Object.keys(openedStars).length;
-        if (openedCount === 21) {
-          document.getElementById('welcomeMessage').textContent = `یگانه عزیزم، همه ستاره‌ها برای تو روشن شدن! آسمون مال توئه 🎇`;
-          document.getElementById('welcomeMessage').classList.add('show');
-          checkAllOpened();
-        } else if (openedCount > 0) {
-          document.getElementById('welcomeMessage').textContent = `${openedCount} ستاره‌ات روشنه، منتظر رمزهای بعدی باش 🌙`;
-          document.getElementById('welcomeMessage').classList.add('show');
-          setTimeout(() => document.getElementById('welcomeMessage').classList.remove('show'), 4000);
-        }
-      }
-    }
-
-    // ========== Canvas و انیمیشن ==========
     function resizeCanvas() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-      if (starPositions.length === 0) generateStarPositions();
-    });
+    function initBgStars() {
+      bgStars = [];
+      let count = Math.floor((canvas.width*canvas.height)/2000);
+      for(let i=0;i<count;i++) {
+        bgStars.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*canvas.height,
+          r: Math.random()*1.5+0.3,
+          speed: Math.random()*0.02+0.008,
+          offset: Math.random()*Math.PI*2,
+          alpha: Math.random()*0.5+0.3
+        });
+      }
+    }
+    initBgStars();
+    window.addEventListener('resize', initBgStars);
 
-    function generateStarPositions() {
-      starPositions.length = 0;
-      const margin = 60;
-      const minDistance = width < 600 ? 55 : 90;
-      for (let i = 0; i < 21; i++) {
-        let x, y, overlapping;
-        let attempts = 0;
-        do {
-          x = Math.random() * (width - 2 * margin) + margin;
-          y = Math.random() * (height * 0.85) + margin * 2;
-          overlapping = false;
-          for (let pos of starPositions) {
-            const dx = pos.x - x;
-            const dy = pos.y - y;
-            if (Math.sqrt(dx * dx + dy * dy) < minDistance) {
-              overlapping = true;
-              break;
-            }
-          }
-          attempts++;
-          if (attempts > 1000) break;
-        } while (overlapping);
-        starPositions.push({ x, y, id: i + 1 });
+    function spawnShootingStar() {
+      if(Math.random()<0.004) {
+        shootingStars.push({
+          x: Math.random()*canvas.width*0.7,
+          y: Math.random()*canvas.height*0.5,
+          vx: Math.random()*5+3,
+          vy: Math.random()*2+1,
+          life: 1,
+          decay: 0.012+Math.random()*0.01,
+          trail: []
+        });
       }
     }
 
-    // شهاب
-    function createShootingStar() {
-      const startX = Math.random() * width;
-      const startY = Math.random() * height * 0.5;
-      const length = 80 + Math.random() * 100;
-      const speed = 6 + Math.random() * 6;
-      const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.3;
-      shootingStars.push({
-        x: startX, y: startY,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        length, life: 1.0,
-        decay: 0.015 + Math.random() * 0.02
-      });
-    }
-
-    setInterval(() => {
-      if (Math.random() < 0.4) createShootingStar();
-    }, 3000);
-
-    function drawShootingStar(s) {
-      const tailX = s.x - s.vx * 5;
-      const tailY = s.y - s.vy * 5;
-      const gradient = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-      gradient.addColorStop(0, 'rgba(255,255,255,1)');
-      gradient.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.beginPath();
-      ctx.moveTo(s.x, s.y);
-      ctx.lineTo(tailX, tailY);
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-
-    function updateShootingStars() {
-      for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const s = shootingStars[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.life -= s.decay;
-        if (s.life <= 0 || s.x > width + 100 || s.y > height + 100) {
-          shootingStars.splice(i, 1);
-        }
-      }
-    }
-
-    function drawStarShape(cx, cy, outerR, innerR, points, rotation = 0) {
-      ctx.beginPath();
-      for (let i = 0; i < points * 2; i++) {
-        const radius = i % 2 === 0 ? outerR : innerR;
-        const angle = (i * Math.PI) / points - Math.PI / 2 + rotation;
-        const x = cx + radius * Math.cos(angle);
-        const y = cy + radius * Math.sin(angle);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-    }
-
-    function drawScene() {
-      ctx.clearRect(0, 0, width, height);
-
-      // ستاره‌های ریز چشمک‌زن
-      for (let i = 0; i < 200; i++) {
-        const sx = (i * 37 + 13) % width;
-        const sy = (i * 83 + 7) % height;
-        const brightness = 0.5 + 0.5 * Math.sin(Date.now() * 0.002 + i);
-        ctx.fillStyle = `rgba(255,255,255,${0.3 + brightness * 0.4})`;
+    function drawSky() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const t = Date.now()/1000;
+      for(const s of bgStars) {
+        let a = s.alpha + Math.sin(t*s.speed*50 + s.offset)*0.2;
+        ctx.fillStyle = `rgba(220,210,255,${Math.max(0.1, a)})`;
         ctx.beginPath();
-        ctx.arc(sx, sy, 1 + brightness * 1.2, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
         ctx.fill();
       }
-
-      // شهاب‌ها
-      updateShootingStars();
-      shootingStars.forEach(s => drawShootingStar(s));
-
-      // ستاره‌های ۲۱گانه
-      const time = Date.now() * 0.003;
-      starPositions.forEach(pos => {
-        const isOpened = openedStars[pos.id];
-        const baseGlow = isOpened ? 20 : 5;
-        const pulse = Math.sin(time + pos.id) * 5;
-        const glowSize = baseGlow + pulse;
-        const glowColor = isOpened ? `rgba(255,215,0,${0.6 + pulse * 0.03})` : 'rgba(100,100,150,0.3)';
-
-        ctx.shadowColor = glowColor;
-        ctx.shadowBlur = glowSize;
-
-        drawStarShape(pos.x, pos.y, 22, 10, 5, Math.PI / 10);
-        ctx.fillStyle = isOpened ? '#ffd700' : '#4a4a6a';
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        ctx.fillStyle = isOpened ? '#1a1a2e' : '#ccccdd';
-        ctx.font = 'bold 14px Tahoma';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(pos.id, pos.x, pos.y + 1);
-
-        if (!isOpened) {
-          ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      for(let i=shootingStars.length-1;i>=0;i--) {
+        let ss = shootingStars[i];
+        ss.x += ss.vx;
+        ss.y += ss.vy;
+        ss.life -= ss.decay;
+        ss.trail.push({x:ss.x, y:ss.y});
+        if(ss.trail.length>25) ss.trail.shift();
+        for(let j=0;j<ss.trail.length;j++) {
+          let p = ss.trail[j];
+          let prog = j/ss.trail.length;
+          ctx.fillStyle = `rgba(255,240,250,${prog*ss.life*0.7})`;
           ctx.beginPath();
-          ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, prog*2, 0, Math.PI*2);
           ctx.fill();
         }
-      });
-    }
-
-    function animate() {
-      drawScene();
-      requestAnimationFrame(animate);
-    }
-
-    // ========== کلیک روی ستاره‌ها ==========
-    canvas.addEventListener('click', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      for (let pos of starPositions) {
-        const dx = mouseX - pos.x;
-        const dy = mouseY - pos.y;
-        if (Math.sqrt(dx * dx + dy * dy) < 30) {
-          if (openedStars[pos.id]) {
-            showStarContent(pos.id);
-          } else {
-            shakeStar(pos);
-          }
-          break;
+        if(ss.life<=0 || ss.x>canvas.width+50 || ss.y>canvas.height+50) {
+          shootingStars.splice(i,1);
         }
       }
-    });
+      spawnShootingStar();
+      requestAnimationFrame(drawSky);
+    }
+    drawSky();
 
-    function shakeStar(pos) {
-      const originalX = pos.x;
-      let count = 0;
-      const interval = setInterval(() => {
-        pos.x = originalX + (Math.random() - 0.5) * 10;
-        count++;
-        if (count > 10) {
-          clearInterval(interval);
-          pos.x = originalX;
-        }
-      }, 30);
+    // ──────────────────────────────────────
+    // DOM ELEMENTS
+    // ──────────────────────────────────────
+    const landingOverlay = document.getElementById('landingOverlay');
+    const loginOverlay = document.getElementById('loginOverlay');
+    const musicPrompt = document.getElementById('musicPrompt');
+    const yeganehView = document.getElementById('yeganehView');
+    const adminPanel = document.getElementById('adminPanel');
+    const starsField = document.getElementById('starsField');
+    const counterDisplay = document.getElementById('counterDisplay');
+    const starCodeModal = document.getElementById('starCodeModal');
+    const starCodeInput = document.getElementById('starCodeInput');
+    const starCodeError = document.getElementById('starCodeError');
+    const contentModal = document.getElementById('contentModal');
+    const contentTitle = document.getElementById('contentTitle');
+    const contentBody = document.getElementById('contentBody');
+    const finalMessage = document.getElementById('finalMessage');
+    const bgMusic = document.getElementById('bgMusic');
+
+    let currentUser = null;
+    let pendingStarIndex = null;
+    let state = loadState();
+    starPositions = getStarPositions();
+
+    // ──────────────────────────────────────
+    // NAVIGATION
+    // ──────────────────────────────────────
+    function goToLogin() {
+      landingOverlay.classList.add('hidden');
+      loginOverlay.classList.remove('hidden');
+      document.getElementById('loginPassword').focus();
     }
 
-    // ========== باکس رمز روزانه ==========
-    const passwordInput = document.getElementById('passwordInput');
-    const submitBtn = document.getElementById('submitPassword');
-    const welcomeDiv = document.getElementById('welcomeMessage');
-    const errorDiv = document.getElementById('errorMessage');
-
-    function showWelcome(starId) {
-      welcomeDiv.textContent = `آفرین یگانه جان! ستاره ${starId} روشن شد ✨`;
-      welcomeDiv.classList.add('show');
-      setTimeout(() => welcomeDiv.classList.remove('show'), 4000);
-    }
-
-    function showError() {
-      errorDiv.style.opacity = '1';
-      setTimeout(() => errorDiv.style.opacity = '0', 3000);
-    }
-
-    function checkAllOpened() {
-      if (userMode === 'yeganeh' && Object.keys(openedStars).length === 21) {
-        document.getElementById('magicOverlay').classList.add('active');
-      }
-    }
-
-    function submitDailyPassword() {
-      const entered = passwordInput.value.trim();
-      if (!entered) return;
-
-      const star = starsData.find(s => s.password === entered && !openedStars[s.id]);
-      if (star) {
-        openedStars[star.id] = true;
-        localStorage.setItem('yeganeh_openedStars', JSON.stringify(openedStars));
-        passwordInput.value = '';
-        showWelcome(star.id);
-        checkAllOpened();
-        setTimeout(() => showStarContent(star.id), 1500);
+    function handleLogin() {
+      const pw = document.getElementById('loginPassword').value.trim();
+      document.getElementById('loginError').textContent = '';
+      if (pw === YEGANEH_PASSWORD) {
+        currentUser = 'yeganeh';
+        loginOverlay.classList.add('hidden');
+        musicPrompt.classList.remove('hidden');
+      } else if (pw === ADMIN_PASSWORD) {
+        currentUser = 'admin';
+        loginOverlay.classList.add('hidden');
+        showAdminView();
       } else {
-        const alreadyOpened = starsData.find(s => s.password === entered && openedStars[s.id]);
-        if (alreadyOpened) {
-          showStarContent(alreadyOpened.id);
-          passwordInput.value = '';
-        } else {
-          showError();
-          passwordInput.value = '';
-        }
+        document.getElementById('loginError').textContent = 'نه یگانه اشتباهه😔🎀';
+        document.getElementById('loginPassword').value = '';
       }
     }
 
-    if (userMode === 'yeganeh') {
-      submitBtn.addEventListener('click', submitDailyPassword);
-      passwordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') submitDailyPassword();
+    function startMusic(play) {
+      musicPrompt.classList.add('hidden');
+      if (play) {
+        bgMusic.src = DEFAULT_MUSIC_URL;
+        bgMusic.volume = 0.25;
+        bgMusic.play().catch(()=>{});
+      }
+      showYeganehView();
+    }
+
+    function showYeganehView() {
+      state = loadState();
+      yeganehView.classList.add('active');
+      adminPanel.classList.remove('active');
+      renderStars();
+      updateCounter();
+      checkFinal();
+    }
+
+    function showAdminView() {
+      yeganehView.classList.remove('active');
+      adminPanel.classList.add('active');
+      renderAdmin();
+    }
+
+    function logout() {
+      currentUser = null;
+      yeganehView.classList.remove('active');
+      adminPanel.classList.remove('active');
+      landingOverlay.classList.remove('hidden');
+      loginOverlay.classList.add('hidden');
+      musicPrompt.classList.add('hidden');
+      closeAllModals();
+      bgMusic.pause();
+    }
+
+    // ──────────────────────────────────────
+    // RENDER STARS (YEGANEH VIEW)
+    // ──────────────────────────────────────
+    function renderStars() {
+      starsField.innerHTML = '';
+      const opened = new Set(state.opened);
+      for (let i=0; i<TOTAL_STARS; i++) {
+        const pos = starPositions[i];
+        const isOpen = opened.has(i);
+        const starEl = document.createElement('div');
+        starEl.className = 'star' + (isOpen ? ' opened' : '');
+        starEl.style.left = pos.x + '%';
+        starEl.style.top = pos.y + '%';
+        starEl.innerHTML = `
+          <svg viewBox="0 0 100 100">
+            <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
+              fill="${isOpen ? '#fae37c' : '#7e6d99'}"
+              stroke="${isOpen ? '#ffeaa7' : '#a390c0'}" stroke-width="2.5"/>
+          </svg>
+          <span class="star-number">${i+1}</span>
+        `;
+        if (isOpen) {
+          for(let s=0;s<3;s++) {
+            let spark = document.createElement('div');
+            spark.className = 'sparkle';
+            spark.style.top = (20+Math.random()*40)+'%';
+            spark.style.left = (20+Math.random()*40)+'%';
+            spark.style.animationDelay = s*0.5+'s';
+            starEl.appendChild(spark);
+          }
+        }
+        starEl.addEventListener('click', ()=> onStarClick(i, isOpen));
+        starsField.appendChild(starEl);
+      }
+    }
+
+    function updateCounter() {
+      counterDisplay.textContent = state.opened.length + ' / ' + TOTAL_STARS + ' stars discovered';
+    }
+
+    function onStarClick(index, isOpen) {
+      if (isOpen) {
+        showContent(index);
+      } else {
+        pendingStarIndex = index;
+        starCodeInput.value = '';
+        starCodeError.textContent = '';
+        starCodeModal.classList.add('active');
+        setTimeout(()=> starCodeInput.focus(), 200);
+      }
+    }
+
+    function submitStarCode() {
+      const code = starCodeInput.value.trim();
+      if (!code) { starCodeError.textContent = 'enter a code'; return; }
+      const data = state.starData[pendingStarIndex];
+      if (data && data.code === code) {
+        if (!state.opened.includes(pendingStarIndex)) {
+          state.opened.push(pendingStarIndex);
+          saveOpened(state.opened);
+        }
+        starCodeModal.classList.remove('active');
+        renderStars();
+        updateCounter();
+        showContent(pendingStarIndex);
+        checkFinal();
+      } else {
+        starCodeError.textContent = 'نه یگانه اشتباهه😔🎀';
+        starCodeInput.value = '';
+      }
+    }
+
+    function closeStarCodeModal() {
+      starCodeModal.classList.remove('active');
+      pendingStarIndex = null;
+    }
+
+    // ──────────────────────────────────────
+    // CONTENT DISPLAY
+    // ──────────────────────────────────────
+    function showContent(index) {
+      const d = state.starData[index];
+      contentTitle.textContent = '⭐ star ' + (index+1);
+      let html = '';
+      if (!d || !d.content) {
+        html = '<p style="color:#b0a0c8;">this star is still empty…</p>';
+      } else {
+        switch(d.type) {
+          case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
+          case 'image': html = `<img src="${escapeHtml(d.content)}" alt="star image" onerror="this.alt='image not found'">`; break;
+          case 'audio': html = `<audio controls src="${escapeHtml(d.content)}"></audio>`; break;
+          case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%;"></video>`; break;
+          case 'spotify': 
+            let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
+            html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+            break;
+          case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fae37c;">open link ↗</a>`; break;
+          default: html = `<p>${escapeHtml(d.content)}</p>`;
+        }
+      }
+      contentBody.innerHTML = html;
+      contentModal.classList.add('active');
+    }
+
+    function closeContentModal() {
+      contentModal.classList.remove('active');
+    }
+
+    function closeAllModals() {
+      starCodeModal.classList.remove('active');
+      contentModal.classList.remove('active');
+    }
+
+    // ──────────────────────────────────────
+    // ADMIN PANEL
+    // ──────────────────────────────────────
+    function renderAdmin() {
+      const grid = document.getElementById('adminGrid');
+      grid.innerHTML = '';
+      state.starData.forEach((d,i)=>{
+        const card = document.createElement('div');
+        card.className = 'admin-card';
+        card.innerHTML = `
+          <h4>⭐ star ${i+1} ${state.opened.includes(i) ? '(unlocked)' : ''}</h4>
+          <label>code</label>
+          <input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
+          <label>type</label>
+          <select data-idx="${i}" data-field="type">
+            <option value="text" ${d.type==='text'?'selected':''}>text</option>
+            <option value="image" ${d.type==='image'?'selected':''}>image</option>
+            <option value="audio" ${d.type==='audio'?'selected':''}>audio</option>
+            <option value="video" ${d.type==='video'?'selected':''}>video</option>
+            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify playlist</option>
+            <option value="link" ${d.type==='link'?'selected':''}>link</option>
+          </select>
+          <label>content</label>
+          <textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
+        `;
+        grid.appendChild(card);
+      });
+      // attach listeners
+      document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{
+        el.addEventListener('change', (e)=>{
+          const idx = parseInt(e.target.dataset.idx);
+          const field = e.target.dataset.field;
+          state.starData[idx][field] = e.target.value;
+          saveStarData(state.starData);
+        });
       });
     }
 
-    // ========== مودال ==========
-    const modal = document.getElementById('contentModal');
-    const modalBody = document.getElementById('modalBody');
-    const closeModal = document.getElementById('closeModal');
-
-    function showStarContent(starId) {
-      const star = starsData.find(s => s.id === starId);
-      if (!star) return;
-      modalBody.innerHTML = star.content;
-      modal.classList.add('active');
+    // ──────────────────────────────────────
+    // FINAL MESSAGE
+    // ──────────────────────────────────────
+    function checkFinal() {
+      if (state.opened.length === TOTAL_STARS && !state.finalShown) {
+        localStorage.setItem('finalMessageShown', 'true');
+        finalMessage.classList.add('active');
+        setTimeout(()=> finalMessage.classList.remove('active'), 8000);
+      }
     }
 
-    closeModal.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
+    // ──────────────────────────────────────
+    // HELPERS
+    // ──────────────────────────────────────
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/[&<>"']/g, function(m) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+      });
+    }
+
+    // Close modals on backdrop click
+    window.addEventListener('click', (e)=>{
+      if (e.target === starCodeModal) closeStarCodeModal();
+      if (e.target === contentModal) closeContentModal();
     });
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape') closeAllModals();
+    });
+
+    // Enter key for login
+    document.getElementById('loginPassword').addEventListener('keydown', (e)=>{
+      if (e.key==='Enter') handleLogin();
+    });
+    starCodeInput.addEventListener('keydown', (e)=>{
+      if (e.key==='Enter') submitStarCode();
+    });
+
+    // Set initial 5 stars with user's data (if not already set)
+    (function presetData() {
+      let data = loadState().starData;
+      const presets = [
+        { code:'2217', type:'link', content:'https://DigiPostal.ir/xvjh8f5' },
+        { code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw' },
+        { code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg' },
+        { code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg' },
+        { code:'5467', type:'audio', content:'https://uupload.ir/view/telegraph_classic_world_is_better_with_you_yeganeh-3_hs.wav/' }
+      ];
+      let changed = false;
+      for(let i=0; i<presets.length && i<TOTAL_STARS; i++) {
+        if (!data[i].code && !data[i].content) {
+          data[i] = presets[i];
+          changed = true;
+        }
+      }
+      if (changed) saveStarData(data);
+    })();
+
+    // Load initial state: show landing
+    landingOverlay.classList.remove('hidden');
   </script>
 </body>
 </html>
