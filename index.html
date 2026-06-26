@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آسمون ستاره‌های یگانه</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      font-family: 'Tahoma', 'Vazirmatn', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* باکس رمز و خوشامدگویی */
+    .ui-container {
+      position: absolute;
+      z-index: 10;
+      top: 5%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      pointer-events: none;
+    }
+
+    .welcome {
+      color: #f0e6d2;
+      font-size: 1.8rem;
+      text-shadow: 0 0 20px #ffd700;
+      min-height: 3rem;
+      text-align: center;
+      padding: 0 1rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .welcome.show {
+      opacity: 1;
+    }
+
+    .password-box {
+      background: rgba(20, 20, 40, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+      display: flex;
+      gap: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      pointer-events: auto;
+    }
+
+    #passwordInput {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 1.1rem;
+      width: 180px;
+      text-align: right;
+      font-family: inherit;
+    }
+
+    #passwordInput::placeholder {
+      color: #a0a0b0;
+    }
+
+    #submitPassword {
+      background: #ffd700;
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #1a1a2e;
+      font-weight: bold;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    #submitPassword:hover {
+      background: #ffea70;
+      box-shadow: 0 0 20px #ffd700;
+    }
+
+    /* مودال محتوای ستاره */
+    .modal {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: rgba(30, 30, 50, 0.95);
+      border: 1px solid #ffd700;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #f0e6d2;
+      position: relative;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+      text-align: center;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-size: 1.8rem;
+      color: #ffd700;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+
+    .modal-content a, .modal-content iframe {
+      color: #ffd700;
+      word-break: break-word;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    /* پیام خطا */
+    .error-msg {
+      color: #ff7b7b;
+      font-size: 0.9rem;
+      text-shadow: 0 0 10px red;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starsCanvas"></canvas>
+
+  <!-- رابط کاربری -->
+  <div class="ui-container">
+    <div class="welcome" id="welcomeMessage"></div>
+    <div class="password-box">
+      <input type="text" id="passwordInput" placeholder="رمز ستاره امروز..." autocomplete="off">
+      <button id="submitPassword">✨ باز کن ✨</button>
+    </div>
+    <div class="error-msg" id="errorMessage">رمز اشتباهه، دوباره تلاش کن عزیزم 🌙</div>
+  </div>
+
+  <!-- مودال محتوا -->
+  <div class="modal" id="contentModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // 🌟 تنظیمات اصلی - این بخش رو می‌تونی شخصی‌سازی کنی 🌟
+    const friendName = "یگانه"; // اسم دوستت
+    const starsData = [
+      { id: 1, password: "ستاره1", content: "<h2>✨ ستاره اول ✨</h2><p>یگانه جان، این اولین قدم آسمون منه...<br>امشب این آهنگ رو گوش بده:</p><iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator' width='100%' height='152' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>" },
+      { id: 2, password: "ماه", content: "<h2>🌙 ستاره دوم</h2><p>شبی که ماه کامل بود و تو خندیدی...</p><p style='font-style:italic;'>شعر: <br>ای یگانه‌ی شبای بی‌قرار<br>ماه از شرم رخت شد بی‌کنار</p>" },
+      { id: 3, password: "نور", content: "<h2>💫 ستاره سوم</h2><p>امروز یه خاطره برات نوشتم:</p><p>اون روز بارونی... یادته؟</p><img src='https://picsum.photos/300/200' alt='خاطره'>" },
+      { id: 4, password: "بارون", content: "<h2>☔ ستاره چهارم</h2><p>این آهنگ بارونی مخصوص توئه...</p><iframe width='100%' height='200' src='https://www.youtube.com/embed/dQw4w9WgXcQ' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>" },
+      // ... تا ستاره ۲۱ ادامه بده
+      // الگو:
+      // { id: N, password: "رمزN", content: "<h2>ستاره N</h2><p>متن دلخواه</p>" }
+    ];
+
+    // پر کردن خالی‌های باقی‌مونده با محتوای پیش‌فرض (برای نمونه تا ۲۱)
+    for (let i = starsData.length + 1; i <= 21; i++) {
+      starsData.push({
+        id: i,
+        password: "ستاره" + i,
+        content: `<h2>🌟 ستاره ${i}</h2><p>یگانه جون، این ستاره هنوز رازش رو برات ننوشتم...<br>به‌زودی یه سورپرایز قشنگ اینجا قرار می‌گیره! 🎀</p>`
+      });
+    }
+
+    // وضعیت باز شدن ستاره‌ها (در localStorage ذخیره بشه تا با رفرش پاک نشه)
+    let openedStars = JSON.parse(localStorage.getItem('openedStars_yeganeh')) || {};
+
+    // ================== Canvas و رسم ستاره‌ها ==================
+    const canvas = document.getElementById('starsCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const starPositions = []; // موقعیت ستاره‌های ۲۱تایی
+
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      // بازتولید موقعیت‌های تصادفی برای ستاره‌های بزرگ (فقط یک‌بار)
+      if (starPositions.length === 0) generateStarPositions();
+    });
+
+    function generateStarPositions() {
+      starPositions.length = 0;
+      const margin = 60;
+      for (let i = 0; i < 21; i++) {
+        // پخش تصادفی، اما نه خیلی نزدیک به هم (برخورد نکنن)
+        let x, y, overlapping;
+        do {
+          x = Math.random() * (width - 2 * margin) + margin;
+          y = Math.random() * (height * 0.85) + margin * 2; // کمی پایین‌تر از نوار بالایی
+          overlapping = false;
+          for (let pos of starPositions) {
+            const dx = pos.x - x;
+            const dy = pos.y - y;
+            if (Math.sqrt(dx * dx + dy * dy) < 100) { // فاصله حداقل 100px
+              overlapping = true;
+              break;
+            }
+          }
+        } while (overlapping);
+        starPositions.push({ x, y, id: i + 1 });
+      }
+    }
+
+    // رسم یک ستاره (شکل ۵ پر) با درخشش
+    function drawStarShape(cx, cy, outerR, innerR, points, rotation = 0) {
+      ctx.beginPath();
+      for (let i = 0; i < points * 2; i++) {
+        const radius = i % 2 === 0 ? outerR : innerR;
+        const angle = (i * Math.PI) / points - Math.PI / 2 + rotation;
+        const x = cx + radius * Math.cos(angle);
+        const y = cy + radius * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+    }
+
+    function drawScene() {
+      ctx.clearRect(0, 0, width, height);
+
+      // ستاره‌های ریز پس‌زمینه (چشمک‌زن)
+      for (let i = 0; i < 200; i++) {
+        const sx = (i * 37 + 13) % width;
+        const sy = (i * 83 + 7) % height;
+        const brightness = 0.5 + 0.5 * Math.sin(Date.now() * 0.002 + i);
+        ctx.fillStyle = `rgba(255,255,255,${0.3 + brightness * 0.4})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 1 + brightness * 1.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // ستاره‌های ۲۱گانه
+      starPositions.forEach(pos => {
+        const isOpened = openedStars[pos.id];
+        const color = isOpened ? '#ffd700' : '#4a4a6a';
+        const glow = isOpened ? 'rgba(255,215,0,0.8)' : 'rgba(100,100,150,0.3)';
+
+        // هاله دور ستاره
+        ctx.shadowColor = glow;
+        ctx.shadowBlur = isOpened ? 20 : 5;
+
+        // رسم ستاره
+        drawStarShape(pos.x, pos.y, 22, 10, 5, Math.PI / 10);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.shadowBlur = 0; // ریست برای متن
+
+        // شماره ستاره
+        ctx.fillStyle = isOpened ? '#1a1a2e' : '#ccccdd';
+        ctx.font = 'bold 14px Tahoma';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(pos.id, pos.x, pos.y + 1);
+
+        // اگر باز نشده، کمی مات و بی‌روح
+        if (!isOpened) {
+          ctx.fillStyle = 'rgba(0,0,0,0.3)';
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    function animate() {
+      drawScene();
+      requestAnimationFrame(animate);
+    }
+
+    // ================== رویدادهای کلیک ==================
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // بررسی کلیک روی ستاره‌ها
+      for (let pos of starPositions) {
+        const dx = mouseX - pos.x;
+        const dy = mouseY - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) < 30) {
+          if (openedStars[pos.id]) {
+            showStarContent(pos.id);
+          } else {
+            // تکان کوچیک برای نشون دادن قفل بودن
+            shakeStar(pos);
+          }
+          break;
+        }
+      }
+    });
+
+    function shakeStar(pos) {
+      // افکت لرزش خفیف با تغییر موقت موقعیت (با انیمیشن ساده)
+      const originalX = pos.x;
+      let count = 0;
+      const interval = setInterval(() => {
+        pos.x = originalX + (Math.random() - 0.5) * 10;
+        count++;
+        if (count > 10) {
+          clearInterval(interval);
+          pos.x = originalX;
+        }
+      }, 30);
+    }
+
+    // ================== سیستم رمز ==================
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitPassword');
+    const welcomeDiv = document.getElementById('welcomeMessage');
+    const errorDiv = document.getElementById('errorMessage');
+
+    function showWelcome(starId) {
+      welcomeDiv.textContent = `آفرین ${friendName} جان! ستاره ${starId} روشن شد ✨`;
+      welcomeDiv.classList.add('show');
+      setTimeout(() => welcomeDiv.classList.remove('show'), 4000);
+    }
+
+    function showError() {
+      errorDiv.style.opacity = '1';
+      setTimeout(() => errorDiv.style.opacity = '0', 3000);
+    }
+
+    function submitPassword() {
+      const entered = passwordInput.value.trim();
+      if (!entered) return;
+
+      // جستجوی ستاره‌ای که رمز مطابق داشته باشه و هنوز باز نشده
+      const star = starsData.find(s => s.password === entered && !openedStars[s.id]);
+      if (star) {
+        // باز کردن ستاره
+        openedStars[star.id] = true;
+        localStorage.setItem('openedStars_yeganeh', JSON.stringify(openedStars));
+        passwordInput.value = '';
+        showWelcome(star.id);
+        // بلافاصله محتواش رو نشون بده (یا صبر کنه؟ من ترجیح میدم خودش کلیک کنه)
+        // اما می‌تونیم یه مدت کوتاه بعد نشون بدیم
+        setTimeout(() => showStarContent(star.id), 1500);
+      } else {
+        // شاید رمز درسته ولی قبلاً باز شده
+        const alreadyOpened = starsData.find(s => s.password === entered && openedStars[s.id]);
+        if (alreadyOpened) {
+          showStarContent(alreadyOpened.id);
+          passwordInput.value = '';
+        } else {
+          showError();
+          passwordInput.value = '';
+        }
+      }
+    }
+
+    submitBtn.addEventListener('click', submitPassword);
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submitPassword();
+    });
+
+    // ================== مودال محتوا ==================
+    const modal = document.getElementById('contentModal');
+    const modalBody = document.getElementById('modalBody');
+    const closeModal = document.getElementById('closeModal');
+
+    function showStarContent(starId) {
+      const star = starsData.find(s => s.id === starId);
+      if (!star) return;
+      modalBody.innerHTML = star.content;
+      modal.classList.add('active');
+    }
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    // ================== شروع ==================
+    resizeCanvas();
+    generateStarPositions();
+    animate();
+
+    // اگر قبلاً همه ستاره‌ها باز شده بودن، یه خوشامد بگیم
+    const openedCount = Object.keys(openedStars).length;
+    if (openedCount > 0 && openedCount < 21) {
+      welcomeDiv.textContent = `${friendName} جان، ${openedCount} ستاره‌ات روشنه، منتظر رمزهای بعدی باش 🌙`;
+      welcomeDiv.classList.add('show');
+      setTimeout(() => welcomeDiv.classList.remove('show'), 4000);
+    } else if (openedCount === 21) {
+      welcomeDiv.textContent = `${friendName} عزیزم، همه ستاره‌ها برای تو روشن شدن! آسمون مال توئه 🎇`;
+      welcomeDiv.classList.add('show');
+    }
+  </script>
+</body>
+  </html>
