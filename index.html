@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Heliganeh · Secret Sky</title>
+  <title>Heliganeh · Bad Angel's Sky</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
   <style>
     * {
@@ -13,14 +13,14 @@
     }
 
     :root {
-      --bg: #060612;
-      --card-bg: rgba(18, 15, 40, 0.7);
-      --border-glow: rgba(200, 160, 255, 0.35);
+      --bg: #04041a;
+      --card-bg: rgba(15, 12, 38, 0.7);
+      --border-glow: rgba(130, 100, 220, 0.35);
       --gold: #fad974;
       --gold-bright: #ffeaa7;
-      --accent: #c4a1ff;
-      --text: #e6e0f5;
-      --text-soft: #b8a9d4;
+      --accent: #b39aff;
+      --text: #e4defa;
+      --text-soft: #b0a0d4;
       --error: #ffb3b3;
     }
 
@@ -38,7 +38,7 @@
       position: relative;
     }
 
-    /* ── canvas background with nebula & dust ── */
+    /* Canvas background */
     #skyCanvas {
       position: fixed;
       top: 0;
@@ -49,7 +49,41 @@
       pointer-events: none;
     }
 
-    /* ── main UI container ── */
+    /* Nebula overlays */
+    .nebula {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #nebula1 {
+      width: 70vw;
+      height: 70vw;
+      background: #3b2b80;
+      top: -20%;
+      left: 10%;
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+    #nebula2 {
+      width: 60vw;
+      height: 60vw;
+      background: #1e2a6e;
+      bottom: -15%;
+      right: 5%;
+      animation: drift2 22s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8%, 5%) scale(1.15); }
+    }
+    @keyframes drift2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-5%, -8%) scale(1.1); }
+    }
+
+    /* App layer */
     .app-layer {
       position: relative;
       z-index: 10;
@@ -61,14 +95,14 @@
       justify-content: center;
     }
 
-    /* ── glass cards ── */
+    /* Glass cards */
     .glass {
-      background: rgba(20, 16, 45, 0.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(18, 14, 42, 0.6);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
       border-radius: 2.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(120, 100, 200, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(100, 80, 200, 0.12);
       padding: 2.5rem 2rem;
       text-align: center;
       max-width: 380px;
@@ -87,7 +121,7 @@
     .glass h1 {
       font-size: 2.6rem;
       color: #f0e6ff;
-      text-shadow: 0 0 25px #b79aff;
+      text-shadow: 0 0 25px #9a82ff;
       margin-bottom: 0.3rem;
     }
     .subtitle {
@@ -98,27 +132,27 @@
     }
 
     .btn {
-      background: linear-gradient(135deg, #9f7aea, #c084fc);
+      background: linear-gradient(135deg, #6b4ecc, #9b7ef5);
       border: none;
-      color: #1a0a2e;
+      color: #e8e0ff;
       font-weight: 600;
       padding: 0.9rem 2.8rem;
       border-radius: 3rem;
       font-size: 1rem;
       letter-spacing: 1px;
       cursor: pointer;
-      box-shadow: 0 8px 30px rgba(150, 100, 250, 0.4);
+      box-shadow: 0 8px 30px rgba(120, 90, 230, 0.4);
       transition: all 0.3s ease;
       font-family: inherit;
     }
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(170, 130, 255, 0.6);
+      box-shadow: 0 12px 40px rgba(150, 120, 255, 0.6);
     }
     .btn-ghost {
       background: transparent;
-      border: 1px solid rgba(200, 160, 255, 0.5);
-      color: #d0b8ff;
+      border: 1px solid rgba(180, 150, 255, 0.5);
+      color: #cbb8ff;
       padding: 0.65rem 2rem;
       border-radius: 3rem;
       font-weight: 500;
@@ -127,15 +161,15 @@
       font-family: inherit;
     }
     .btn-ghost:hover {
-      background: rgba(180, 140, 255, 0.15);
+      background: rgba(160, 130, 255, 0.15);
     }
 
     input {
       width: 100%;
       padding: 1rem 1.2rem;
       border-radius: 3rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(200, 160, 255, 0.4);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(180, 140, 255, 0.4);
       color: #f0e5ff;
       font-size: 1rem;
       text-align: center;
@@ -146,8 +180,8 @@
       transition: 0.3s;
     }
     input:focus {
-      border-color: #dbb5ff;
-      box-shadow: 0 0 30px rgba(180, 130, 255, 0.3);
+      border-color: #c9b0ff;
+      box-shadow: 0 0 30px rgba(150, 120, 255, 0.3);
     }
 
     .error-message {
@@ -164,7 +198,7 @@
       80%{transform:translateX(3px);}
     }
 
-    /* ── hidden overlays ── */
+    /* Overlays */
     .overlay {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
@@ -172,7 +206,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(6,6,18,0.6);
+      background: rgba(4,4,20,0.65);
       backdrop-filter: blur(12px);
       opacity: 0;
       visibility: hidden;
@@ -183,7 +217,7 @@
       visibility: visible;
     }
 
-    /* ── sky view ── */
+    /* Sky view */
     #skyView {
       position: fixed;
       top:0; left:0;
@@ -204,19 +238,56 @@
 
     .sky-header {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       z-index: 2;
     }
     .counter {
-      background: rgba(20,15,45,0.6);
+      background: rgba(15,12,38,0.6);
       backdrop-filter: blur(10px);
       padding: 0.5rem 2rem;
       border-radius: 3rem;
       display: inline-block;
       color: var(--gold);
       font-size: 0.9rem;
-      border: 1px solid rgba(250,217,116,0.3);
+      border: 1px solid rgba(250,217,116,0.25);
       margin-top: 0.5rem;
+    }
+    .poetic-note {
+      color: #9a8fc4;
+      font-size: 0.78rem;
+      margin-top: 0.7rem;
+      font-style: italic;
+      text-shadow: 0 0 8px rgba(150,130,220,0.3);
+      min-height: 1.2rem;
+      transition: 0.5s;
+    }
+
+    /* Signature */
+    .crafted-sign {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.8rem;
+      color: rgba(180,170,220,0.25);
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Fullscreen button */
+    .fullscreen-btn {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.8rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #b0a0d4;
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+      z-index: 10;
+      backdrop-filter: blur(8px);
     }
 
     .stars-container {
@@ -240,7 +311,7 @@
     .star svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 6px rgba(180,160,240,0.5));
+      filter: drop-shadow(0 0 6px rgba(150,140,220,0.5));
       transition: filter 0.6s;
     }
     .star.unlocked svg {
@@ -279,12 +350,42 @@
       100% { opacity:0; transform: translate(20px,-28px) scale(0.2); }
     }
 
-    /* ── admin panel ── */
+    /* Star burst animation */
+    .star.bursting {
+      animation: burst 0.8s ease-out forwards;
+    }
+    @keyframes burst {
+      0% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.8); filter: brightness(2.5) drop-shadow(0 0 45px #ffeaa7); }
+      100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 18px #fad974); }
+    }
+
+    /* YEGANEH constellation text */
+    .constellation-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 6rem;
+      font-weight: 200;
+      color: rgba(250, 217, 116, 0.08);
+      letter-spacing: 12px;
+      pointer-events: none;
+      z-index: 0;
+      text-shadow: 0 0 80px rgba(200,160,255,0.25);
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+    .constellation-text.visible {
+      opacity: 1;
+    }
+
+    /* Admin */
     #adminPanel {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
       z-index: 15;
-      background: rgba(5,5,18,0.9);
+      background: rgba(5,5,18,0.92);
       backdrop-filter: blur(20px);
       padding: 2rem 1.5rem;
       overflow-y: auto;
@@ -303,10 +404,10 @@
       margin-top: 1.5rem;
     }
     .admin-card {
-      background: rgba(25,20,50,0.7);
+      background: rgba(20,15,45,0.7);
       border-radius: 1.5rem;
       padding: 1.2rem;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .admin-card label {
       font-size: 0.75rem;
@@ -322,8 +423,19 @@
       color:#f0e5ff;
       font-family:inherit;
     }
+    .admin-log {
+      margin-top: 2rem;
+      max-width: 900px;
+      width: 100%;
+      background: rgba(20,15,45,0.6);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      color: #b0a0d4;
+      font-size: 0.8rem;
+      display: none;
+    }
 
-    /* ── final message ── */
+    /* Final message */
     #finalMessage {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
@@ -348,15 +460,14 @@
       0%,100% { text-shadow: 0 0 35px #f5d742; }
       50% { text-shadow: 0 0 70px #ffeaa7, 0 0 100px #fad974; }
     }
-
-    /* hidden */
-    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <canvas id="skyCanvas"></canvas>
+  <div class="nebula" id="nebula1"></div>
+  <div class="nebula" id="nebula2"></div>
 
-  <!-- LANDING PAGE -->
+  <!-- LANDING -->
   <div id="landing" class="app-layer">
     <div class="glass">
       <h1>✦ Heliganeh ✦</h1>
@@ -365,17 +476,17 @@
     </div>
   </div>
 
-  <!-- LOGIN OVERLAY -->
+  <!-- LOGIN -->
   <div id="loginOverlay" class="overlay">
     <div class="glass">
       <h2>whisper the word</h2>
       <input type="password" id="loginPass" placeholder="········" autocomplete="off">
-      <button class="btn" onclick="handleLogin()" style="width:100%">unlock</button>
+      <button class="btn" onclick="handleLogin()">unlock</button>
       <div class="error-message" id="loginError"></div>
     </div>
   </div>
 
-  <!-- MUSIC PROMPT -->
+  <!-- MUSIC -->
   <div id="musicPrompt" class="overlay">
     <div class="glass">
       <p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p>
@@ -386,13 +497,18 @@
     </div>
   </div>
 
-  <!-- MAIN SKY -->
+  <!-- SKY VIEW -->
   <div id="skyView">
     <div class="sky-header">
       <div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div>
       <div class="counter" id="counterDisplay">0 / 21 stars discovered</div>
+      <div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div>
     </div>
-    <div class="stars-container" id="starsContainer"></div>
+    <div class="stars-container" id="starsContainer">
+      <div class="constellation-text" id="constellationText">HELIGANEH</div>
+    </div>
+    <div class="crafted-sign">crafted with stardust by your bad angel</div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
   </div>
 
   <!-- STAR CODE MODAL -->
@@ -415,16 +531,18 @@
     </div>
   </div>
 
-  <!-- ADMIN PANEL -->
+  <!-- ADMIN -->
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
-      <h2 style="color:#dbb5ff;">🛠 Admin · edit stars</h2>
+      <h2 style="color:#cbb8ff;">🛠 Admin · Bad Angel</h2>
       <button class="btn-ghost" onclick="logout()">↩ leave</button>
     </div>
     <div class="admin-grid" id="adminGrid"></div>
+    <button class="btn-ghost" style="margin-top:1.5rem;" onclick="toggleActivityLog()">🌸 activity log</button>
+    <div class="admin-log" id="activityLog"></div>
   </div>
 
-  <!-- FINAL MESSAGE -->
+  <!-- FINAL -->
   <div id="finalMessage">
     <div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div>
   </div>
@@ -433,13 +551,43 @@
 
   <script>
     // ────────────────────────
-    // CONFIG & STATE
+    // CONFIG
     // ────────────────────────
     const YEGANEH_PASS = 'Heliganeh';
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // replace with your own
+    const MUSIC_URL = 'assets/bg-music.mp3'; // replace with your file
 
+    // Poetic lines based on discovered count
+    const POETIC_LINES = {
+      0: "in this sky, every star holds a secret from me to you…",
+      3: "some secrets are silent, waiting for your touch…",
+      7: "you're getting closer to the heart of the story…",
+      14: "more than half of the love journey is walked…",
+      18: "the sky is almost full of our whispers…",
+      21: "now the whole sky belongs to you, Heliganeh ✦"
+    };
+
+    // Constellation positions (natural but forming readable HELIGANEH when all unlocked)
+    function getStarPositions() {
+      let saved = JSON.parse(localStorage.getItem('starPositions'));
+      if (saved && saved.length === TOTAL_STARS) return saved;
+      // Predefined beautiful scatter (slightly tuned for HELIGANEH hint)
+      const pos = [
+        {x:20,y:25},{x:35,y:20},{x:48,y:15}, // H left
+        {x:52,y:25},{x:65,y:20},{x:78,y:15}, // E
+        {x:15,y:40},{x:30,y:45},{x:45,y:50}, // L
+        {x:55,y:40},{x:70,y:48},{x:85,y:42}, // I
+        {x:25,y:60},{x:40,y:65},{x:58,y:60}, // G
+        {x:20,y:78},{x:38,y:72},{x:55,y:80}, // A
+        {x:68,y:70},{x:82,y:75},{x:90,y:85}  // N E H combined
+      ];
+      localStorage.setItem('starPositions', JSON.stringify(pos));
+      return pos;
+    }
+    const positions = getStarPositions();
+
+    // State
     function loadState() {
       let data = JSON.parse(localStorage.getItem('starData')) || [];
       while(data.length < TOTAL_STARS) data.push({ code:'', type:'text', content:'' });
@@ -451,40 +599,17 @@
       localStorage.setItem('openedStars', JSON.stringify(opened));
 
       let final = localStorage.getItem('finalShown') === 'true';
-      return { starData: data, opened, finalShown: final };
+      let activity = JSON.parse(localStorage.getItem('activityLog')) || [];
+      return { starData: data, opened, finalShown: final, activity };
     }
-
     function saveOpened(arr) { localStorage.setItem('openedStars', JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData', JSON.stringify(arr)); }
+    function saveActivity(arr) { localStorage.setItem('activityLog', JSON.stringify(arr)); }
 
-    // Constellation positions (natural sky-like layout)
-    function getStarPositions() {
-      let saved = JSON.parse(localStorage.getItem('starPositions'));
-      if (saved && saved.length === TOTAL_STARS) return saved;
-      // Beautiful scattered pattern resembling a loose spiral
-      const pos = [];
-      const centerX = 50, centerY = 50;
-      for (let i=0; i<TOTAL_STARS; i++) {
-        let angle = (i * 0.9) + 0.5;
-        let radius = 15 + (i * 1.5);
-        let x = centerX + Math.cos(angle) * radius + (Math.random()-0.5)*8;
-        let y = centerY + Math.sin(angle) * radius * 0.7 + (Math.random()-0.5)*10;
-        x = Math.min(85, Math.max(10, x));
-        y = Math.min(78, Math.max(12, y));
-        pos.push({x: Math.round(x), y: Math.round(y)});
-      }
-      localStorage.setItem('starPositions', JSON.stringify(pos));
-      return pos;
-    }
-    const positions = getStarPositions();
-
-    // ────────────────────────
-    // CANVAS NEBULA & DUST
-    // ────────────────────────
+    // Canvas nebula + shooting stars
     const canvas = document.getElementById('skyCanvas');
     const ctx = canvas.getContext('2d');
-    let width, height;
-    let dustParticles = [];
+    let width, height, dust = [];
 
     function resize() {
       width = canvas.width = window.innerWidth;
@@ -494,73 +619,53 @@
     resize();
 
     function initDust() {
-      dustParticles = [];
-      for(let i=0; i<180; i++) {
-        dustParticles.push({
+      dust = [];
+      for(let i=0;i<160;i++) {
+        dust.push({
           x: Math.random()*width,
           y: Math.random()*height,
-          r: Math.random()*1.3+0.2,
-          speedX: (Math.random()-0.5)*0.12,
-          speedY: (Math.random()-0.5)*0.08,
-          alpha: Math.random()*0.6+0.2
+          r: Math.random()*1.4+0.3,
+          vx: (Math.random()-0.5)*0.1,
+          vy: (Math.random()-0.5)*0.06,
+          alpha: Math.random()*0.5+0.2
         });
       }
     }
     initDust();
     window.addEventListener('resize', initDust);
 
-    function drawNebula() {
-      // deep gradient
-      const grad = ctx.createRadialGradient(width*0.3, height*0.4, 0, width*0.7, height*0.6, width*0.9);
-      grad.addColorStop(0, '#1c1138');
-      grad.addColorStop(0.5, '#0c0820');
-      grad.addColorStop(1, '#040410');
+    function drawSky() {
+      const grad = ctx.createRadialGradient(width*0.4, height*0.3, 0, width*0.6, height*0.7, width);
+      grad.addColorStop(0, '#12102e');
+      grad.addColorStop(0.6, '#070518');
+      grad.addColorStop(1, '#020210');
       ctx.fillStyle = grad;
       ctx.fillRect(0,0,width,height);
 
-      // soft nebula blobs
-      ctx.globalCompositeOperation = 'screen';
-      for(let i=0;i<3;i++) {
-        let nx = width*(0.2 + i*0.25), ny = height*(0.3 + i*0.15);
-        let radGrad = ctx.createRadialGradient(nx, ny, 0, nx, ny, width*0.35);
-        radGrad.addColorStop(0, 'rgba(120,80,180,0.08)');
-        radGrad.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = radGrad;
-        ctx.fillRect(0,0,width,height);
-      }
-      ctx.globalCompositeOperation = 'source-over';
-
-      // floating dust
-      for(let p of dustParticles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if(p.x<0) p.x=width;
-        if(p.x>width) p.x=0;
-        if(p.y<0) p.y=height;
-        if(p.y>height) p.y=0;
-        ctx.fillStyle = `rgba(210,200,255,${p.alpha})`;
+      for(let p of dust) {
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0) p.x=width; if(p.x>width) p.x=0;
+        if(p.y<0) p.y=height; if(p.y>height) p.y=0;
+        ctx.fillStyle = `rgba(200,190,240,${p.alpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
         ctx.fill();
       }
 
-      // occasional shooting stars
-      if(Math.random()<0.003) {
-        let sx = Math.random()*width*0.8, sy = Math.random()*height*0.5;
-        ctx.strokeStyle = 'rgba(255,240,250,0.7)';
-        ctx.lineWidth = 1.5;
+      if(Math.random()<0.005) {
+        let sx = Math.random()*width*0.8, sy = Math.random()*height*0.4;
+        ctx.strokeStyle = 'rgba(220,210,255,0.5)';
+        ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.moveTo(sx, sy);
-        ctx.lineTo(sx+80, sy+25);
+        ctx.lineTo(sx+70, sy+20);
         ctx.stroke();
       }
-      requestAnimationFrame(drawNebula);
+      requestAnimationFrame(drawSky);
     }
-    drawNebula();
+    drawSky();
 
-    // ────────────────────────
-    // UI LOGIC
-    // ────────────────────────
+    // DOM
     const landing = document.getElementById('landing');
     const loginOverlay = document.getElementById('loginOverlay');
     const musicPrompt = document.getElementById('musicPrompt');
@@ -568,6 +673,8 @@
     const adminPanel = document.getElementById('adminPanel');
     const starsContainer = document.getElementById('starsContainer');
     const counterDisplay = document.getElementById('counterDisplay');
+    const poeticNote = document.getElementById('poeticNote');
+    const constellationText = document.getElementById('constellationText');
     const starCodeModal = document.getElementById('starCodeModal');
     const starCodeInput = document.getElementById('starCodeInput');
     const starCodeError = document.getElementById('starCodeError');
@@ -575,6 +682,7 @@
     const contentTitle = document.getElementById('contentTitle');
     const contentBody = document.getElementById('contentBody');
     const finalMessage = document.getElementById('finalMessage');
+    const activityLog = document.getElementById('activityLog');
     const bgMusic = document.getElementById('bgMusic');
 
     let state = loadState();
@@ -588,13 +696,13 @@
     }
 
     function handleLogin() {
-      const pass = document.getElementById('loginPass').value.trim();
+      const pw = document.getElementById('loginPass').value.trim();
       document.getElementById('loginError').textContent = '';
-      if (pass === YEGANEH_PASS) {
+      if (pw === YEGANEH_PASS) {
         currentUser = 'yeganeh';
         loginOverlay.classList.remove('active');
         musicPrompt.classList.add('active');
-      } else if (pass === ADMIN_PASS) {
+      } else if (pw === ADMIN_PASS) {
         currentUser = 'admin';
         loginOverlay.classList.remove('active');
         showAdmin();
@@ -608,8 +716,8 @@
       musicPrompt.classList.remove('active');
       if (playMusic) {
         bgMusic.src = MUSIC_URL;
-        bgMusic.volume = 0.2;
-        bgMusic.play().catch(()=>{});
+        bgMusic.volume = 0;
+        bgMusic.play().then(() => { bgMusic.volume = 0.2; }).catch(()=>{});
       }
       showSky();
     }
@@ -619,18 +727,14 @@
       skyView.classList.add('active');
       adminPanel.classList.remove('active');
       renderStars();
-      updateCounter();
-      if (state.opened.length === TOTAL_STARS && !state.finalShown) {
-        localStorage.setItem('finalShown', 'true');
-        finalMessage.classList.add('active');
-        setTimeout(() => finalMessage.classList.remove('active'), 7000);
-      }
+      updateCounterAndPoetry();
+      if (state.opened.length === TOTAL_STARS) revealConstellationAndFinal();
     }
 
     function showAdmin() {
       skyView.classList.remove('active');
       adminPanel.classList.add('active');
-      renderAdminCards();
+      renderAdmin();
     }
 
     function logout() {
@@ -644,7 +748,6 @@
       bgMusic.pause();
     }
 
-    // ── stars rendering ──
     function renderStars() {
       starsContainer.innerHTML = '';
       const openedSet = new Set(state.opened);
@@ -673,16 +776,23 @@
             starEl.appendChild(sp);
           }
         }
-        starEl.addEventListener('click', ()=> handleStarClick(i, unlocked));
+        starEl.addEventListener('click', ()=> handleStarClick(i, unlocked, starEl));
         starsContainer.appendChild(starEl);
       }
     }
 
-    function updateCounter() {
-      counterDisplay.textContent = state.opened.length + ' / 21 stars discovered';
+    function updateCounterAndPoetry() {
+      const count = state.opened.length;
+      counterDisplay.textContent = count + ' / 21 stars discovered';
+      let line = '';
+      const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
+      for (let t of thresholds) {
+        if (count >= t) { line = POETIC_LINES[t]; break; }
+      }
+      poeticNote.textContent = line;
     }
 
-    function handleStarClick(index, isUnlocked) {
+    function handleStarClick(index, isUnlocked, starElement) {
       if (isUnlocked) {
         showContent(index);
       } else {
@@ -701,19 +811,57 @@
         if (!state.opened.includes(pendingStar)) {
           state.opened.push(pendingStar);
           saveOpened(state.opened);
+          // Log activity
+          state.activity.push({ star: pendingStar+1, time: new Date().toLocaleString() });
+          saveActivity(state.activity);
+
+          // Shooting star toward unlocked star
+          spawnShootingStarTo(positions[pendingStar].x, positions[pendingStar].y);
         }
         starCodeModal.classList.remove('active');
         renderStars();
-        updateCounter();
+        updateCounterAndPoetry();
+
+        // Burst animation on the star
+        const starEls = document.querySelectorAll('.star');
+        starEls[pendingStar].classList.add('bursting');
+        setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800);
+
         showContent(pendingStar);
-        if (state.opened.length === TOTAL_STARS && !state.finalShown) {
-          localStorage.setItem('finalShown', 'true');
-          finalMessage.classList.add('active');
-          setTimeout(() => finalMessage.classList.remove('active'), 7000);
-        }
+        if (state.opened.length === TOTAL_STARS) revealConstellationAndFinal();
       } else {
         starCodeError.textContent = 'نه یگانه اشتباهه😔🎀';
         starCodeInput.value = '';
+      }
+    }
+
+    function spawnShootingStarTo(targetXPercent, targetYPercent) {
+      const canvasW = canvas.width;
+      const canvasH = canvas.height;
+      const startX = Math.random() * canvasW * 0.6;
+      const startY = -10;
+      const endX = (targetXPercent / 100) * canvasW;
+      const endY = (targetYPercent / 100) * canvasH;
+      let progress = 0;
+      function animate() {
+        progress += 0.02;
+        let x = startX + (endX - startX) * progress;
+        let y = startY + (endY - startY) * progress;
+        ctx.fillStyle = 'rgba(255,240,200,0.9)';
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI*2);
+        ctx.fill();
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    function revealConstellationAndFinal() {
+      constellationText.classList.add('visible');
+      if (!state.finalShown) {
+        localStorage.setItem('finalShown', 'true');
+        finalMessage.classList.add('active');
+        setTimeout(() => finalMessage.classList.remove('active'), 7000);
       }
     }
 
@@ -727,11 +875,11 @@
       contentTitle.textContent = '✦ star ' + (index+1);
       let html = '';
       if (!d || !d.content) {
-        html = '<p style="color:#b8a9d4;">this star holds a secret yet to be revealed…</p>';
+        html = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>';
       } else {
         switch(d.type) {
           case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
-          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;" alt="star image">`; break;
+          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;" alt="star">`; break;
           case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
           case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
           case 'spotify': 
@@ -752,8 +900,8 @@
       contentModal.classList.remove('active');
     }
 
-    // ── Admin ──
-    function renderAdminCards() {
+    // Admin
+    function renderAdmin() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
       state.starData.forEach((d,i)=>{
@@ -787,11 +935,33 @@
       });
     }
 
+    function toggleActivityLog() {
+      const log = document.getElementById('activityLog');
+      if (log.style.display === 'block') {
+        log.style.display = 'none';
+        return;
+      }
+      log.style.display = 'block';
+      if (state.activity.length === 0) {
+        log.innerHTML = '<p>No activity yet.</p>';
+      } else {
+        log.innerHTML = state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>');
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(()=>{});
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
     }
 
-    // event listeners
+    // Event listeners
     document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
     window.addEventListener('click', e => {
@@ -800,7 +970,7 @@
     });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
 
-    // preset initial 5 stars
+    // Preset first 5 stars
     (function preset() {
       let data = loadState().starData;
       const presets = [
@@ -808,7 +978,7 @@
         {code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},
         {code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},
         {code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},
-        {code:'5467', type:'audio', content:'https://uupload.ir/view/telegraph_classic_world_is_better_with_you_yeganeh-3_hs.wav/'}
+        {code:'5467', type:'audio', content:'assets/morse.wav'} // changed to local
       ];
       let changed = false;
       for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) {
@@ -816,6 +986,9 @@
       }
       if(changed) saveStarData(data);
     })();
+
+    // Show landing
+    landing.style.display = 'flex';
   </script>
 </body>
-</html>
+  </html>
