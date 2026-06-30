@@ -5,17 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Heliganeh · Bad Angel's Sky</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
-      --bg: #04041a;
-      --card-bg: rgba(15, 12, 38, 0.7);
-      --border-glow: rgba(130, 100, 220, 0.35);
       --gold: #fad974;
       --gold-bright: #ffeaa7;
       --accent: #b39aff;
@@ -26,64 +20,40 @@
 
     body {
       font-family: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
+      background: #000;
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
+      transition: background 2s ease;
     }
 
-    /* Canvas background */
     #skyCanvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
     }
 
-    /* Nebula overlays */
     .nebula {
       position: fixed;
       border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.15;
+      filter: blur(140px);
+      opacity: 0;
       pointer-events: none;
       z-index: 1;
+      transition: opacity 3s ease;
     }
-    #nebula1 {
-      width: 70vw;
-      height: 70vw;
-      background: #3b2b80;
-      top: -20%;
-      left: 10%;
-      animation: drift1 18s ease-in-out infinite alternate;
-    }
-    #nebula2 {
-      width: 60vw;
-      height: 60vw;
-      background: #1e2a6e;
-      bottom: -15%;
-      right: 5%;
-      animation: drift2 22s ease-in-out infinite alternate;
-    }
-    @keyframes drift1 {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(8%, 5%) scale(1.15); }
-    }
-    @keyframes drift2 {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-5%, -8%) scale(1.1); }
-    }
+    #nebula1 { width:70vw; height:70vw; background:#2a1f6e; top:-20%; left:5%; }
+    #nebula2 { width:60vw; height:60vw; background:#1d2870; bottom:-15%; right:5%; }
+    #nebula3 { width:50vw; height:50vw; background:#231a5a; top:40%; left:50%; }
 
-    /* App layer */
     .app-layer {
       position: relative;
       z-index: 10;
@@ -95,14 +65,13 @@
       justify-content: center;
     }
 
-    /* Glass cards */
     .glass {
-      background: rgba(18, 14, 42, 0.6);
+      background: rgba(18,14,42,0.55);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
       border-radius: 2.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(100, 80, 200, 0.12);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(100,80,200,0.1);
       padding: 2.5rem 2rem;
       text-align: center;
       max-width: 380px;
@@ -114,22 +83,8 @@
       50% { transform: translateY(-6px); }
     }
 
-    .glass h1, .glass h2 {
-      font-weight: 400;
-      letter-spacing: 2px;
-    }
-    .glass h1 {
-      font-size: 2.6rem;
-      color: #f0e6ff;
-      text-shadow: 0 0 25px #9a82ff;
-      margin-bottom: 0.3rem;
-    }
-    .subtitle {
-      color: var(--text-soft);
-      font-size: 0.95rem;
-      margin-bottom: 2.2rem;
-      letter-spacing: 3px;
-    }
+    .glass h1 { font-size:2.2rem; font-weight:400; color:#f0e6ff; text-shadow:0 0 25px #9a82ff; }
+    .subtitle { color:var(--text-soft); font-size:0.95rem; margin-bottom:2.2rem; letter-spacing:3px; }
 
     .btn {
       background: linear-gradient(135deg, #6b4ecc, #9b7ef5);
@@ -139,19 +94,15 @@
       padding: 0.9rem 2.8rem;
       border-radius: 3rem;
       font-size: 1rem;
-      letter-spacing: 1px;
       cursor: pointer;
-      box-shadow: 0 8px 30px rgba(120, 90, 230, 0.4);
-      transition: all 0.3s ease;
+      box-shadow: 0 8px 30px rgba(120,90,230,0.4);
+      transition: 0.3s;
       font-family: inherit;
     }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(150, 120, 255, 0.6);
-    }
+    .btn:hover { transform: translateY(-2px); box-shadow:0 12px 40px rgba(150,120,255,0.6); }
     .btn-ghost {
       background: transparent;
-      border: 1px solid rgba(180, 150, 255, 0.5);
+      border: 1px solid rgba(180,150,255,0.5);
       color: #cbb8ff;
       padding: 0.65rem 2rem;
       border-radius: 3rem;
@@ -160,28 +111,35 @@
       transition: 0.3s;
       font-family: inherit;
     }
-    .btn-ghost:hover {
-      background: rgba(160, 130, 255, 0.15);
+    .btn-ghost:hover { background: rgba(160,130,255,0.15); }
+    .btn-danger {
+      background: transparent;
+      border: 1px solid #ff8a8a;
+      color: #ff8a8a;
+      padding: 0.65rem 2rem;
+      border-radius: 3rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 2rem;
     }
 
-    input {
+    input, textarea {
       width: 100%;
-      padding: 1rem 1.2rem;
+      padding: 1rem;
       border-radius: 3rem;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(180, 140, 255, 0.4);
+      border: 1px solid rgba(180,140,255,0.4);
       color: #f0e5ff;
       font-size: 1rem;
       text-align: center;
-      letter-spacing: 3px;
       outline: none;
       font-family: inherit;
-      margin: 1.8rem 0 1.2rem;
+      margin: 1.2rem 0;
       transition: 0.3s;
     }
-    input:focus {
+    input:focus, textarea:focus {
       border-color: #c9b0ff;
-      box-shadow: 0 0 30px rgba(150, 120, 255, 0.3);
+      box-shadow: 0 0 30px rgba(150,120,255,0.3);
     }
 
     .error-message {
@@ -198,267 +156,282 @@
       80%{transform:translateX(3px);}
     }
 
-    /* Overlays */
     .overlay {
       position: fixed;
       top:0;left:0;width:100%;height:100%;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(4,4,20,0.65);
-      backdrop-filter: blur(12px);
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.4s ease;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(4,4,20,0.65);
+      backdrop-filter:blur(12px);
+      opacity:0;
+      visibility:hidden;
+      transition:0.4s;
     }
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
+    .overlay.active { opacity:1; visibility:visible; }
+
+    #introSequence {
+      position:fixed;
+      top:0;left:0;width:100%;height:100%;
+      background:#000;
+      z-index:300;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      cursor:pointer;
+      visibility:hidden;
+    }
+    #introSequence.active { visibility:visible; }
+    #followStar {
+      width:30px; height:30px;
+      background:white;
+      border-radius:50%;
+      box-shadow:0 0 20px white;
+      position:absolute;
+    }
+    #followText {
+      color:white;
+      position:absolute;
+      top:60%;
+      font-size:1.2rem;
+      letter-spacing:3px;
+      opacity:0;
+      transition:opacity 1s;
     }
 
-    /* Sky view */
     #skyView {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      z-index: 5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem 1.5rem;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.6s;
+      position:fixed;
+      top:0;left:0;width:100%;height:100%;
+      z-index:5;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:2rem 1rem 1.5rem;
+      opacity:0;
+      visibility:hidden;
+      transition:0.6s;
     }
-    #skyView.active {
-      opacity: 1;
-      visibility: visible;
-    }
+    #skyView.active { opacity:1; visibility:visible; }
 
-    .sky-header {
-      text-align: center;
-      margin-bottom: 0.8rem;
-      z-index: 2;
-    }
+    .sky-header { text-align:center; margin-bottom:0.8rem; z-index:2; }
     .counter {
-      background: rgba(15,12,38,0.6);
-      backdrop-filter: blur(10px);
-      padding: 0.5rem 2rem;
-      border-radius: 3rem;
-      display: inline-block;
-      color: var(--gold);
-      font-size: 0.9rem;
-      border: 1px solid rgba(250,217,116,0.25);
-      margin-top: 0.5rem;
+      background:rgba(15,12,38,0.6);
+      backdrop-filter:blur(10px);
+      padding:0.5rem 2rem;
+      border-radius:3rem;
+      display:inline-block;
+      color:var(--gold);
+      font-size:0.9rem;
+      border:1px solid rgba(250,217,116,0.25);
+      margin-top:0.5rem;
     }
     .poetic-note {
-      color: #9a8fc4;
-      font-size: 0.78rem;
-      margin-top: 0.7rem;
-      font-style: italic;
-      text-shadow: 0 0 8px rgba(150,130,220,0.3);
-      min-height: 1.2rem;
-      transition: 0.5s;
+      color:#9a8fc4;
+      font-size:0.78rem;
+      margin-top:0.7rem;
+      font-style:italic;
     }
-
-    /* Signature */
     .crafted-sign {
-      position: absolute;
-      bottom: 1.5rem;
-      right: 1.8rem;
-      color: rgba(180,170,220,0.25);
-      font-size: 0.65rem;
-      letter-spacing: 1px;
-      z-index: 3;
-      pointer-events: none;
+      position:absolute;
+      bottom:1.5rem;
+      right:1.8rem;
+      color:rgba(180,170,220,0.25);
+      font-size:0.65rem;
+      z-index:3;
+      pointer-events:none;
     }
-
-    /* Fullscreen button */
     .fullscreen-btn {
-      position: absolute;
-      bottom: 1.5rem;
-      left: 1.8rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #b0a0d4;
-      border-radius: 2rem;
-      padding: 0.3rem 1rem;
-      font-size: 0.7rem;
-      cursor: pointer;
-      z-index: 10;
-      backdrop-filter: blur(8px);
+      position:absolute;
+      bottom:1.5rem;
+      left:1.8rem;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.15);
+      color:#b0a0d4;
+      border-radius:2rem;
+      padding:0.3rem 1rem;
+      font-size:0.7rem;
+      cursor:pointer;
+      z-index:10;
+      backdrop-filter:blur(8px);
+    }
+    .message-bird {
+      position:absolute;
+      top:2rem;
+      right:2rem;
+      font-size:1.5rem;
+      cursor:pointer;
+      z-index:10;
+      animation:floatBird 2s infinite;
+    }
+    @keyframes floatBird {
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-8px);}
     }
 
     .stars-container {
-      flex: 1;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
+      flex:1;
+      width:100%;
+      position:relative;
+      overflow:hidden;
     }
-
     .star {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      z-index: 1;
+      position:absolute;
+      width:50px; height:50px;
+      cursor:pointer;
+      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index:1;
     }
-    .star:hover { transform: scale(1.25); }
-    .star:active { transform: scale(0.85); }
-
+    .star:hover { transform:scale(1.25); }
+    .star:active { transform:scale(0.85); }
+    .star.enlarged {
+      transform:scale(1.8) !important;
+      z-index:50 !important;
+      filter:drop-shadow(0 0 30px #ffeaa7);
+      transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
     .star svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 6px rgba(150,140,220,0.5));
-      transition: filter 0.6s;
+      width:100%; height:100%;
+      filter:drop-shadow(0 0 6px rgba(150,140,220,0.5));
+      transition:filter 0.6s;
     }
     .star.unlocked svg {
-      filter: drop-shadow(0 0 18px #fad974) drop-shadow(0 0 40px #f5d742);
-      animation: starGlow 3s infinite;
+      filter:drop-shadow(0 0 18px #fad974) drop-shadow(0 0 40px #f5d742);
+      animation:starGlow 3s infinite;
     }
     @keyframes starGlow {
-      0%,100% { filter: drop-shadow(0 0 16px #fad974) drop-shadow(0 0 35px #f5d742); }
-      50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974); }
+      0%,100%{filter:drop-shadow(0 0 16px #fad974) drop-shadow(0 0 35px #f5d742);}
+      50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974);}
     }
-
     .star-number {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      font-size: 0.7rem;
-      font-weight: bold;
-      color: #2d1b3a;
-      pointer-events: none;
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      font-size:0.7rem;
+      font-weight:bold;
+      color:#2d1b3a;
+      pointer-events:none;
     }
-
     .sparkle {
-      position: absolute;
-      width: 4px; height: 4px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ffeaa7;
-      pointer-events: none;
-      animation: sparkleDrift 2s infinite;
-      opacity: 0;
+      position:absolute;
+      width:4px; height:4px;
+      background:white;
+      border-radius:50%;
+      box-shadow:0 0 10px #ffeaa7;
+      pointer-events:none;
+      animation:sparkleDrift 2s infinite;
+      opacity:0;
     }
     @keyframes sparkleDrift {
-      0% { opacity:0; transform: translate(0,0) scale(0.3); }
-      30% { opacity:1; transform: translate(8px,-12px) scale(1); }
-      100% { opacity:0; transform: translate(20px,-28px) scale(0.2); }
+      0%{opacity:0;transform:translate(0,0) scale(0.3);}
+      30%{opacity:1;transform:translate(8px,-12px) scale(1);}
+      100%{opacity:0;transform:translate(20px,-28px) scale(0.2);}
     }
-
-    /* Star burst animation */
     .star.bursting {
-      animation: burst 0.8s ease-out forwards;
+      animation:burst 0.8s ease-out forwards !important;
     }
     @keyframes burst {
-      0% { transform: scale(1); filter: brightness(1); }
-      50% { transform: scale(1.8); filter: brightness(2.5) drop-shadow(0 0 45px #ffeaa7); }
-      100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 18px #fad974); }
+      0%{transform:scale(1); filter:brightness(1);}
+      50%{transform:scale(2.2); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);}
+      100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px #fad974);}
     }
 
-    /* YEGANEH constellation text */
     .constellation-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 6rem;
-      font-weight: 200;
-      color: rgba(250, 217, 116, 0.08);
-      letter-spacing: 12px;
-      pointer-events: none;
-      z-index: 0;
-      text-shadow: 0 0 80px rgba(200,160,255,0.25);
-      opacity: 0;
-      transition: opacity 2s ease;
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      font-size:5rem;
+      font-weight:200;
+      color:rgba(250,217,116,0.07);
+      letter-spacing:10px;
+      pointer-events:none;
+      z-index:0;
+      opacity:0;
+      transition:opacity 3s;
     }
-    .constellation-text.visible {
-      opacity: 1;
-    }
+    .constellation-text.visible { opacity:1; }
 
-    /* Admin */
     #adminPanel {
-      position: fixed;
+      position:fixed;
       top:0;left:0;width:100%;height:100%;
-      z-index: 15;
-      background: rgba(5,5,18,0.92);
-      backdrop-filter: blur(20px);
-      padding: 2rem 1.5rem;
-      overflow-y: auto;
-      display: none;
-      flex-direction: column;
-      align-items: center;
+      z-index:15;
+      background:rgba(5,5,18,0.92);
+      backdrop-filter:blur(20px);
+      padding:2rem 1.5rem;
+      overflow-y:auto;
+      display:none;
+      flex-direction:column;
+      align-items:center;
     }
-    #adminPanel.active { display: flex; }
+    #adminPanel.active { display:flex; }
 
     .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-      gap: 1rem;
-      max-width: 900px;
-      width: 100%;
-      margin-top: 1.5rem;
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+      gap:1rem;
+      max-width:900px;
+      width:100%;
+      margin-top:1.5rem;
     }
     .admin-card {
-      background: rgba(20,15,45,0.7);
-      border-radius: 1.5rem;
-      padding: 1.2rem;
-      border: 1px solid rgba(255,255,255,0.08);
+      background:rgba(20,15,45,0.7);
+      border-radius:1.5rem;
+      padding:1.2rem;
+      border:1px solid rgba(255,255,255,0.08);
     }
-    .admin-card label {
-      font-size: 0.75rem;
-      color: #b0a0c8;
-    }
+    .admin-card label { font-size:0.75rem; color:#b0a0c8; }
     .admin-card input, .admin-card select, .admin-card textarea {
       width:100%;
       margin:0.3rem 0 0.8rem;
-      background: rgba(255,255,255,0.05);
+      background:rgba(255,255,255,0.05);
       border:1px solid #443366;
       border-radius:1rem;
       padding:0.5rem 1rem;
       color:#f0e5ff;
       font-family:inherit;
     }
-    .admin-log {
-      margin-top: 2rem;
-      max-width: 900px;
-      width: 100%;
-      background: rgba(20,15,45,0.6);
-      border-radius: 1.5rem;
-      padding: 1.2rem;
-      color: #b0a0d4;
-      font-size: 0.8rem;
-      display: none;
+    .admin-log, .message-box {
+      margin-top:2rem;
+      max-width:900px;
+      width:100%;
+      background:rgba(20,15,45,0.6);
+      border-radius:1.5rem;
+      padding:1.2rem;
+      color:#b0a0d4;
+      font-size:0.8rem;
     }
 
-    /* Final message */
     #finalMessage {
-      position: fixed;
+      position:fixed;
       top:0;left:0;width:100%;height:100%;
-      background: rgba(0,0,0,0.92);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      visibility: hidden;
+      background:rgba(0,0,0,0.92);
+      z-index:200;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      visibility:hidden;
     }
-    #finalMessage.active { visibility: visible; }
+    #finalMessage.active { visibility:visible; }
     .final-text {
-      font-size: 2rem;
-      color: #ffeaa7;
-      text-shadow: 0 0 50px #f5d742;
-      animation: finalPulse 2s infinite;
-      padding: 1rem;
-      text-align: center;
+      font-size:2rem;
+      color:#ffeaa7;
+      text-shadow:0 0 50px #f5d742;
+      animation:finalPulse 2s infinite;
+      padding:1rem;
+      text-align:center;
     }
     @keyframes finalPulse {
-      0%,100% { text-shadow: 0 0 35px #f5d742; }
-      50% { text-shadow: 0 0 70px #ffeaa7, 0 0 100px #fad974; }
+      0%,100%{text-shadow:0 0 35px #f5d742;}
+      50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
+    }
+
+    .map-container {
+      width:100%; height:50vh;
+      border-radius:1rem;
+      overflow:hidden;
+      margin-bottom:1rem;
     }
   </style>
 </head>
@@ -466,6 +439,7 @@
   <canvas id="skyCanvas"></canvas>
   <div class="nebula" id="nebula1"></div>
   <div class="nebula" id="nebula2"></div>
+  <div class="nebula" id="nebula3"></div>
 
   <!-- LANDING -->
   <div id="landing" class="app-layer">
@@ -497,6 +471,12 @@
     </div>
   </div>
 
+  <!-- INTRO -->
+  <div id="introSequence">
+    <div id="followStar"></div>
+    <div id="followText">follow me</div>
+  </div>
+
   <!-- SKY VIEW -->
   <div id="skyView">
     <div class="sky-header">
@@ -509,6 +489,7 @@
     </div>
     <div class="crafted-sign">made with stardust for my bad angel</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
+    <div class="message-bird" id="messageBird" title="send a message to Bad Angel" onclick="openMessageBox()">🕊️</div>
   </div>
 
   <!-- STAR CODE MODAL -->
@@ -531,6 +512,16 @@
     </div>
   </div>
 
+  <!-- MESSAGE MODAL -->
+  <div id="messageModal" class="overlay">
+    <div class="glass">
+      <h3>🕊️ whisper to the sky</h3>
+      <textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea>
+      <button class="btn" onclick="sendYeganehMessage()">send to Bad Angel</button>
+      <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button>
+    </div>
+  </div>
+
   <!-- ADMIN -->
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
@@ -539,7 +530,10 @@
     </div>
     <div class="admin-grid" id="adminGrid"></div>
     <button class="btn-ghost" style="margin-top:1.5rem;" onclick="toggleActivityLog()">🌸 activity log</button>
-    <div class="admin-log" id="activityLog"></div>
+    <button class="btn-ghost" style="margin-top:1.5rem;" onclick="toggleMessages()">💌 messages from Yeganeh</button>
+    <button class="btn-danger" onclick="resetAllData()">🔄 Reset All Data</button>
+    <div class="admin-log" id="activityLog" style="display:none;"></div>
+    <div class="message-box" id="adminMessages" style="display:none;"></div>
   </div>
 
   <!-- FINAL -->
@@ -550,15 +544,11 @@
   <audio id="bgMusic" loop preload="none"></audio>
 
   <script>
-    // ────────────────────────
-    // CONFIG
-    // ────────────────────────
     const YEGANEH_PASS = 'Heliganeh';
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const MUSIC_URL = 'assets/bg-music.mp3'; // replace with your file
+    const MUSIC_URL = 'assets/bg-music.mp3';
 
-    // Poetic lines based on discovered count
     const POETIC_LINES = {
       0: "in this sky, every star holds a secret from me to you…",
       3: "some secrets are silent, waiting for your touch…",
@@ -568,107 +558,97 @@
       21: "now the whole sky belongs to you, Heliganeh ✦"
     };
 
-    // Constellation positions (natural but forming readable HELIGANEH when all unlocked)
     function getStarPositions() {
       let saved = JSON.parse(localStorage.getItem('starPositions'));
       if (saved && saved.length === TOTAL_STARS) return saved;
-      // Predefined beautiful scatter (slightly tuned for HELIGANEH hint)
       const pos = [
-        {x:20,y:25},{x:35,y:20},{x:48,y:15}, // H left
-        {x:52,y:25},{x:65,y:20},{x:78,y:15}, // E
-        {x:15,y:40},{x:30,y:45},{x:45,y:50}, // L
-        {x:55,y:40},{x:70,y:48},{x:85,y:42}, // I
-        {x:25,y:60},{x:40,y:65},{x:58,y:60}, // G
-        {x:20,y:78},{x:38,y:72},{x:55,y:80}, // A
-        {x:68,y:70},{x:82,y:75},{x:90,y:85}  // N E H combined
+        {x:20,y:25},{x:35,y:20},{x:48,y:15},{x:52,y:25},{x:65,y:20},{x:78,y:15},
+        {x:15,y:40},{x:30,y:45},{x:45,y:50},{x:55,y:40},{x:70,y:48},{x:85,y:42},
+        {x:25,y:60},{x:40,y:65},{x:58,y:60},{x:20,y:78},{x:38,y:72},{x:55,y:80},
+        {x:68,y:70},{x:82,y:75},{x:90,y:85}
       ];
       localStorage.setItem('starPositions', JSON.stringify(pos));
       return pos;
     }
     const positions = getStarPositions();
 
-    // State
     function loadState() {
       let data = JSON.parse(localStorage.getItem('starData')) || [];
       while(data.length < TOTAL_STARS) data.push({ code:'', type:'text', content:'' });
       if(data.length > TOTAL_STARS) data = data.slice(0,TOTAL_STARS);
-      localStorage.setItem('starData', JSON.stringify(data));
-
       let opened = JSON.parse(localStorage.getItem('openedStars')) || [];
       opened = opened.filter(i => i>=0 && i<TOTAL_STARS);
-      localStorage.setItem('openedStars', JSON.stringify(opened));
-
       let final = localStorage.getItem('finalShown') === 'true';
       let activity = JSON.parse(localStorage.getItem('activityLog')) || [];
-      return { starData: data, opened, finalShown: final, activity };
+      let messages = JSON.parse(localStorage.getItem('yeganehMessages')) || [];
+      return { starData: data, opened, finalShown: final, activity, messages };
     }
     function saveOpened(arr) { localStorage.setItem('openedStars', JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData', JSON.stringify(arr)); }
     function saveActivity(arr) { localStorage.setItem('activityLog', JSON.stringify(arr)); }
+    function saveMessages(arr) { localStorage.setItem('yeganehMessages', JSON.stringify(arr)); }
 
-    // Canvas nebula + shooting stars
+    // Canvas
     const canvas = document.getElementById('skyCanvas');
     const ctx = canvas.getContext('2d');
     let width, height, dust = [];
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
+    function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
     function initDust() {
       dust = [];
-      for(let i=0;i<160;i++) {
-        dust.push({
-          x: Math.random()*width,
-          y: Math.random()*height,
-          r: Math.random()*1.4+0.3,
-          vx: (Math.random()-0.5)*0.1,
-          vy: (Math.random()-0.5)*0.06,
-          alpha: Math.random()*0.5+0.2
-        });
-      }
+      for(let i=0;i<200;i++) dust.push({
+        x:Math.random()*width, y:Math.random()*height, r:Math.random()*1.6+0.4,
+        vx:(Math.random()-0.5)*0.08, vy:(Math.random()-0.5)*0.05,
+        alpha:Math.random()*0.6+0.2, hue:Math.random()*40+250
+      });
     }
-    initDust();
-    window.addEventListener('resize', initDust);
+    initDust(); window.addEventListener('resize', initDust);
 
     function drawSky() {
+      const count = state.opened.length;
+      const hue = 240 - count * 3;
+      document.body.style.background = `hsl(${hue}, 60%, 3%)`;
       const grad = ctx.createRadialGradient(width*0.4, height*0.3, 0, width*0.6, height*0.7, width);
-      grad.addColorStop(0, '#12102e');
-      grad.addColorStop(0.6, '#070518');
-      grad.addColorStop(1, '#020210');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0,0,width,height);
-
+      grad.addColorStop(0, `hsla(${hue+20}, 50%, 8%, 1)`);
+      grad.addColorStop(0.6, '#030312');
+      grad.addColorStop(1, '#010108');
+      ctx.fillStyle = grad; ctx.fillRect(0,0,width,height);
       for(let p of dust) {
         p.x += p.vx; p.y += p.vy;
         if(p.x<0) p.x=width; if(p.x>width) p.x=0;
         if(p.y<0) p.y=height; if(p.y>height) p.y=0;
-        ctx.fillStyle = `rgba(200,190,240,${p.alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
+        ctx.fillStyle = `hsla(${p.hue}, 60%, 75%, ${p.alpha})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
       }
-
-      if(Math.random()<0.005) {
-        let sx = Math.random()*width*0.8, sy = Math.random()*height*0.4;
-        ctx.strokeStyle = 'rgba(220,210,255,0.5)';
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(sx, sy);
-        ctx.lineTo(sx+70, sy+20);
-        ctx.stroke();
+      if(Math.random()<0.006) {
+        let sx=Math.random()*width*0.8, sy=Math.random()*height*0.5;
+        ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke();
+      }
+      const openedPositions = state.opened.map(i=> positions[i]);
+      if (openedPositions.length > 1) {
+        ctx.strokeStyle='rgba(250,217,116,0.2)'; ctx.lineWidth=0.8;
+        for(let i=0;i<openedPositions.length-1;i++) {
+          let p1=openedPositions[i], p2=openedPositions[i+1];
+          ctx.beginPath();
+          ctx.moveTo(p1.x/100*width, p1.y/100*height);
+          ctx.lineTo(p2.x/100*width, p2.y/100*height);
+          ctx.stroke();
+        }
       }
       requestAnimationFrame(drawSky);
     }
+
+    let state = loadState();
     drawSky();
 
     // DOM
     const landing = document.getElementById('landing');
     const loginOverlay = document.getElementById('loginOverlay');
     const musicPrompt = document.getElementById('musicPrompt');
+    const introSequence = document.getElementById('introSequence');
+    const followStar = document.getElementById('followStar');
+    const followText = document.getElementById('followText');
     const skyView = document.getElementById('skyView');
     const adminPanel = document.getElementById('adminPanel');
     const starsContainer = document.getElementById('starsContainer');
@@ -681,11 +661,11 @@
     const contentModal = document.getElementById('contentModal');
     const contentTitle = document.getElementById('contentTitle');
     const contentBody = document.getElementById('contentBody');
+    const messageModal = document.getElementById('messageModal');
+    const yeganehMessage = document.getElementById('yeganehMessage');
     const finalMessage = document.getElementById('finalMessage');
-    const activityLog = document.getElementById('activityLog');
     const bgMusic = document.getElementById('bgMusic');
 
-    let state = loadState();
     let currentUser = null;
     let pendingStar = null;
 
@@ -714,19 +694,45 @@
 
     function startExperience(playMusic) {
       musicPrompt.classList.remove('active');
-      if (playMusic) {
-        bgMusic.src = MUSIC_URL;
-        bgMusic.volume = 0;
-        bgMusic.play().then(() => { bgMusic.volume = 0.2; }).catch(()=>{});
-      }
-      showSky();
+      if (playMusic) { bgMusic.src = MUSIC_URL; bgMusic.volume = 0; bgMusic.play().then(()=> bgMusic.volume=0.2).catch(()=>{}); }
+      startIntroSequence();
+    }
+
+    function startIntroSequence() {
+      introSequence.classList.add('active');
+      followStar.style.top = '50%'; followStar.style.left = '50%';
+      followStar.style.transform = 'translate(-50%,-50%)';
+      setTimeout(() => { followText.style.opacity = 1; }, 800);
+      let angle = 0;
+      const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
+      const radius = Math.min(window.innerWidth, window.innerHeight)*0.25;
+      const interval = setInterval(() => {
+        angle += 0.05;
+        const x = centerX + Math.cos(angle)*radius;
+        const y = centerY + Math.sin(angle)*radius*0.6;
+        followStar.style.left = x + 'px';
+        followStar.style.top = y + 'px';
+        const scale = 1 + angle * 0.15;
+        followStar.style.transform = `translate(-50%,-50%) scale(${scale})`;
+        followStar.style.boxShadow = `0 0 ${20+angle*5}px white`;
+        if (angle > Math.PI*2.5) {
+          clearInterval(interval);
+          introSequence.style.background = 'white';
+          setTimeout(() => {
+            introSequence.classList.remove('active');
+            introSequence.style.background = '#000';
+            showSky();
+          }, 600);
+        }
+      }, 30);
     }
 
     function showSky() {
       state = loadState();
       skyView.classList.add('active');
       adminPanel.classList.remove('active');
-      renderStars();
+      document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
+      renderStarsInstant();
       updateCounterAndPoetry();
       if (state.opened.length === TOTAL_STARS) revealConstellationAndFinal();
     }
@@ -748,53 +754,53 @@
       bgMusic.pause();
     }
 
-    function renderStars() {
+    function renderStarsInstant() {
       starsContainer.innerHTML = '';
       const openedSet = new Set(state.opened);
-      for (let i=0; i<TOTAL_STARS; i++) {
+      for (let i=0;i<TOTAL_STARS;i++) {
         const pos = positions[i];
         const unlocked = openedSet.has(i);
-        const starEl = document.createElement('div');
-        starEl.className = 'star' + (unlocked ? ' unlocked' : '');
-        starEl.style.left = pos.x + '%';
-        starEl.style.top = pos.y + '%';
-        starEl.innerHTML = `
-          <svg viewBox="0 0 100 100">
-            <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
-              fill="${unlocked ? '#fad974' : '#7d6c9c'}"
-              stroke="${unlocked ? '#ffeaa7' : '#aa99c4'}" stroke-width="2"/>
-          </svg>
-          <span class="star-number">${i+1}</span>
-        `;
-        if (unlocked) {
-          for(let s=0;s<3;s++) {
-            let sp = document.createElement('div');
-            sp.className = 'sparkle';
-            sp.style.top = (20+Math.random()*40)+'%';
-            sp.style.left = (20+Math.random()*40)+'%';
-            sp.style.animationDelay = s*0.5+'s';
-            starEl.appendChild(sp);
-          }
-        }
-        starEl.addEventListener('click', ()=> handleStarClick(i, unlocked, starEl));
+        const starEl = createStarElement(i, pos, unlocked);
+        starEl.style.opacity = '1';
+        starEl.style.transform = 'scale(1)';
         starsContainer.appendChild(starEl);
       }
     }
 
-    function updateCounterAndPoetry() {
-      const count = state.opened.length;
-      counterDisplay.textContent = count + ' / 21 stars discovered';
-      let line = '';
-      const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
-      for (let t of thresholds) {
-        if (count >= t) { line = POETIC_LINES[t]; break; }
+    function createStarElement(index, pos, unlocked) {
+      const starEl = document.createElement('div');
+      starEl.className = 'star' + (unlocked ? ' unlocked' : '');
+      starEl.style.left = pos.x + '%';
+      starEl.style.top = pos.y + '%';
+      starEl.innerHTML = `
+        <svg viewBox="0 0 100 100">
+          <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
+            fill="${unlocked ? '#fad974' : '#7d6c9c'}"
+            stroke="${unlocked ? '#ffeaa7' : '#aa99c4'}" stroke-width="2"/>
+        </svg>
+        <span class="star-number">${index+1}</span>
+      `;
+      if (unlocked) {
+        for(let s=0;s<3;s++) {
+          let sp = document.createElement('div');
+          sp.className = 'sparkle';
+          sp.style.top = (20+Math.random()*40)+'%';
+          sp.style.left = (20+Math.random()*40)+'%';
+          sp.style.animationDelay = s*0.5+'s';
+          starEl.appendChild(sp);
+        }
       }
-      poeticNote.textContent = line;
+      starEl.addEventListener('click', (e) => handleStarClick(index, unlocked, starEl, e));
+      return starEl;
     }
 
-    function handleStarClick(index, isUnlocked, starElement) {
+    function handleStarClick(index, isUnlocked, starEl, event) {
+      event.stopPropagation();
+      // enlarge effect
+      starEl.classList.add('enlarged');
+      setTimeout(() => starEl.classList.remove('enlarged'), 600);
       if (isUnlocked) {
-        showContent(index);
+        setTimeout(() => showContent(index), 400);
       } else {
         pendingStar = index;
         starCodeInput.value = '';
@@ -811,23 +817,19 @@
         if (!state.opened.includes(pendingStar)) {
           state.opened.push(pendingStar);
           saveOpened(state.opened);
-          // Log activity
           state.activity.push({ star: pendingStar+1, time: new Date().toLocaleString() });
           saveActivity(state.activity);
-
-          // Shooting star toward unlocked star
-          spawnShootingStarTo(positions[pendingStar].x, positions[pendingStar].y);
         }
         starCodeModal.classList.remove('active');
-        renderStars();
+        renderStarsInstant();
         updateCounterAndPoetry();
-
-        // Burst animation on the star
         const starEls = document.querySelectorAll('.star');
-        starEls[pendingStar].classList.add('bursting');
-        setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800);
-
-        showContent(pendingStar);
+        if (starEls[pendingStar]) {
+          starEls[pendingStar].classList.add('bursting');
+          setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800);
+        }
+        playUnlockSound();
+        setTimeout(() => showContent(pendingStar), 500);
         if (state.opened.length === TOTAL_STARS) revealConstellationAndFinal();
       } else {
         starCodeError.textContent = 'نه یگانه اشتباهه😔🎀';
@@ -835,25 +837,30 @@
       }
     }
 
-    function spawnShootingStarTo(targetXPercent, targetYPercent) {
-      const canvasW = canvas.width;
-      const canvasH = canvas.height;
-      const startX = Math.random() * canvasW * 0.6;
-      const startY = -10;
-      const endX = (targetXPercent / 100) * canvasW;
-      const endY = (targetYPercent / 100) * canvasH;
-      let progress = 0;
-      function animate() {
-        progress += 0.02;
-        let x = startX + (endX - startX) * progress;
-        let y = startY + (endY - startY) * progress;
-        ctx.fillStyle = 'rgba(255,240,200,0.9)';
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI*2);
-        ctx.fill();
-        if (progress < 1) requestAnimationFrame(animate);
-      }
-      animate();
+    function playUnlockSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      } catch(e) {}
+    }
+
+    function updateCounterAndPoetry() {
+      const count = state.opened.length;
+      counterDisplay.textContent = count + ' / 21 stars discovered';
+      let line = '';
+      const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
+      for (let t of thresholds) if (count >= t) { line = POETIC_LINES[t]; break; }
+      poeticNote.textContent = line;
     }
 
     function revealConstellationAndFinal() {
@@ -865,10 +872,7 @@
       }
     }
 
-    function closeStarCodeModal() {
-      starCodeModal.classList.remove('active');
-      pendingStar = null;
-    }
+    function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar = null; }
 
     function showContent(index) {
       const d = state.starData[index];
@@ -879,14 +883,15 @@
       } else {
         switch(d.type) {
           case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
-          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;" alt="star">`; break;
+          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;">`; break;
           case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
           case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
-          case 'spotify': 
+          case 'spotify':
             let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
             html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
             break;
           case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
+          case 'map': renderMapViewer(d, contentBody); return;
           default: html = `<p>${escapeHtml(d.content)}</p>`;
         }
       }
@@ -894,13 +899,41 @@
       contentModal.classList.add('active');
     }
 
-    function closeContentModal() { contentModal.classList.remove('active'); }
-    function closeAllModals() {
-      starCodeModal.classList.remove('active');
-      contentModal.classList.remove('active');
+    function renderMapViewer(data, container) {
+      let mapData;
+      try { mapData = JSON.parse(data.content); } catch(e) { container.innerHTML = '<p style="color:#b0a0d4;">Map data error.</p>'; return; }
+      if (!mapData.image) { container.innerHTML = '<p style="color:#b0a0d4;">Map image missing.</p>'; return; }
+      const mapId = 'map-' + Date.now();
+      container.innerHTML = `<div id="${mapId}" class="map-container"></div>`;
+      const img = new Image();
+      img.onload = () => {
+        const map = L.map(mapId, { crs: L.CRS.Simple, minZoom: -1, maxZoom: 3, attributionControl: false, zoomControl: true });
+        L.imageOverlay(mapData.image, [[0,0], [img.height, img.width]]).addTo(map);
+        map.fitBounds([[0,0], [img.height, img.width]]);
+        (mapData.markers||[]).forEach(m => {
+          L.marker([m.y, m.x]).addTo(map).bindPopup(`<b>${escapeHtml(m.title)}</b><br>${escapeHtml(m.text||'')}${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:100px;">`:''}`);
+        });
+      };
+      img.src = mapData.image;
+      contentModal.classList.add('active');
     }
 
-    // Admin
+    function closeContentModal() { contentModal.classList.remove('active'); }
+    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); }
+
+    function openMessageBox() {
+      yeganehMessage.value = '';
+      messageModal.classList.add('active');
+    }
+    function closeMessageModal() { messageModal.classList.remove('active'); }
+    function sendYeganehMessage() {
+      const msg = yeganehMessage.value.trim();
+      if (!msg) return;
+      state.messages.push({ text: msg, time: new Date().toLocaleString() });
+      saveMessages(state.messages);
+      messageModal.classList.remove('active');
+    }
+
     function renderAdmin() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
@@ -919,9 +952,11 @@
             <option value="video" ${d.type==='video'?'selected':''}>video</option>
             <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option>
             <option value="link" ${d.type==='link'?'selected':''}>link</option>
+            <option value="map" ${d.type==='map'?'selected':''}>map</option>
           </select>
           <label>content</label>
           <textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
+          ${d.type==='map' ? '<button class="btn-ghost" onclick="openMapEditor('+i+')">🗺️ Edit Map</button>' : ''}
         `;
         grid.appendChild(card);
       });
@@ -931,46 +966,57 @@
           const field = e.target.dataset.field;
           state.starData[idx][field] = e.target.value;
           saveStarData(state.starData);
+          renderAdmin();
         });
       });
     }
 
     function toggleActivityLog() {
       const log = document.getElementById('activityLog');
-      if (log.style.display === 'block') {
-        log.style.display = 'none';
-        return;
-      }
-      log.style.display = 'block';
-      if (state.activity.length === 0) {
-        log.innerHTML = '<p>No activity yet.</p>';
-      } else {
-        log.innerHTML = state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>');
-      }
+      log.style.display = log.style.display === 'block' ? 'none' : 'block';
+      log.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>';
+    }
+
+    function toggleMessages() {
+      const box = document.getElementById('adminMessages');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+      box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
+    }
+
+    function resetAllData() {
+      localStorage.clear();
+      state = loadState();
+      renderAdmin();
+      alert('All data has been reset. Refresh for Yeganeh view.');
     }
 
     function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(()=>{});
-      } else {
-        document.exitFullscreen();
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    }
+
+    function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+
+    // Map editor
+    function openMapEditor(starIndex) {
+      const d = state.starData[starIndex];
+      let mapData = { image: '', markers: [] };
+      try { mapData = JSON.parse(d.content || '{}'); } catch(e) {}
+      const newImage = prompt('Map image URL:', mapData.image || '');
+      if (newImage === null) return;
+      mapData.image = newImage;
+      const newMarker = prompt('Add marker? (x,y,title,text,image) or Cancel', '');
+      if (newMarker) {
+        const parts = newMarker.split(',');
+        mapData.markers.push({ x:parseInt(parts[0]), y:parseInt(parts[1]), title:parts[2]||'', text:parts[3]||'', image:parts[4]||'' });
       }
+      state.starData[starIndex].content = JSON.stringify(mapData);
+      state.starData[starIndex].type = 'map';
+      saveStarData(state.starData);
+      renderAdmin();
     }
 
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-    }
-
-    // Event listeners
-    document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
-    starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => {
-      if (e.target === starCodeModal) closeStarCodeModal();
-      if (e.target === contentModal) closeContentModal();
-    });
-    document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
-
-    // Preset first 5 stars
+    // Preset
     (function preset() {
       let data = loadState().starData;
       const presets = [
@@ -978,17 +1024,21 @@
         {code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},
         {code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},
         {code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},
-        {code:'5467', type:'audio', content:'assets/morse.wav'} // changed to local
+        {code:'5467', type:'audio', content:'assets/morse.wav'},
+        {code:'', type:'map', content:'{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}' }
       ];
       let changed = false;
       for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) {
-        if(!data[i].code) { data[i]=presets[i]; changed=true; }
+        if(!data[i].code && !data[i].content) { data[i]=presets[i]; changed=true; }
       }
       if(changed) saveStarData(data);
     })();
 
-    // Show landing
+    document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
+    starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
+    window.addEventListener('click', e => { if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     landing.style.display = 'flex';
   </script>
 </body>
-  </html>
+</html>
