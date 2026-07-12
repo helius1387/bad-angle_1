@@ -33,202 +33,105 @@
     }
 
     #skyCanvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
 
     .nebula {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(140px);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 1;
-      transition: opacity 3s ease;
+      position: fixed; border-radius: 50%; filter: blur(140px);
+      opacity: 0; pointer-events: none; z-index: 1; transition: opacity 3s ease;
     }
     #nebula1 { width:70vw; height:70vw; background:#2a1f6e; top:-20%; left:5%; }
     #nebula2 { width:60vw; height:60vw; background:#1d2870; bottom:-15%; right:5%; }
     #nebula3 { width:50vw; height:50vw; background:#231a5a; top:40%; left:50%; }
 
     .app-layer {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      position: relative; z-index: 10; width: 100%; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
 
     .glass {
-      background: rgba(18,14,42,0.55);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border-radius: 2.5rem;
+      background: rgba(18,14,42,0.55); backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px); border-radius: 2.5rem;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(100,80,200,0.1);
-      padding: 2.5rem 2rem;
-      text-align: center;
-      max-width: 380px;
-      width: 90%;
+      padding: 2.5rem 2rem; text-align: center; max-width: 380px; width: 90%;
       animation: float 6s ease-in-out infinite;
     }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
     .glass h1 { font-size:2.2rem; font-weight:400; color:#f0e6ff; text-shadow:0 0 25px #9a82ff; margin-bottom:0.3rem; }
     .subtitle { color:var(--text-soft); font-size:0.95rem; margin-bottom:2.2rem; letter-spacing:3px; }
 
     .btn {
-      background: linear-gradient(135deg, #6b4ecc, #9b7ef5);
-      border: none;
-      color: #e8e0ff;
-      font-weight: 600;
-      padding: 0.9rem 2.8rem;
-      border-radius: 3rem;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 8px 30px rgba(120,90,230,0.4);
-      transition: 0.3s;
-      font-family: inherit;
+      background: linear-gradient(135deg, #6b4ecc, #9b7ef5); border: none;
+      color: #e8e0ff; font-weight: 600; padding: 0.9rem 2.8rem;
+      border-radius: 3rem; font-size: 1rem; cursor: pointer;
+      box-shadow: 0 8px 30px rgba(120,90,230,0.4); transition: 0.3s; font-family: inherit;
     }
     .btn:hover { transform: translateY(-2px); box-shadow:0 12px 40px rgba(150,120,255,0.6); }
     .btn-ghost {
-      background: transparent;
-      border: 1px solid rgba(180,150,255,0.5);
-      color: #cbb8ff;
-      padding: 0.65rem 2rem;
-      border-radius: 3rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s;
-      font-family: inherit;
+      background: transparent; border: 1px solid rgba(180,150,255,0.5);
+      color: #cbb8ff; padding: 0.65rem 2rem; border-radius: 3rem;
+      font-weight: 500; cursor: pointer; transition: 0.3s; font-family: inherit;
     }
     .btn-ghost:hover { background: rgba(160,130,255,0.15); }
     .btn-danger {
-      background: transparent;
-      border: 1px solid #ff8a8a;
-      color: #ff8a8a;
-      padding: 0.65rem 2rem;
-      border-radius: 3rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 2rem;
+      background: transparent; border: 1px solid #ff8a8a; color: #ff8a8a;
+      padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500;
+      cursor: pointer; margin-top: 2rem;
     }
 
     input, textarea {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 3rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(180,140,255,0.4);
-      color: #f0e5ff;
-      font-size: 1rem;
-      text-align: center;
-      outline: none;
-      font-family: inherit;
-      margin: 1.2rem 0;
-      transition: 0.3s;
+      width: 100%; padding: 1rem; border-radius: 3rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(180,140,255,0.4);
+      color: #f0e5ff; font-size: 1rem; text-align: center;
+      outline: none; font-family: inherit; margin: 1.2rem 0; transition: 0.3s;
     }
-    input:focus, textarea:focus {
-      border-color: #c9b0ff;
-      box-shadow: 0 0 30px rgba(150,120,255,0.3);
-    }
+    input:focus, textarea:focus { border-color: #c9b0ff; box-shadow: 0 0 30px rgba(150,120,255,0.3); }
 
-    .error-message {
-      color: var(--error);
-      font-size: 0.9rem;
-      min-height: 1.5rem;
-      animation: shake 0.4s ease;
-    }
-    @keyframes shake {
-      0%,100%{transform:translateX(0);}
-      20%{transform:translateX(-6px);}
-      40%{transform:translateX(6px);}
-      60%{transform:translateX(-3px);}
-      80%{transform:translateX(3px);}
-    }
+    .error-message { color: var(--error); font-size: 0.9rem; min-height: 1.5rem; animation: shake 0.4s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-6px);} 40%{transform:translateX(6px);} 60%{transform:translateX(-3px);} 80%{transform:translateX(3px);} }
 
     .overlay {
-      position: fixed;
-      top:0;left:0;width:100%;height:100%;
-      z-index:20;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(4,4,20,0.65);
-      backdrop-filter:blur(12px);
-      opacity:0;
-      visibility:hidden;
-      transition:0.4s;
+      position: fixed; top:0;left:0;width:100%;height:100%; z-index:20;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(4,4,20,0.65); backdrop-filter:blur(12px);
+      opacity:0; visibility:hidden; transition:0.4s;
     }
     .overlay.active { opacity:1; visibility:visible; }
 
     #introSequence {
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      background:#000;
-      z-index:300;
-      cursor:pointer;
-      visibility:hidden;
-      overflow:hidden;
+      position:fixed; top:0;left:0;width:100%;height:100%;
+      background:#000; z-index:300; cursor:pointer; visibility:hidden; overflow:hidden;
     }
     #introSequence.active { visibility:visible; }
     
     #followStar {
-      position:absolute;
-      width:8px; height:8px;
-      background:#fff;
+      position:absolute; width:8px; height:8px; background:#fff;
       border-radius:50%;
       box-shadow: 0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25);
-      z-index:2;
-      transition: none;
+      z-index:2; transition: none; opacity:0;
     }
     
     #followText {
-      position:absolute;
-      top:55%; left:50%;
-      transform:translateX(-50%);
-      color:#fff;
-      font-size:1.3rem;
-      letter-spacing:4px;
-      opacity:0;
-      transition:opacity 1s;
-      z-index:2;
-      text-shadow:0 0 20px rgba(255,255,255,0.4);
+      position:absolute; top:62%; left:50%; transform:translateX(-50%);
+      color:#fff; font-size:1rem; letter-spacing:3px; opacity:0;
+      transition:opacity 1s; z-index:2; text-shadow:0 0 15px rgba(255,255,255,0.3);
     }
 
     #skyView {
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      z-index:5;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:2rem 1rem 1.5rem;
-      opacity:0;
-      visibility:hidden;
-      transition:0.6s;
+      position:fixed; top:0;left:0;width:100%;height:100%; z-index:5;
+      display:flex; flex-direction:column; align-items:center;
+      padding:2rem 1rem 1.5rem; opacity:0; visibility:hidden; transition:0.6s;
     }
     #skyView.active { opacity:1; visibility:visible; }
 
     .sky-header { text-align:center; margin-bottom:0.8rem; z-index:2; }
     .counter {
-      background:rgba(15,12,38,0.6);
-      backdrop-filter:blur(10px);
-      padding:0.5rem 2rem;
-      border-radius:3rem;
-      display:inline-block;
-      color:var(--gold);
-      font-size:0.9rem;
-      border:1px solid rgba(250,217,116,0.25);
-      margin-top:0.5rem;
+      background:rgba(15,12,38,0.6); backdrop-filter:blur(10px);
+      padding:0.5rem 2rem; border-radius:3rem; display:inline-block;
+      color:var(--gold); font-size:0.9rem; border:1px solid rgba(250,217,116,0.25); margin-top:0.5rem;
     }
     .poetic-note { color:#9a8fc4; font-size:0.78rem; margin-top:0.7rem; font-style:italic; }
     .crafted-sign {
@@ -238,11 +141,12 @@
     .fullscreen-btn {
       position:absolute; bottom:1.5rem; left:1.8rem;
       background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
-      color:#b0a0d4; border-radius:2rem; padding:0.3rem 1rem; font-size:0.7rem; cursor:pointer; z-index:10;
-      backdrop-filter:blur(8px);
+      color:#b0a0d4; border-radius:2rem; padding:0.3rem 1rem; font-size:0.7rem;
+      cursor:pointer; z-index:10; backdrop-filter:blur(8px);
     }
     .message-wings-wrap {
-      position:absolute; top:2rem; right:2rem; display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10;
+      position:absolute; top:2rem; right:2rem; display:flex;
+      flex-direction:column; align-items:center; cursor:pointer; z-index:10;
     }
     .message-wings { font-size:1.5rem; animation:floatWings 2s infinite; }
     @keyframes floatWings { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-8px) rotate(5deg);} }
@@ -260,14 +164,21 @@
       filter:drop-shadow(0 0 30px #ffeaa7);
       transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .star.daily-star {
+      animation: dailyPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes dailyPulse {
+      0%,100% { filter: drop-shadow(0 0 15px #ff9ecd) drop-shadow(0 0 30px #ff6bb5); }
+      50% { filter: drop-shadow(0 0 25px #ffb8d9) drop-shadow(0 0 50px #ff9ecd); }
+    }
     .star svg { width:100%; height:100%; filter:drop-shadow(0 0 6px rgba(150,140,220,0.5)); transition:filter 0.6s; }
     .star.unlocked svg {
-      filter:drop-shadow(0 0 18px #fad974) drop-shadow(0 0 40px #f5d742);
+      filter:drop-shadow(0 0 18px var(--gold)) drop-shadow(0 0 40px #f5d742);
       animation:starGlow 3s infinite;
     }
     @keyframes starGlow {
-      0%,100%{filter:drop-shadow(0 0 16px #fad974) drop-shadow(0 0 35px #f5d742);}
-      50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974);}
+      0%,100%{filter:drop-shadow(0 0 16px var(--gold)) drop-shadow(0 0 35px #f5d742);}
+      50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px var(--gold));}
     }
     .star-number {
       position:absolute; top:50%;left:50%; transform:translate(-50%,-50%);
@@ -287,7 +198,7 @@
     @keyframes burst {
       0%{transform:scale(1); filter:brightness(1);}
       50%{transform:scale(2.2); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);}
-      100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px #fad974);}
+      100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px var(--gold));}
     }
 
     #adminPanel {
@@ -305,57 +216,40 @@
       background:rgba(20,15,45,0.7); border-radius:1.5rem;
       padding:1.2rem; border:1px solid rgba(255,255,255,0.08);
     }
-    .admin-card label { font-size:0.75rem; color:#b0a0c8; }
+    .admin-card label { font-size:0.7rem; color:#b0a0c8; display:block; margin-top:0.4rem; }
     .admin-card input, .admin-card select, .admin-card textarea {
-      width:100%; margin:0.3rem 0 0.8rem; background:rgba(255,255,255,0.05);
-      border:1px solid #443366; border-radius:1rem; padding:0.5rem 1rem;
-      color:#f0e5ff; font-family:inherit;
+      width:100%; margin:0.2rem 0 0.5rem; background:rgba(255,255,255,0.05);
+      border:1px solid #443366; border-radius:0.7rem; padding:0.4rem 0.7rem;
+      color:#f0e5ff; font-family:inherit; font-size:0.8rem;
     }
+    .admin-card input[type="color"] { padding:0.1rem; height:35px; cursor:pointer; }
     .admin-log, .message-box {
       margin-top:2rem; max-width:900px; width:100%;
       background:rgba(20,15,45,0.6); border-radius:1.5rem;
       padding:1.2rem; color:#b0a0d4; font-size:0.8rem;
     }
 
-    /* Position Editor */
-    #positionEditorOverlay {
+    /* Position Editor - Drag & Drop */
+    #dragEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(5,5,20,0.95); z-index:400;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center; visibility:hidden;
+      display:flex; flex-direction:column; align-items:center; visibility:hidden;
     }
-    #positionEditorOverlay.active { visibility:visible; }
-    .position-grid {
-      display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap:0.8rem;
-      max-width:800px;
-      width:95%;
-      max-height:70vh;
-      overflow-y:auto;
-      padding:1rem;
+    #dragEditorOverlay.active { visibility:visible; }
+    #dragCanvas {
+      flex:1; width:100%; position:relative; overflow:hidden;
+      border:1px solid #6b4ecc; margin:1rem; border-radius:1rem;
+      background:rgba(10,5,25,0.8); touch-action:none;
     }
-    .position-card {
-      background:rgba(20,15,45,0.8);
-      border-radius:1rem;
-      padding:0.8rem;
-      border:1px solid rgba(255,255,255,0.1);
-      display:flex;
-      flex-direction:column;
-      gap:0.4rem;
+    .drag-star {
+      position:absolute; width:44px; height:44px; cursor:grab;
+      transform:translate(-50%,-50%); z-index:2; touch-action:none;
     }
-    .position-card label {
-      font-size:0.7rem;
-      color:#b0a0c8;
-      display:flex;
-      justify-content:space-between;
-    }
-    .position-card input[type="range"] {
-      width:100%;
-      margin:0;
-      padding:0;
-      background:transparent;
-      border:none;
+    .drag-star:active { cursor:grabbing; }
+    .drag-star svg { width:100%; height:100%; pointer-events:none; }
+    .drag-label {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      font-size:0.65rem; font-weight:bold; color:#1a0a2e; pointer-events:none;
     }
 
     #finalMessage {
@@ -374,36 +268,18 @@
       50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
     }
 
-    .simple-map-wrap {
-      position:relative; display:inline-block; max-width:100%;
-      border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem;
-    }
+    .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; }
     .simple-map-wrap img { display:block; max-width:100%; height:auto; border-radius:1rem; }
-    .map-marker {
-      position:absolute; width:18px; height:18px; background:#fad974; border-radius:50%;
-      box-shadow:0 0 12px #fad974, 0 0 25px rgba(250,217,116,0.5);
-      cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2;
-    }
+    .map-marker { position:absolute; width:18px; height:18px; background:#fad974; border-radius:50%; box-shadow:0 0 12px #fad974, 0 0 25px rgba(250,217,116,0.5); cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2; }
     .map-marker:hover { transform:translate(-50%,-50%) scale(1.5); box-shadow:0 0 20px #ffeaa7, 0 0 40px #fad974; }
-    .map-popup {
-      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-      background:rgba(20,15,45,0.95); backdrop-filter:blur(15px);
-      border:1px solid rgba(250,217,116,0.5); border-radius:1.5rem;
-      padding:1.5rem; max-width:300px; width:85%; z-index:500;
-      text-align:center; box-shadow:0 0 40px rgba(0,0,0,0.8); display:none;
-    }
+    .map-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(20,15,45,0.95); backdrop-filter:blur(15px); border:1px solid rgba(250,217,116,0.5); border-radius:1.5rem; padding:1.5rem; max-width:300px; width:85%; z-index:500; text-align:center; box-shadow:0 0 40px rgba(0,0,0,0.8); display:none; }
     .map-popup.active { display:block; }
     .map-popup h4 { color:#fad974; margin-bottom:0.5rem; }
     .map-popup p { color:#d4c0e0; font-size:0.9rem; line-height:1.5; }
     .map-popup img { max-width:140px; border-radius:0.5rem; margin-top:0.5rem; }
     .map-popup .close-popup { margin-top:0.8rem; background:transparent; border:1px solid rgba(255,255,255,0.3); color:#b0a0d4; padding:0.4rem 1.5rem; border-radius:2rem; cursor:pointer; font-family:inherit; }
 
-    #mapEditorOverlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(5,5,20,0.95); z-index:400;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center; visibility:hidden;
-    }
+    #mapEditorOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,20,0.95); z-index:400; display:flex; flex-direction:column; align-items:center; justify-content:center; visibility:hidden; }
     #mapEditorOverlay.active { visibility:visible; }
     .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; padding:0 1rem; }
     .editor-canvas-wrap { position:relative; max-width:95vw; max-height:60vh; border:1px solid #6b4ecc; border-radius:1rem; overflow:auto; background:#1a1530; }
@@ -412,13 +288,7 @@
     .marker-form input, .marker-form textarea { background:rgba(255,255,255,0.08); border:1px solid #6b4ecc; border-radius:0.7rem; padding:0.6rem; color:#fff; font-family:inherit; text-align:left; }
     .marker-form label { font-size:0.75rem; color:#b0a0c8; margin-bottom:-0.3rem; }
 
-    .login-hint {
-      color: rgba(180,170,220,0.35);
-      font-size: 0.55rem;
-      letter-spacing: 2px;
-      margin-bottom: -0.8rem;
-      font-style: italic;
-    }
+    .login-hint { color: rgba(180,170,220,0.35); font-size: 0.55rem; letter-spacing: 2px; margin-bottom: -0.8rem; font-style: italic; }
   </style>
 </head>
 <body>
@@ -428,146 +298,73 @@
   <div class="nebula" id="nebula3"></div>
 
   <!-- LANDING -->
-  <div id="landing" class="app-layer">
-    <div class="glass">
-      <h1>✦ Heliganeh ✦</h1>
-      <div class="subtitle">a sky full of secrets</div>
-      <button class="btn" onclick="transitionToLogin()">enter the night</button>
-    </div>
-  </div>
+  <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
 
   <!-- LOGIN -->
-  <div id="loginOverlay" class="overlay">
-    <div class="glass">
-      <h2>whisper the word</h2>
-      <div class="login-hint">the key to our flag</div>
-      <input type="password" id="loginPass" placeholder="········" autocomplete="off">
-      <button class="btn" onclick="handleLogin()">unlock</button>
-      <div class="error-message" id="loginError"></div>
-    </div>
-  </div>
+  <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
 
   <!-- MUSIC -->
-  <div id="musicPrompt" class="overlay">
-    <div class="glass">
-      <p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p>
-      <div style="display:flex; gap:1rem; justify-content:center;">
-        <button class="btn" onclick="startExperience(true)">yes, please</button>
-        <button class="btn-ghost" onclick="startExperience(false)">no, thank you</button>
-      </div>
-    </div>
-  </div>
+  <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
 
   <!-- INTRO -->
-  <div id="introSequence">
-    <div id="followStar"></div>
-    <div id="followText">follow me</div>
-  </div>
+  <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
 
   <!-- SKY VIEW -->
   <div id="skyView">
-    <div class="sky-header">
-      <div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div>
-      <div class="counter" id="counterDisplay">0 / 21 stars discovered</div>
-      <div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div>
-    </div>
+    <div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 21 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div>
     <div class="stars-container" id="starsContainer"></div>
     <div class="crafted-sign">made with stardust for my bad angel</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
-    <div class="message-wings-wrap" onclick="openMessageBox()">
-      <span class="message-wings">🪽</span>
-      <span class="message-label">send a message</span>
-    </div>
+    <div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div>
   </div>
 
   <!-- STAR CODE MODAL -->
-  <div id="starCodeModal" class="overlay">
-    <div class="glass">
-      <h3>🔑 star code</h3>
-      <input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off">
-      <button class="btn" onclick="submitStarCode()">open</button>
-      <button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button>
-      <div class="error-message" id="starCodeError"></div>
-    </div>
-  </div>
+  <div id="starCodeModal" class="overlay"><div class="glass"><h3>🔑 star code</h3><input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off"><button class="btn" onclick="submitStarCode()">open</button><button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button><div class="error-message" id="starCodeError"></div></div></div>
 
   <!-- CONTENT MODAL -->
-  <div id="contentModal" class="overlay">
-    <div class="glass" style="max-width:440px; width:95%;">
-      <h3 id="contentTitle">✦</h3>
-      <div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div>
-      <button class="btn-ghost" onclick="closeContentModal()">close</button>
-    </div>
-  </div>
+  <div id="contentModal" class="overlay"><div class="glass" style="max-width:440px; width:95%;"><h3 id="contentTitle">✦</h3><div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div><button class="btn-ghost" onclick="closeContentModal()">close</button></div></div>
 
   <!-- MAP POPUP -->
-  <div class="map-popup" id="mapPopup">
-    <h4 id="mapPopupTitle"></h4>
-    <p id="mapPopupText"></p>
-    <img id="mapPopupImage" style="display:none;" alt="">
-    <button class="close-popup" onclick="closeMapPopup()">close</button>
-  </div>
+  <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
 
   <!-- MESSAGE MODAL -->
-  <div id="messageModal" class="overlay">
-    <div class="glass">
-      <h3>🪽 whisper to the sky</h3>
-      <textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea>
-      <button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button>
-      <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button>
-    </div>
-  </div>
+  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
 
-  <!-- POSITION EDITOR -->
-  <div id="positionEditorOverlay">
-    <h2 style="color:#fad974; margin-bottom:1rem;">⭐ Edit Star Positions</h2>
-    <div class="position-grid" id="positionGrid"></div>
-    <div style="display:flex; gap:1rem; margin-top:1rem;">
-      <button class="btn" onclick="savePositions()">💾 Save Positions</button>
-      <button class="btn-ghost" onclick="closePositionEditor()">Cancel</button>
+  <!-- DRAG & DROP POSITION EDITOR -->
+  <div id="dragEditorOverlay">
+    <div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;">
+      <h3 style="color:#fad974;">✋ Drag stars to reposition</h3>
+      <div style="display:flex; gap:0.5rem;">
+        <button class="btn" onclick="saveDragPositions()">💾 Save</button>
+        <button class="btn-ghost" onclick="closeDragEditor()">Cancel</button>
+      </div>
     </div>
+    <div id="dragCanvas"></div>
   </div>
 
   <!-- MAP EDITOR -->
-  <div id="mapEditorOverlay">
-    <div class="editor-toolbar">
-      <button class="btn-ghost" onclick="closeMapEditor()">↩ back</button>
-      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;">
-      <button class="btn" onclick="loadMapImage()">Load</button>
-    </div>
-    <div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div>
-    <div class="marker-form" id="markerForm" style="display:none;">
-      <label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting">
-      <label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea>
-      <label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://...">
-      <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
-        <button class="btn" onclick="saveMarker()">Save Marker</button>
-        <button class="btn-ghost" onclick="cancelMarker()">Cancel</button>
-      </div>
-    </div>
-    <div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div>
-    <button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button>
-  </div>
+  <div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
 
   <!-- ADMIN -->
   <div id="adminPanel">
-    <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
-      <h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2>
-      <button class="btn-ghost" onclick="logout()">↩ leave</button>
-    </div>
+    <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div>
     <div class="admin-grid" id="adminGrid"></div>
-    <button class="btn-ghost" style="margin-top:1.5rem;" onclick="toggleActivityLog()">🌸 activity log</button>
-    <button class="btn-ghost" style="margin-top:1.5rem;" onclick="toggleMessages()">💌 messages from Yeganeh</button>
-    <button class="btn-ghost" style="margin-top:1.5rem;" onclick="openPositionEditor()">⭐ Edit Star Positions</button>
-    <button class="btn-danger" onclick="resetAllData()">🔄 Reset All Data</button>
+    <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem;">
+      <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
+      <button class="btn-ghost" onclick="toggleMessages()">💌 messages from Yeganeh</button>
+      <button class="btn-ghost" onclick="openDragEditor()">✋ Drag Star Positions</button>
+      <button class="btn-ghost" onclick="openDailyStarModal()">📨 Send Daily Star</button>
+      <button class="btn-danger" onclick="resetAllData()">🔄 Reset All</button>
+    </div>
     <div class="admin-log" id="activityLog" style="display:none;"></div>
     <div class="message-box" id="adminMessages" style="display:none;"></div>
   </div>
 
+  <!-- DAILY STAR MODAL -->
+  <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
+
   <!-- FINAL -->
-  <div id="finalMessage">
-    <div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div>
-  </div>
+  <div id="finalMessage"><div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div></div>
 
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
@@ -576,516 +373,146 @@
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
     const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
+    const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 3:"some secrets are silent, waiting for your touch…", 7:"you're getting closer to the heart of the story…", 14:"more than half of the love journey is walked…", 18:"the sky is almost full of our whispers…", 21:"now the whole sky belongs to you, Heliganeh ✦" };
 
-    const POETIC_LINES = {
-      0: "in this sky, every star holds a secret from me to you…",
-      3: "some secrets are silent, waiting for your touch…",
-      7: "you're getting closer to the heart of the story…",
-      14: "more than half of the love journey is walked…",
-      18: "the sky is almost full of our whispers…",
-      21: "now the whole sky belongs to you, Heliganeh ✦"
-    };
-
-    function getStarPositions() {
-      let saved = JSON.parse(localStorage.getItem('starPositions'));
-      if (saved && saved.length === TOTAL_STARS) return saved;
-      const pos = [
-        {x:20,y:25},{x:35,y:20},{x:48,y:15},{x:52,y:25},{x:65,y:20},{x:78,y:15},
-        {x:15,y:40},{x:30,y:45},{x:45,y:50},{x:55,y:40},{x:70,y:48},{x:85,y:42},
-        {x:25,y:60},{x:40,y:65},{x:58,y:60},{x:20,y:78},{x:38,y:72},{x:55,y:80},
-        {x:68,y:70},{x:82,y:75},{x:90,y:85}
-      ];
-      localStorage.setItem('starPositions', JSON.stringify(pos));
-      return pos;
-    }
+    function getStarPositions() { let saved=JSON.parse(localStorage.getItem('starPositions')); if(saved&&saved.length===TOTAL_STARS) return saved; const pos=[{x:20,y:25},{x:35,y:20},{x:48,y:15},{x:52,y:25},{x:65,y:20},{x:78,y:15},{x:15,y:40},{x:30,y:45},{x:45,y:50},{x:55,y:40},{x:70,y:48},{x:85,y:42},{x:25,y:60},{x:40,y:65},{x:58,y:60},{x:20,y:78},{x:38,y:72},{x:55,y:80},{x:68,y:70},{x:82,y:75},{x:90,y:85}]; localStorage.setItem('starPositions',JSON.stringify(pos)); return pos; }
     let positions = getStarPositions();
+    function savePositionsToStorage(pos) { localStorage.setItem('starPositions',JSON.stringify(pos)); positions=pos; }
 
-    function savePositionsToStorage(pos) {
-      localStorage.setItem('starPositions', JSON.stringify(pos));
-      positions = pos;
-    }
+    function getStarStyles() { let saved=JSON.parse(localStorage.getItem('starStyles')); if(saved&&saved.length===TOTAL_STARS) return saved; const styles=[]; for(let i=0;i<TOTAL_STARS;i++) styles.push({lockedColor:'#7d6c9c',unlockedColor:'#fad974',twinkleSpeed:3}); localStorage.setItem('starStyles',JSON.stringify(styles)); return styles; }
+    let starStyles = getStarStyles();
+    function saveStarStyles(arr) { localStorage.setItem('starStyles',JSON.stringify(arr)); starStyles=arr; }
 
-    function loadState() {
-      let data = JSON.parse(localStorage.getItem('starData')) || [];
-      while(data.length < TOTAL_STARS) data.push({ code:'', type:'text', content:'' });
-      if(data.length > TOTAL_STARS) data = data.slice(0,TOTAL_STARS);
-      let opened = JSON.parse(localStorage.getItem('openedStars')) || [];
-      opened = opened.filter(i => i>=0 && i<TOTAL_STARS);
-      let final = localStorage.getItem('finalShown') === 'true';
-      let activity = JSON.parse(localStorage.getItem('activityLog')) || [];
-      let messages = JSON.parse(localStorage.getItem('yeganehMessages')) || [];
-      return { starData: data, opened, finalShown: final, activity, messages };
-    }
-    function saveOpened(arr) { localStorage.setItem('openedStars', JSON.stringify(arr)); }
-    function saveStarData(arr) { localStorage.setItem('starData', JSON.stringify(arr)); }
-    function saveActivity(arr) { localStorage.setItem('activityLog', JSON.stringify(arr)); }
-    function saveMessages(arr) { localStorage.setItem('yeganehMessages', JSON.stringify(arr)); }
+    function loadState() { let data=JSON.parse(localStorage.getItem('starData'))||[]; while(data.length<TOTAL_STARS) data.push({code:'',type:'text',content:''}); if(data.length>TOTAL_STARS) data=data.slice(0,TOTAL_STARS); let opened=JSON.parse(localStorage.getItem('openedStars'))||[]; opened=opened.filter(i=>i>=0&&i<TOTAL_STARS); let final=localStorage.getItem('finalShown')==='true'; let activity=JSON.parse(localStorage.getItem('activityLog'))||[]; let messages=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let dailyStar=JSON.parse(localStorage.getItem('dailyStar'))||null; return {starData:data,opened,finalShown:final,activity,messages,dailyStar}; }
+    function saveOpened(arr) { localStorage.setItem('openedStars',JSON.stringify(arr)); }
+    function saveStarData(arr) { localStorage.setItem('starData',JSON.stringify(arr)); }
+    function saveActivity(arr) { localStorage.setItem('activityLog',JSON.stringify(arr)); }
+    function saveMessages(arr) { localStorage.setItem('yeganehMessages',JSON.stringify(arr)); }
 
-    const canvas = document.getElementById('skyCanvas');
-    const ctx = canvas.getContext('2d');
-    let width, height, dust = [];
-    function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    function initDust() {
-      dust = [];
-      for(let i=0;i<200;i++) dust.push({
-        x:Math.random()*width, y:Math.random()*height, r:Math.random()*1.6+0.4,
-        vx:(Math.random()-0.5)*0.08, vy:(Math.random()-0.5)*0.05,
-        alpha:Math.random()*0.6+0.2, hue:Math.random()*40+250
-      });
-    }
-    initDust(); window.addEventListener('resize', initDust);
+    const canvas=document.getElementById('skyCanvas'), ctx=canvas.getContext('2d');
+    let width,height,dust=[];
+    function resize() { width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; }
+    window.addEventListener('resize',resize); resize();
+    function initDust() { dust=[]; for(let i=0;i<200;i++) dust.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*1.6+0.4,vx:(Math.random()-0.5)*0.08,vy:(Math.random()-0.5)*0.05,alpha:Math.random()*0.6+0.2,hue:Math.random()*40+250}); }
+    initDust(); window.addEventListener('resize',initDust);
 
-    function drawSky() {
-      const count = state.opened.length;
-      const hue = 240 - count * 3;
-      document.body.style.background = `hsl(${hue}, 60%, 3%)`;
-      const grad = ctx.createRadialGradient(width*0.4, height*0.3, 0, width*0.6, height*0.7, width);
-      grad.addColorStop(0, `hsla(${hue+20}, 50%, 8%, 1)`);
-      grad.addColorStop(0.6, '#030312');
-      grad.addColorStop(1, '#010108');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,width,height);
-      for(let p of dust) {
-        p.x += p.vx; p.y += p.vy;
-        if(p.x<0) p.x=width; if(p.x>width) p.x=0;
-        if(p.y<0) p.y=height; if(p.y>height) p.y=0;
-        ctx.fillStyle = `hsla(${p.hue}, 60%, 75%, ${p.alpha})`;
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-      }
-      if(Math.random()<0.006) {
-        let sx=Math.random()*width*0.8, sy=Math.random()*height*0.5;
-        ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2;
-        ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke();
-      }
-      requestAnimationFrame(drawSky);
-    }
+    function drawSky() { const count=state.opened.length, hue=240-count*3; document.body.style.background=`hsl(${hue},60%,3%)`; const grad=ctx.createRadialGradient(width*0.4,height*0.3,0,width*0.6,height*0.7,width); grad.addColorStop(0,`hsla(${hue+20},50%,8%,1)`); grad.addColorStop(0.6,'#030312'); grad.addColorStop(1,'#010108'); ctx.fillStyle=grad; ctx.fillRect(0,0,width,height); for(let p of dust) { p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.fillStyle=`hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } if(Math.random()<0.006) { let sx=Math.random()*width*0.8,sy=Math.random()*height*0.5; ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke(); } requestAnimationFrame(drawSky); }
+    let state=loadState(); drawSky();
 
-    let state = loadState();
-    drawSky();
+    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
 
-    const landing = document.getElementById('landing');
-    const loginOverlay = document.getElementById('loginOverlay');
-    const musicPrompt = document.getElementById('musicPrompt');
-    const introSequence = document.getElementById('introSequence');
-    const followStar = document.getElementById('followStar');
-    const followText = document.getElementById('followText');
-    const skyView = document.getElementById('skyView');
-    const adminPanel = document.getElementById('adminPanel');
-    const starsContainer = document.getElementById('starsContainer');
-    const counterDisplay = document.getElementById('counterDisplay');
-    const poeticNote = document.getElementById('poeticNote');
-    const starCodeModal = document.getElementById('starCodeModal');
-    const starCodeInput = document.getElementById('starCodeInput');
-    const starCodeError = document.getElementById('starCodeError');
-    const contentModal = document.getElementById('contentModal');
-    const contentTitle = document.getElementById('contentTitle');
-    const contentBody = document.getElementById('contentBody');
-    const messageModal = document.getElementById('messageModal');
-    const yeganehMessage = document.getElementById('yeganehMessage');
-    const finalMessage = document.getElementById('finalMessage');
-    const bgMusic = document.getElementById('bgMusic');
-    const mapEditorOverlay = document.getElementById('mapEditorOverlay');
-    const mapEditorCanvas = document.getElementById('mapEditorCanvas');
-    const mapPopup = document.getElementById('mapPopup');
-    const positionEditorOverlay = document.getElementById('positionEditorOverlay');
-    const positionGrid = document.getElementById('positionGrid');
+    let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null;
 
-    let currentUser = null;
-    let pendingStar = null;
-    let currentMapStarIndex = null;
-    let mapMarkers = [];
-    let mapImage = null;
-    let mapImageUrl = '';
-    let pendingMarkerCoord = null;
-    let editingPositions = [];
-
-    function transitionToLogin() {
-      landing.style.display = 'none';
-      loginOverlay.classList.add('active');
-      document.getElementById('loginPass').focus();
-    }
-
-    function handleLogin() {
-      const pw = document.getElementById('loginPass').value.trim();
-      document.getElementById('loginError').textContent = '';
-      if (pw.toLowerCase() === YEGANEH_PASS.toLowerCase()) {
-        currentUser = 'yeganeh';
-        loginOverlay.classList.remove('active');
-        musicPrompt.classList.add('active');
-      } else if (pw === ADMIN_PASS) {
-        currentUser = 'admin';
-        loginOverlay.classList.remove('active');
-        showAdmin();
-      } else {
-        document.getElementById('loginError').textContent = 'نه یگانه اشتباهه😔🎀';
-        document.getElementById('loginPass').value = '';
-      }
-    }
-
-    function startExperience(playMusic) {
-      musicPrompt.classList.remove('active');
-      if (playMusic) { bgMusic.src = MUSIC_URL; bgMusic.volume = 0.3; bgMusic.play().catch(()=>{}); }
-      startIntroSequence();
-    }
+    function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
+    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); musicPrompt.classList.add('active'); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
+    function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=MUSIC_URL; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
     function startIntroSequence() {
       introSequence.classList.add('active');
-      followStar.style.width = '8px'; followStar.style.height = '8px';
-      followStar.style.top = '50%'; followStar.style.left = '50%';
-      followStar.style.opacity = '0'; followStar.style.transition = 'opacity 0.6s';
-      followStar.style.background = '#fff';
-      followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
-      setTimeout(() => { followStar.style.opacity = '1'; }, 200);
-      setTimeout(() => { followText.style.opacity = '1'; }, 1000);
-      const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
-      let startTime = Date.now();
-      const duration = 6200;
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const angle = progress * Math.PI * 1.8;
-        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.3 * (1 - progress * 0.85);
-        followStar.style.left = (centerX + Math.cos(angle) * radius) + 'px';
-        followStar.style.top = (centerY + Math.sin(angle * 1.3) * radius * 0.5 - progress * 60) + 'px';
-        if (progress < 0.92) {
-          followStar.style.width = '8px'; followStar.style.height = '8px';
-          followStar.style.background = '#fff';
-          followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
-        }
-        if (progress >= 0.92 && progress < 1) {
-          const size = 8 + ((progress - 0.92) / 0.08) * 120;
-          followStar.style.width = size+'px'; followStar.style.height = size+'px';
-          followStar.style.background = '#ffeaa7';
-          followStar.style.boxShadow = `0 0 ${30+size}px white, 0 0 ${60+size*2}px #ffeaa7, 0 0 ${100+size*3}px #fad974`;
-        }
-        if (progress < 1) requestAnimationFrame(animate);
-        else {
-          document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
-          setTimeout(() => {
-            introSequence.classList.remove('active');
-            followStar.style.opacity = '0'; followText.style.opacity = '0';
-            followStar.style.width = '8px'; followStar.style.height = '8px';
-            followStar.style.background = '#fff';
-            showSky();
-          }, 500);
-        }
-      };
-      requestAnimationFrame(animate);
+      followStar.style.width='8px'; followStar.style.height='8px';
+      followStar.style.top='50%'; followStar.style.left='50%';
+      followStar.style.opacity='0'; followStar.style.transition='opacity 0.6s';
+      followStar.style.background='#fff';
+      followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
+      followText.style.opacity='0';
+      setTimeout(() => { followText.style.opacity='1'; }, 400);
+      setTimeout(() => { followStar.style.opacity='1'; }, 1800);
+      const centerX=window.innerWidth/2, centerY=window.innerHeight/2;
+      let startTime=Date.now(); const duration=6200;
+      const animate=()=>{ const elapsed=Date.now()-startTime, progress=Math.min(elapsed/duration,1); const angle=progress*Math.PI*1.8, radius=Math.min(window.innerWidth,window.innerHeight)*0.3*(1-progress*0.85); followStar.style.left=(centerX+Math.cos(angle)*radius)+'px'; followStar.style.top=(centerY+Math.sin(angle*1.3)*radius*0.5-progress*60)+'px'; if(progress<0.92) { followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.background='#fff'; followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)'; } if(progress>=0.92&&progress<1) { const size=8+((progress-0.92)/0.08)*120; followStar.style.width=size+'px'; followStar.style.height=size+'px'; followStar.style.background='#ffeaa7'; followStar.style.boxShadow=`0 0 ${30+size}px white, 0 0 ${60+size*2}px #ffeaa7, 0 0 ${100+size*3}px #fad974`; } if(progress<1) requestAnimationFrame(animate); else { document.querySelectorAll('.nebula').forEach(n=>n.style.opacity='0.18'); setTimeout(()=>{ introSequence.classList.remove('active'); followStar.style.opacity='0'; followText.style.opacity='0'; followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.background='#fff'; showSky(); },500); } }; setTimeout(()=>requestAnimationFrame(animate),1800);
     }
 
-    function showSky() {
-      state = loadState();
-      positions = getStarPositions();
-      skyView.classList.add('active');
-      adminPanel.classList.remove('active');
-      renderStarsInstant();
-      updateCounterAndPoetry();
-      if (state.opened.length === TOTAL_STARS) revealFinal();
-    }
-
+    function showSky() { state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); skyView.classList.add('active'); adminPanel.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); if(state.opened.length===TOTAL_STARS) revealFinal(); }
     function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); renderAdmin(); }
-
-    function logout() {
-      currentUser = null; skyView.classList.remove('active'); adminPanel.classList.remove('active');
-      landing.style.display = 'flex'; loginOverlay.classList.remove('active');
-      musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause();
-    }
+    function logout() { currentUser=null; skyView.classList.remove('active'); adminPanel.classList.remove('active'); landing.style.display='flex'; loginOverlay.classList.remove('active'); musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause(); }
 
     function renderStarsInstant() {
-      starsContainer.innerHTML = '';
-      const openedSet = new Set(state.opened);
-      for (let i=0;i<TOTAL_STARS;i++) {
-        const pos = positions[i], unlocked = openedSet.has(i);
-        const starEl = createStarElement(i, pos, unlocked);
-        starEl.style.opacity = '1'; starEl.style.transform = 'scale(1)';
-        starsContainer.appendChild(starEl);
-      }
+      starsContainer.innerHTML=''; const openedSet=new Set(state.opened);
+      for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=openedSet.has(i), style=starStyles[i]; const starEl=createStarElement(i,pos,unlocked,style); starEl.style.opacity='1'; starEl.style.transform='scale(1)'; starsContainer.appendChild(starEl); }
+      if(state.dailyStar) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='15%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#ff9ecd" stroke="#ffb8d9" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#4a0030;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); }
     }
 
-    function createStarElement(index, pos, unlocked) {
-      const starEl = document.createElement('div');
-      starEl.className = 'star' + (unlocked ? ' unlocked' : '');
-      starEl.style.left = pos.x+'%'; starEl.style.top = pos.y+'%';
-      starEl.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${unlocked?'#fad974':'#7d6c9c'}" stroke="${unlocked?'#ffeaa7':'#aa99c4'}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`;
+    function createStarElement(index,pos,unlocked,style) {
+      const starEl=document.createElement('div'); starEl.className='star'+(unlocked?' unlocked':''); starEl.style.left=pos.x+'%'; starEl.style.top=pos.y+'%';
+      const fillColor=unlocked?style.unlockedColor:style.lockedColor, strokeColor=unlocked?'#ffeaa7':'#aa99c4';
+      starEl.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fillColor}" stroke="${strokeColor}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`;
       if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; starEl.appendChild(sp); }
-      starEl.addEventListener('click', (e) => handleStarClick(index, unlocked, starEl, e));
-      return starEl;
+      starEl.addEventListener('click',(e)=>handleStarClick(index,unlocked,starEl,e)); return starEl;
     }
 
-    function handleStarClick(index, isUnlocked, starEl, event) {
-      event.stopPropagation();
-      starEl.classList.add('enlarged');
-      setTimeout(() => starEl.classList.remove('enlarged'), 600);
-      if (isUnlocked) setTimeout(() => showContent(index), 400);
-      else { pendingStar = index; starCodeInput.value = ''; starCodeError.textContent = ''; starCodeModal.classList.add('active'); starCodeInput.focus(); }
-    }
+    function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; contentModal.classList.add('active'); }
 
-    function submitStarCode() {
-      const code = starCodeInput.value.trim();
-      if (!code) return;
-      if (state.starData[pendingStar]?.code === code) {
-        if (!state.opened.includes(pendingStar)) {
-          state.opened.push(pendingStar); saveOpened(state.opened);
-          state.activity.push({ star: pendingStar+1, time: new Date().toLocaleString() });
-          saveActivity(state.activity);
-        }
-        starCodeModal.classList.remove('active');
-        renderStarsInstant(); updateCounterAndPoetry();
-        const starEls = document.querySelectorAll('.star');
-        if (starEls[pendingStar]) { starEls[pendingStar].classList.add('bursting'); setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800); }
-        playUnlockSound();
-        setTimeout(() => showContent(pendingStar), 500);
-        if (state.opened.length === TOTAL_STARS) revealFinal();
-      } else { starCodeError.textContent = 'نه یگانه اشتباهه😔🎀'; starCodeInput.value = ''; }
-    }
+    function handleStarClick(index,isUnlocked,starEl,event) { event.stopPropagation(); starEl.classList.add('enlarged'); setTimeout(()=>starEl.classList.remove('enlarged'),600); if(isUnlocked) setTimeout(()=>showContent(index),400); else { pendingStar=index; starCodeInput.value=''; starCodeError.textContent=''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
+    function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const starEls=document.querySelectorAll('.star'); if(starEls[pendingStar]) { starEls[pendingStar].classList.add('bursting'); setTimeout(()=>starEls[pendingStar].classList.remove('bursting'),800); } playUnlockSound(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
+    function playUnlockSound() { try { const ac=new(window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain(); o.connect(g); g.connect(ac.destination); o.type='sine'; o.frequency.setValueAtTime(800,ac.currentTime); o.frequency.exponentialRampToValueAtTime(1200,ac.currentTime+0.2); g.gain.setValueAtTime(0.15,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.4); o.start(); o.stop(ac.currentTime+0.4); } catch(e) {} }
+    function updateCounterAndPoetry() { const count=state.opened.length; counterDisplay.textContent=count+' / 21 stars discovered'; let line=''; const thresholds=Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a); for(let t of thresholds) if(count>=t) { line=POETIC_LINES[t]; break; } poeticNote.textContent=line; }
+    function revealFinal() { if(!state.finalShown) { localStorage.setItem('finalShown','true'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),7000); } }
+    function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
-    function playUnlockSound() {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type='sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime+0.2);
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.4);
-        osc.start(); osc.stop(audioCtx.currentTime+0.4);
-      } catch(e) {}
-    }
+    function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; contentModal.classList.add('active'); if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
 
-    function updateCounterAndPoetry() {
-      const count = state.opened.length;
-      counterDisplay.textContent = count + ' / 21 stars discovered';
-      let line = ''; const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
-      for (let t of thresholds) if (count >= t) { line = POETIC_LINES[t]; break; }
-      poeticNote.textContent = line;
-    }
-
-    function revealFinal() {
-      if (!state.finalShown) { localStorage.setItem('finalShown', 'true'); finalMessage.classList.add('active'); setTimeout(() => finalMessage.classList.remove('active'), 7000); }
-    }
-
-    function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar = null; }
-
-    function showContent(index) {
-      const d = state.starData[index];
-      contentTitle.textContent = '✦ star ' + (index+1);
-      contentBody.innerHTML = '';
-      contentModal.classList.add('active');
-      if (!d || !d.content) { contentBody.innerHTML = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; }
-      if (d.type === 'map') { renderSimpleMap(d); return; }
-      let html = '';
-      switch(d.type) {
-        case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
-        case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;">`; break;
-        case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
-        case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
-        case 'spotify': let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break;
-        case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
-        default: html = `<p>${escapeHtml(d.content)}</p>`;
-      }
-      contentBody.innerHTML = html;
-    }
-
-    function renderSimpleMap(starData) {
-      let mapData;
-      try { mapData = JSON.parse(starData.content); } catch(e) { contentBody.innerHTML = '<p style="color:#ffb3b3;">Map data error.</p>'; return; }
-      if (!mapData.image) { contentBody.innerHTML = '<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; }
-      const wrap = document.createElement('div'); wrap.className = 'simple-map-wrap';
-      const img = document.createElement('img'); img.src = mapData.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem';
-      img.onerror = () => { contentBody.innerHTML = '<p style="color:#ffb3b3;">Failed to load map image.</p>'; };
-      wrap.appendChild(img);
-      if (mapData.markers && mapData.markers.length > 0) {
-        img.onload = () => {
-          mapData.markers.forEach(m => {
-            const marker = document.createElement('div'); marker.className = 'map-marker';
-            marker.style.left = (m.x / img.naturalWidth * 100) + '%';
-            marker.style.top = (m.y / img.naturalHeight * 100) + '%';
-            marker.addEventListener('click', (e) => {
-              e.stopPropagation();
-              document.getElementById('mapPopupTitle').textContent = m.title;
-              document.getElementById('mapPopupText').textContent = m.text || '';
-              const popupImg = document.getElementById('mapPopupImage');
-              if (m.image) { popupImg.src = m.image; popupImg.style.display = 'block'; }
-              else { popupImg.style.display = 'none'; }
-              mapPopup.classList.add('active');
-            });
-            wrap.appendChild(marker);
-          });
-        };
-      }
-      contentBody.appendChild(wrap);
-    }
-
+    function renderSimpleMap(starData) { let mapData; try { mapData=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!mapData.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=mapData.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); if(mapData.markers&&mapData.markers.length>0) { img.onload=()=>{ mapData.markers.forEach(m=>{ const marker=document.createElement('div'); marker.className='map-marker'; marker.style.left=(m.x/img.naturalWidth*100)+'%'; marker.style.top=(m.y/img.naturalHeight*100)+'%'; marker.addEventListener('click',(e)=>{ e.stopPropagation(); document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const popupImg=document.getElementById('mapPopupImage'); if(m.image) { popupImg.src=m.image; popupImg.style.display='block'; } else { popupImg.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(marker); }); }; } contentBody.appendChild(wrap); }
     function closeMapPopup() { mapPopup.classList.remove('active'); }
     function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); }
-    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); closeMapPopup(); }
-
-    function openMessageBox() { yeganehMessage.value = ''; messageModal.classList.add('active'); }
+    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); closeMapPopup(); }
+    function openMessageBox() { yeganehMessage.value=''; messageModal.classList.add('active'); }
     function closeMessageModal() { messageModal.classList.remove('active'); }
-    function sendYeganehMessage() {
-      const msg = yeganehMessage.value.trim(); if (!msg) return;
-      state.messages.push({ text: msg, time: new Date().toLocaleString() });
-      saveMessages(state.messages);
-      messageModal.classList.remove('active');
-    }
+    function sendYeganehMessage() { const msg=yeganehMessage.value.trim(); if(!msg) return; state.messages.push({text:msg,time:new Date().toLocaleString()}); saveMessages(state.messages); messageModal.classList.remove('active'); }
 
-    // POSITION EDITOR
-    function openPositionEditor() {
-      editingPositions = JSON.parse(JSON.stringify(getStarPositions()));
-      positionGrid.innerHTML = '';
-      editingPositions.forEach((pos, i) => {
-        const card = document.createElement('div');
-        card.className = 'position-card';
-        card.innerHTML = `
-          <h4 style="color:#fad974; margin-bottom:0.3rem;">⭐ Star ${i+1}</h4>
-          <label>X: <span id="posXVal${i}">${pos.x}%</span></label>
-          <input type="range" min="5" max="90" value="${pos.x}" data-idx="${i}" data-field="x" oninput="updatePositionLabel(${i})">
-          <label>Y: <span id="posYVal${i}">${pos.y}%</span></label>
-          <input type="range" min="5" max="90" value="${pos.y}" data-idx="${i}" data-field="y" oninput="updatePositionLabel(${i})">
-        `;
-        positionGrid.appendChild(card);
-      });
-      positionEditorOverlay.classList.add('active');
-    }
+    // DAILY STAR
+    function openDailyStarModal() { document.getElementById('dailyStarTitle').value=''; document.getElementById('dailyStarContent').value=''; dailyStarModal.classList.add('active'); }
+    function closeDailyStarModal() { dailyStarModal.classList.remove('active'); }
+    function sendDailyStar() { const title=document.getElementById('dailyStarTitle').value.trim(); const content=document.getElementById('dailyStarContent').value.trim(); if(!title&&!content) return; const isImage=content.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dailyData={title,text:isImage?'':content,image:isImage?content:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dailyData)); state.dailyStar=dailyData; dailyStarModal.classList.remove('active'); alert('Daily star sent! Yeganeh will see it on next refresh.'); }
 
-    function updatePositionLabel(i) {
-      const xSlider = document.querySelector(`input[data-idx="${i}"][data-field="x"]`);
-      const ySlider = document.querySelector(`input[data-idx="${i}"][data-field="y"]`);
-      if (xSlider) {
-        editingPositions[i].x = parseInt(xSlider.value);
-        document.getElementById(`posXVal${i}`).textContent = editingPositions[i].x + '%';
-      }
-      if (ySlider) {
-        editingPositions[i].y = parseInt(ySlider.value);
-        document.getElementById(`posYVal${i}`).textContent = editingPositions[i].y + '%';
-      }
-    }
-
-    function savePositions() {
-      savePositionsToStorage(editingPositions);
-      positions = editingPositions;
-      closePositionEditor();
-      alert('Star positions saved! Yeganeh will see changes on next refresh.');
-    }
-
-    function closePositionEditor() {
-      positionEditorOverlay.classList.remove('active');
-    }
-
-    // MAP EDITOR
-    function openMapEditor(starIndex) {
-      currentMapStarIndex = starIndex;
-      const d = state.starData[starIndex];
-      try { const json = JSON.parse(d.content || '{}'); mapMarkers = json.markers || []; mapImageUrl = json.image || ''; }
-      catch(e) { mapMarkers = []; mapImageUrl = ''; }
-      if (!mapImageUrl) mapImageUrl = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
-      document.getElementById('mapImageUrl').value = mapImageUrl;
-      loadMapImage();
-      document.getElementById('mapEditorOverlay').classList.add('active');
-      renderMarkerList();
-    }
-    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
-    function loadMapImage() {
-      const url = document.getElementById('mapImageUrl').value.trim(); if (!url) return;
-      mapImageUrl = url;
-      const img = new Image(); img.crossOrigin = 'Anonymous';
-      img.onload = () => { mapImage = img; mapEditorCanvas.width = img.width; mapEditorCanvas.height = img.height; mapEditorCanvas.style.maxWidth='100%'; mapEditorCanvas.style.height='auto'; drawEditorCanvas(); };
-      img.onerror = () => { alert('Failed to load image.'); };
-      img.src = url;
-    }
-    function drawEditorCanvas() {
-      if (!mapEditorCanvas || !mapImage) return;
-      const ctx2 = mapEditorCanvas.getContext('2d');
-      ctx2.clearRect(0,0,mapEditorCanvas.width, mapEditorCanvas.height);
-      ctx2.drawImage(mapImage,0,0);
-      mapMarkers.forEach(m => {
-        ctx2.beginPath(); ctx2.arc(m.x,m.y,10,0,2*Math.PI);
-        ctx2.fillStyle='#fad974'; ctx2.shadowColor='#fad974'; ctx2.shadowBlur=14; ctx2.fill(); ctx2.shadowBlur=0;
-        ctx2.fillStyle='#1a0a2e'; ctx2.font='bold 12px Vazirmatn'; ctx2.fillText(m.title,m.x+15,m.y-10);
-      });
-    }
-    mapEditorCanvas.addEventListener('click', (e) => {
-      const rect = mapEditorCanvas.getBoundingClientRect();
-      const scaleX = mapEditorCanvas.width/rect.width, scaleY = mapEditorCanvas.height/rect.height;
-      pendingMarkerCoord = { x: Math.round((e.clientX-rect.left)*scaleX), y: Math.round((e.clientY-rect.top)*scaleY) };
-      document.getElementById('markerForm').style.display='flex';
-      document.getElementById('markerTitle').value=''; document.getElementById('markerText').value=''; document.getElementById('markerImage').value='';
-    });
-    function saveMarker() {
-      const title = document.getElementById('markerTitle').value.trim(); if (!title) return;
-      mapMarkers.push({ x:pendingMarkerCoord.x, y:pendingMarkerCoord.y, title, text:document.getElementById('markerText').value.trim(), image:document.getElementById('markerImage').value.trim() });
-      document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; drawEditorCanvas(); renderMarkerList();
-    }
-    function cancelMarker() { document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; }
-    function renderMarkerList() {
-      document.getElementById('markerList').innerHTML = mapMarkers.map((m,i) => `<div style="cursor:pointer;display:flex;justify-content:space-between;padding:0.25rem 0.5rem;" onclick="deleteMarker(${i})"><span>📍 ${escapeHtml(m.title)} ${m.image?'🖼️':''}</span><span style="color:#ff8a8a;">✕</span></div>`).join('');
-    }
-    function deleteMarker(index) { mapMarkers.splice(index,1); drawEditorCanvas(); renderMarkerList(); }
-    function saveMapData() {
-      if (currentMapStarIndex===null) return;
-      state.starData[currentMapStarIndex].content = JSON.stringify({ image: mapImageUrl, markers: mapMarkers });
-      state.starData[currentMapStarIndex].type = 'map';
-      saveStarData(state.starData);
-      closeMapEditor(); renderAdmin();
-      alert('Map saved to star '+(currentMapStarIndex+1));
-    }
+    // DRAG & DROP POSITION EDITOR
+    function openDragEditor() { dragStars=JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML=''; dragStars.forEach((pos,i)=>{ const el=document.createElement('div'); el.className='drag-star'; el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`; el.addEventListener('pointerdown',(e)=>startDrag(e,i,el)); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
+    function startDrag(e,index,el) { e.preventDefault(); draggedStarIndex=index; el.setPointerCapture(e.pointerId); el.addEventListener('pointermove',onDrag); el.addEventListener('pointerup',endDrag); }
+    function onDrag(e) { if(draggedStarIndex===null) return; const rect=dragCanvas.getBoundingClientRect(); const x=((e.clientX-rect.left)/rect.width)*100; const y=((e.clientY-rect.top)/rect.height)*100; dragStars[draggedStarIndex]={x:Math.min(95,Math.max(5,Math.round(x))),y:Math.min(95,Math.max(5,Math.round(y)))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
+    function endDrag(e) { const el=dragCanvas.children[draggedStarIndex]; el.removeEventListener('pointermove',onDrag); el.removeEventListener('pointerup',endDrag); draggedStarIndex=null; }
+    function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
+    function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
 
     function renderAdmin() {
-      const grid = document.getElementById('adminGrid'); grid.innerHTML = '';
-      state.starData.forEach((d,i)=>{
-        const card = document.createElement('div'); card.className='admin-card';
-        card.innerHTML = `<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4>
+      const grid=document.getElementById('adminGrid'); grid.innerHTML='';
+      state.starData.forEach((d,i)=>{ const style=starStyles[i]; const card=document.createElement('div'); card.className='admin-card';
+        card.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4>
           <label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
-          <label>type</label><select data-idx="${i}" data-field="type">
-            <option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option>
-            <option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option>
-            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option>
-            <option value="map" ${d.type==='map'?'selected':''}>map</option>
-          </select>
+          <label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option></select>
           <label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
+          <label>Locked Color</label><input type="color" value="${style.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;">
+          <label>Unlocked Color</label><input type="color" value="${style.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">
+          <label>Twinkle Speed (1-5)</label><input type="range" min="1" max="5" value="${style.twinkleSpeed}" data-idx="${i}" data-field="twinkleSpeed">
           ${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`;
         grid.appendChild(card);
       });
-      document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{
-        el.addEventListener('change', (e)=>{
-          const idx = parseInt(e.target.dataset.idx), field = e.target.dataset.field;
-          state.starData[idx][field] = e.target.value; saveStarData(state.starData); renderAdmin();
-        });
-      });
+      document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), field=e.target.dataset.field; if(field==='lockedColor'||field==='unlockedColor'||field==='twinkleSpeed') { starStyles[idx][field]=field==='twinkleSpeed'?parseInt(e.target.value):e.target.value; saveStarStyles(starStyles); } else { state.starData[idx][field]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); });
     }
 
-    function toggleActivityLog() {
-      const log = document.getElementById('activityLog'); log.style.display = log.style.display==='block'?'none':'block';
-      log.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>';
-    }
-    function toggleMessages() {
-      const box = document.getElementById('adminMessages'); box.style.display = box.style.display==='block'?'none':'block';
-      box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
-    }
-    function resetAllData() { if(confirm('Delete ALL data?')) { localStorage.clear(); state = loadState(); renderAdmin(); alert('Done.'); } }
+    function toggleActivityLog() { const log=document.getElementById('activityLog'); log.style.display=log.style.display==='block'?'none':'block'; log.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
+    function toggleMessages() { const box=document.getElementById('adminMessages'); box.style.display=box.style.display==='block'?'none':'block'; box.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
+    function resetAllData() { if(confirm('Delete ALL data?')) { localStorage.clear(); state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); renderAdmin(); alert('Done.'); } }
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
-    function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+    function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
-    (function preset() {
-      let data = loadState().starData;
-      const presets = [
-        {code:'2217', type:'link', content:'https://DigiPostal.ir/xvjh8f5'},
-        {code:'4580', type:'spotify', content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},
-        {code:'3389', type:'image', content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},
-        {code:'6708', type:'image', content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},
-        {code:'5467', type:'audio', content:'assets/morse.wav'},
-        {code:'', type:'map', content:'{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}' }
-      ];
-      let changed = false;
-      for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) { if(!data[i].code && !data[i].content) { data[i]=presets[i]; changed=true; } }
-      if(changed) saveStarData(data);
-    })();
+    // MAP EDITOR
+    function openMapEditor(starIndex) { currentMapStarIndex=starIndex; const d=state.starData[starIndex]; try { const json=JSON.parse(d.content||'{}'); mapMarkers=json.markers||[]; mapImageUrl=json.image||''; } catch(e) { mapMarkers=[]; mapImageUrl=''; } if(!mapImageUrl) mapImageUrl='https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg'; document.getElementById('mapImageUrl').value=mapImageUrl; loadMapImage(); document.getElementById('mapEditorOverlay').classList.add('active'); renderMarkerList(); }
+    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex=null; }
+    function loadMapImage() { const url=document.getElementById('mapImageUrl').value.trim(); if(!url) return; mapImageUrl=url; const img=new Image(); img.crossOrigin='Anonymous'; img.onload=()=>{ mapImage=img; mapEditorCanvas.width=img.width; mapEditorCanvas.height=img.height; mapEditorCanvas.style.maxWidth='100%'; mapEditorCanvas.style.height='auto'; drawEditorCanvas(); }; img.onerror=()=>{ alert('Failed to load image.'); }; img.src=url; }
+    function drawEditorCanvas() { if(!mapEditorCanvas||!mapImage) return; const ctx2=mapEditorCanvas.getContext('2d'); ctx2.clearRect(0,0,mapEditorCanvas.width,mapEditorCanvas.height); ctx2.drawImage(mapImage,0,0); mapMarkers.forEach(m=>{ ctx2.beginPath(); ctx2.arc(m.x,m.y,10,0,2*Math.PI); ctx2.fillStyle='#fad974'; ctx2.shadowColor='#fad974'; ctx2.shadowBlur=14; ctx2.fill(); ctx2.shadowBlur=0; ctx2.fillStyle='#1a0a2e'; ctx2.font='bold 12px Vazirmatn'; ctx2.fillText(m.title,m.x+15,m.y-10); }); }
+    mapEditorCanvas.addEventListener('click',(e)=>{ const rect=mapEditorCanvas.getBoundingClientRect(); const scaleX=mapEditorCanvas.width/rect.width, scaleY=mapEditorCanvas.height/rect.height; pendingMarkerCoord={x:Math.round((e.clientX-rect.left)*scaleX),y:Math.round((e.clientY-rect.top)*scaleY)}; document.getElementById('markerForm').style.display='flex'; document.getElementById('markerTitle').value=''; document.getElementById('markerText').value=''; document.getElementById('markerImage').value=''; });
+    function saveMarker() { const title=document.getElementById('markerTitle').value.trim(); if(!title) return; mapMarkers.push({x:pendingMarkerCoord.x,y:pendingMarkerCoord.y,title,text:document.getElementById('markerText').value.trim(),image:document.getElementById('markerImage').value.trim()}); document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; drawEditorCanvas(); renderMarkerList(); }
+    function cancelMarker() { document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; }
+    function renderMarkerList() { document.getElementById('markerList').innerHTML=mapMarkers.map((m,i)=>`<div style="cursor:pointer;display:flex;justify-content:space-between;padding:0.25rem 0.5rem;" onclick="deleteMarker(${i})"><span>📍 ${escapeHtml(m.title)} ${m.image?'🖼️':''}</span><span style="color:#ff8a8a;">✕</span></div>`).join(''); }
+    function deleteMarker(index) { mapMarkers.splice(index,1); drawEditorCanvas(); renderMarkerList(); }
+    function saveMapData() { if(currentMapStarIndex===null) return; state.starData[currentMapStarIndex].content=JSON.stringify({image:mapImageUrl,markers:mapMarkers}); state.starData[currentMapStarIndex].type='map'; saveStarData(state.starData); closeMapEditor(); renderAdmin(); alert('Map saved to star '+(currentMapStarIndex+1)); }
 
-    document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
-    starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => { if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
-    document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
-    landing.style.display = 'flex';
+    (function preset() { let data=loadState().starData; const presets=[{code:'2217',type:'link',content:'https://DigiPostal.ir/xvjh8f5'},{code:'4580',type:'spotify',content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},{code:'3389',type:'image',content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},{code:'6708',type:'image',content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},{code:'5467',type:'audio',content:'assets/morse.wav'},{code:'',type:'map',content:'{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}'}]; let changed=false; for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) { if(!data[i].code&&!data[i].content) { data[i]=presets[i]; changed=true; } } if(changed) saveStarData(data); })();
+
+    document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') handleLogin(); });
+    starCodeInput.addEventListener('keydown',e=>{ if(e.key==='Enter') submitStarCode(); });
+    window.addEventListener('click',e=>{ if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAllModals(); });
+    landing.style.display='flex';
   </script>
 </body>
 </html>
