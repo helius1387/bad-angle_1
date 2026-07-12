@@ -796,7 +796,6 @@
 
     function handleStarClick(index, isUnlocked, starEl, event) {
       event.stopPropagation();
-      // enlarge effect
       starEl.classList.add('enlarged');
       setTimeout(() => starEl.classList.remove('enlarged'), 600);
       if (isUnlocked) {
