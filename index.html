@@ -83,7 +83,15 @@
       50% { transform: translateY(-6px); }
     }
 
-    .glass h1 { font-size:2.2rem; font-weight:400; color:#f0e6ff; text-shadow:0 0 25px #9a82ff; }
+    .glass h1 { font-size:2.2rem; font-weight:400; color:#f0e6ff; text-shadow:0 0 25px #9a82ff; margin-bottom:0.3rem; }
+    .secret-hint {
+      color: rgba(180,170,220,0.35);
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      margin-top: -0.2rem;
+      margin-bottom: 1.8rem;
+      font-style: italic;
+    }
     .subtitle { color:var(--text-soft); font-size:0.95rem; margin-bottom:2.2rem; letter-spacing:3px; }
 
     .btn {
@@ -180,28 +188,26 @@
       align-items:center;
       justify-content:center;
       flex-direction:column;
+      cursor:pointer;
       visibility:hidden;
-      overflow:hidden;
     }
     #introSequence.active { visibility:visible; }
     #followStar {
-      width:8px; height:8px;
+      width:30px; height:30px;
       background:white;
       border-radius:50%;
-      box-shadow:0 0 8px white, 0 0 20px rgba(200,180,255,0.5);
+      box-shadow:0 0 20px white;
       position:absolute;
-      opacity:0;
-      transition: width 0.8s, height 0.8s, box-shadow 0.8s;
+      transition: width 0.5s, height 0.5s;
     }
     #followText {
-      color:rgba(255,255,255,0.7);
+      color:white;
       position:absolute;
       top:60%;
-      font-size:1rem;
-      letter-spacing:4px;
+      font-size:1.2rem;
+      letter-spacing:3px;
       opacity:0;
-      transition:opacity 2s;
-      font-style:italic;
+      transition:opacity 1.5s;
     }
 
     #skyView {
@@ -259,19 +265,18 @@
       z-index:10;
       backdrop-filter:blur(8px);
     }
-    .message-wing {
+    .message-wings {
       position:absolute;
       top:2rem;
       right:2rem;
       font-size:1.5rem;
       cursor:pointer;
       z-index:10;
-      animation:floatWing 2.5s infinite;
-      color:#cbb8ff;
+      animation:floatWings 2s infinite;
     }
-    @keyframes floatWing {
+    @keyframes floatWings {
       0%,100%{transform:translateY(0) rotate(0deg);}
-      50%{transform:translateY(-10px) rotate(5deg);}
+      50%{transform:translateY(-8px) rotate(5deg);}
     }
 
     .stars-container {
@@ -424,81 +429,53 @@
     }
 
     #mapEditorOverlay {
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      background:rgba(5,5,20,0.95);
-      z-index:400;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      visibility:hidden;
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(5,5,20,0.95);
+      z-index: 400;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
     }
-    #mapEditorOverlay.active { visibility:visible; }
+    #mapEditorOverlay.active { visibility: visible; }
     .editor-toolbar {
-      margin-bottom:0.5rem;
-      display:flex;
-      gap:0.5rem;
-      align-items:center;
+      margin-bottom: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
     .editor-canvas-wrap {
-      position:relative;
-      max-width:95vw;
-      max-height:70vh;
-      border:1px solid #6b4ecc;
-      border-radius:1rem;
-      overflow:auto;
-      background:#1a1530;
+      position: relative;
+      max-width: 95vw;
+      max-height: 65vh;
+      border: 1px solid #6b4ecc;
+      border-radius: 1rem;
+      overflow: auto;
+      background: #1a1530;
     }
-    #mapEditorCanvas {
-      display:block;
-      cursor:crosshair;
-    }
+    #mapEditorCanvas { display: block; cursor: crosshair; }
     .marker-form {
-      background:rgba(20,15,45,0.9);
-      backdrop-filter:blur(10px);
-      border-radius:1rem;
-      padding:1rem;
-      margin-top:0.5rem;
-      display:none;
-      flex-direction:column;
-      gap:0.5rem;
-      width:300px;
-      max-width:90%;
+      background: rgba(20,15,45,0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 300px;
+      max-width: 90%;
     }
     .marker-form input, .marker-form textarea {
-      background:rgba(255,255,255,0.1);
-      border:1px solid #6b4ecc;
-      border-radius:0.7rem;
-      padding:0.5rem;
-      color:#fff;
-      font-family:inherit;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #6b4ecc;
+      border-radius: 0.7rem;
+      padding: 0.5rem;
+      color: #fff;
+      font-family: inherit;
+      text-align: left;
     }
-    .marker-form .btn-row {
-      display:flex;
-      gap:0.5rem;
-      justify-content:center;
-    }
-    .editor-marker-list {
-      max-height:20vh;
-      overflow-y:auto;
-      width:300px;
-      max-width:90%;
-      margin-top:0.3rem;
-      background:rgba(0,0,0,0.3);
-      border-radius:0.5rem;
-      padding:0.5rem;
-      font-size:0.8rem;
-    }
-    .editor-marker-item {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin:0.2rem 0;
-      cursor:pointer;
-    }
-    .editor-marker-item:hover { background:rgba(255,255,255,0.1); }
-    .delete-marker { color:#ff8a8a; cursor:pointer; }
   </style>
 </head>
 <body>
@@ -511,6 +488,7 @@
   <div id="landing" class="app-layer">
     <div class="glass">
       <h1>✦ Heliganeh ✦</h1>
+      <div class="secret-hint">the key to our flag</div>
       <div class="subtitle">a sky full of secrets</div>
       <button class="btn" onclick="transitionToLogin()">enter the night</button>
     </div>
@@ -540,7 +518,7 @@
   <!-- INTRO -->
   <div id="introSequence">
     <div id="followStar"></div>
-    <div id="followText">follow the starlight…</div>
+    <div id="followText">follow me</div>
   </div>
 
   <!-- SKY VIEW -->
@@ -553,7 +531,7 @@
     <div class="stars-container" id="starsContainer"></div>
     <div class="crafted-sign">made with stardust for my bad angel</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
-    <div class="message-wing" id="messageWing" title="send a whisper" onclick="openMessageBox()">✦</div>
+    <div class="message-wings" id="messageWings" title="send a message to Bad Angel" onclick="openMessageBox()">🪽</div>
   </div>
 
   <!-- STAR CODE MODAL -->
@@ -579,33 +557,33 @@
   <!-- MESSAGE MODAL -->
   <div id="messageModal" class="overlay">
     <div class="glass">
-      <h3>✦ whisper to the sky</h3>
+      <h3>🪽 whisper to the sky</h3>
       <textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea>
       <button class="btn" onclick="sendYeganehMessage()">send to Bad Angel</button>
       <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button>
     </div>
   </div>
 
-  <!-- MAP EDITOR OVERLAY -->
+  <!-- MAP EDITOR -->
   <div id="mapEditorOverlay">
     <div class="editor-toolbar">
       <button class="btn-ghost" onclick="closeMapEditor()">↩ back</button>
       <input type="text" id="mapImageUrl" placeholder="map image URL" style="width:200px;">
-      <button class="btn" onclick="loadMapImage()">Load Image</button>
+      <button class="btn" onclick="loadMapImage()">Load</button>
     </div>
     <div class="editor-canvas-wrap">
       <canvas id="mapEditorCanvas"></canvas>
     </div>
-    <div class="marker-form" id="markerForm">
+    <div class="marker-form" id="markerForm" style="display:none;">
       <input type="text" id="markerTitle" placeholder="Memory title">
       <textarea id="markerText" rows="2" placeholder="Your memory text..."></textarea>
       <input type="text" id="markerImage" placeholder="Optional image URL">
-      <div class="btn-row">
+      <div style="display:flex; gap:0.5rem; justify-content:center;">
         <button class="btn" onclick="saveMarker()">Save Marker</button>
         <button class="btn-ghost" onclick="cancelMarker()">Cancel</button>
       </div>
     </div>
-    <div class="editor-marker-list" id="markerList"></div>
+    <div id="markerList" style="max-height:15vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.8rem;"></div>
     <button class="btn" style="margin-top:1rem;" onclick="saveMapData()">💾 Save Map to Star</button>
   </div>
 
@@ -628,13 +606,13 @@
     <div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div>
   </div>
 
-  <audio id="bgMusic" loop preload="auto"></audio>
+  <audio id="bgMusic" loop preload="none"></audio>
 
   <script>
     const YEGANEH_PASS = 'Heliganeh';
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const MUSIC_URL = 'assets/bg-music.mp3';
+    const MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // mysterious ambient
 
     const POETIC_LINES = {
       0: "in this sky, every star holds a secret from me to you…",
@@ -675,7 +653,6 @@
     function saveActivity(arr) { localStorage.setItem('activityLog', JSON.stringify(arr)); }
     function saveMessages(arr) { localStorage.setItem('yeganehMessages', JSON.stringify(arr)); }
 
-    // Canvas
     const canvas = document.getElementById('skyCanvas');
     const ctx = canvas.getContext('2d');
     let width, height, dust = [];
@@ -718,7 +695,6 @@
     let state = loadState();
     drawSky();
 
-    // DOM
     const landing = document.getElementById('landing');
     const loginOverlay = document.getElementById('loginOverlay');
     const musicPrompt = document.getElementById('musicPrompt');
@@ -741,6 +717,7 @@
     const finalMessage = document.getElementById('finalMessage');
     const bgMusic = document.getElementById('bgMusic');
     const mapEditorOverlay = document.getElementById('mapEditorOverlay');
+    const mapEditorCanvas = document.getElementById('mapEditorCanvas');
 
     let currentUser = null;
     let pendingStar = null;
@@ -759,7 +736,7 @@
     function handleLogin() {
       const pw = document.getElementById('loginPass').value.trim();
       document.getElementById('loginError').textContent = '';
-      if (pw === YEGANEH_PASS) {
+      if (pw.toLowerCase() === YEGANEH_PASS.toLowerCase()) {
         currentUser = 'yeganeh';
         loginOverlay.classList.remove('active');
         musicPrompt.classList.add('active');
@@ -777,94 +754,73 @@
       musicPrompt.classList.remove('active');
       if (playMusic) {
         bgMusic.src = MUSIC_URL;
-        bgMusic.load();
         bgMusic.volume = 0;
-        const playPromise = bgMusic.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            bgMusic.volume = 0.2;
-          }).catch(() => {
-            setTimeout(() => {
-              bgMusic.volume = 0.2;
-              bgMusic.play().catch(()=>{});
-            }, 500);
-          });
-        }
+        bgMusic.play().then(() => { bgMusic.volume = 0.2; }).catch(() => {});
       }
       startIntroSequence();
     }
 
     function startIntroSequence() {
       introSequence.classList.add('active');
-      followStar.style.opacity = '0';
-      followStar.style.width = '6px';
-      followStar.style.height = '6px';
-      followStar.style.top = '55%';
+      followStar.style.width = '8px';
+      followStar.style.height = '8px';
+      followStar.style.top = '50%';
       followStar.style.left = '50%';
       followStar.style.transform = 'translate(-50%,-50%)';
-      followText.style.opacity = '0';
-      followText.textContent = 'follow the starlight…';
+      followStar.style.boxShadow = '0 0 8px white';
+      followStar.style.opacity = '0';
+      followStar.style.transition = 'opacity 2s';
+      setTimeout(() => { followStar.style.opacity = '1'; }, 500);
+      setTimeout(() => { followText.style.opacity = '1'; }, 2500);
 
-      // Phase 1: Star slowly appears
-      setTimeout(() => {
-        followStar.style.transition = 'opacity 2s ease, width 2s ease, height 2s ease';
-        followStar.style.opacity = '1';
-        followStar.style.width = '14px';
-        followStar.style.height = '14px';
-      }, 500);
+      let angle = 0;
+      const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
+      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.2;
+      const interval = setInterval(() => {
+        angle += 0.015;
+        const shrinkingRadius = startRadius * (1 - angle * 0.08);
+        const x = centerX + Math.cos(angle)*shrinkingRadius;
+        const y = centerY + Math.sin(angle)*shrinkingRadius*0.5;
+        followStar.style.left = x + 'px';
+        followStar.style.top = y + 'px';
+        const starSize = Math.max(2, 8 - angle * 0.5);
+        followStar.style.width = starSize + 'px';
+        followStar.style.height = starSize + 'px';
+        followStar.style.boxShadow = `0 0 ${15 + angle*2}px white`;
 
-      // Phase 2: Text appears
-      setTimeout(() => {
-        followText.style.opacity = '1';
-      }, 2000);
-
-      // Phase 3: Star begins to move away (slowly shrinking)
-      setTimeout(() => {
-        followText.textContent = 'into the deep night…';
-        let progress = 0;
-        const startX = window.innerWidth/2;
-        const startY = window.innerHeight*0.55;
-        const endX = window.innerWidth*0.3;
-        const endY = window.innerHeight*0.2;
-        const interval = setInterval(() => {
-          progress += 0.008;
-          const x = startX + (endX - startX) * progress;
-          const y = startY + (endY - startY) * progress;
-          const size = 14 - progress * 10;
-          followStar.style.left = x + 'px';
-          followStar.style.top = y + 'px';
-          followStar.style.width = Math.max(3, size) + 'px';
-          followStar.style.height = Math.max(3, size) + 'px';
-          followStar.style.boxShadow = `0 0 ${Math.max(4, 12-progress*10)}px white, 0 0 ${Math.max(8, 20-progress*15)}px rgba(180,160,255,0.5)`;
-          if (progress >= 1) {
-            clearInterval(interval);
-            // Phase 4: Explosion of light
-            setTimeout(() => {
-              followStar.style.transition = 'width 1.2s ease, height 1.2s ease, box-shadow 1.2s ease, opacity 0.8s ease';
-              followStar.style.width = '200vmax';
-              followStar.style.height = '200vmax';
-              followStar.style.boxShadow = '0 0 0 100vmax white';
-              followStar.style.opacity = '0.9';
-              followText.style.opacity = '0';
+        if (shrinkingRadius < 5) {
+          clearInterval(interval);
+          const glowInterval = setInterval(() => {
+            const currentSize = parseFloat(followStar.style.width);
+            if (currentSize >= window.innerWidth*1.5) {
+              clearInterval(glowInterval);
+              document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
+              introSequence.style.background = 'rgba(0,0,0,0)';
               setTimeout(() => {
                 introSequence.classList.remove('active');
-                followStar.style.transition = '';
                 followStar.style.width = '8px';
                 followStar.style.height = '8px';
+                followStar.style.boxShadow = '0 0 8px white';
                 followStar.style.opacity = '0';
+                followText.style.opacity = '0';
+                introSequence.style.background = '#000';
                 showSky();
-              }, 1000);
-            }, 400);
-          }
-        }, 40);
-      }, 4000);
+              }, 800);
+            } else {
+              followStar.style.width = (currentSize * 1.3) + 'px';
+              followStar.style.height = (currentSize * 1.3) + 'px';
+              followStar.style.boxShadow = `0 0 ${50 + currentSize*0.2}px white, 0 0 ${100 + currentSize*0.3}px #fad974`;
+              followStar.style.background = '#ffeaa7';
+            }
+          }, 40);
+        }
+      }, 40);
     }
 
     function showSky() {
       state = loadState();
       skyView.classList.add('active');
       adminPanel.classList.remove('active');
-      document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
       renderStarsInstant();
       updateCounterAndPoetry();
       if (state.opened.length === TOTAL_STARS) revealFinal();
@@ -974,15 +930,13 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        osc.connect(gain); gain.connect(audioCtx.destination);
         osc.type = 'sine';
         osc.frequency.setValueAtTime(800, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
         gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.4);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.4);
       } catch(e) {}
     }
 
@@ -1050,11 +1004,10 @@
     }
 
     function closeContentModal() { contentModal.classList.remove('active'); }
-    function closeAllModals() { 
-      starCodeModal.classList.remove('active'); 
-      contentModal.classList.remove('active'); 
-      messageModal.classList.remove('active'); 
-      mapEditorOverlay.classList.remove('active');
+    function closeAllModals() {
+      starCodeModal.classList.remove('active');
+      contentModal.classList.remove('active');
+      messageModal.classList.remove('active');
     }
 
     function openMessageBox() {
@@ -1073,9 +1026,9 @@
     // MAP EDITOR
     function openMapEditor(starIndex) {
       currentMapStarIndex = starIndex;
-      const data = state.starData[starIndex];
+      const d = state.starData[starIndex];
       try {
-        const json = JSON.parse(data.content || '{}');
+        const json = JSON.parse(d.content || '{}');
         mapMarkers = json.markers || [];
         mapImageUrl = json.image || '';
       } catch(e) {
@@ -1101,36 +1054,33 @@
       img.crossOrigin = 'Anonymous';
       img.onload = () => {
         mapImage = img;
-        const canvas = document.getElementById('mapEditorCanvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
+        mapEditorCanvas.width = img.width;
+        mapEditorCanvas.height = img.height;
         drawEditorCanvas();
       };
       img.src = url;
     }
 
     function drawEditorCanvas() {
-      const canvas = document.getElementById('mapEditorCanvas');
-      if (!canvas || !mapImage) return;
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      ctx.drawImage(mapImage, 0, 0);
+      if (!mapEditorCanvas || !mapImage) return;
+      const ctx2 = mapEditorCanvas.getContext('2d');
+      ctx2.clearRect(0,0,mapEditorCanvas.width, mapEditorCanvas.height);
+      ctx2.drawImage(mapImage, 0, 0);
       mapMarkers.forEach(m => {
-        ctx.fillStyle = '#fad974';
-        ctx.beginPath();
-        ctx.arc(m.x, m.y, 8, 0, 2*Math.PI);
-        ctx.fill();
-        ctx.fillStyle = '#1a0a2e';
-        ctx.font = 'bold 10px Vazirmatn';
-        ctx.fillText(m.title.substring(0,10), m.x+12, m.y-8);
+        ctx2.fillStyle = '#fad974';
+        ctx2.beginPath();
+        ctx2.arc(m.x, m.y, 8, 0, 2*Math.PI);
+        ctx2.fill();
+        ctx2.fillStyle = '#1a0a2e';
+        ctx2.font = 'bold 10px Vazirmatn';
+        ctx2.fillText(m.title, m.x+12, m.y-8);
       });
     }
 
-    document.getElementById('mapEditorCanvas').addEventListener('click', (e) => {
-      const canvas = document.getElementById('mapEditorCanvas');
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
+    mapEditorCanvas.addEventListener('click', (e) => {
+      const rect = mapEditorCanvas.getBoundingClientRect();
+      const scaleX = mapEditorCanvas.width / rect.width;
+      const scaleY = mapEditorCanvas.height / rect.height;
       const x = (e.clientX - rect.left) * scaleX;
       const y = (e.clientY - rect.top) * scaleY;
       pendingMarkerCoord = {x: Math.round(x), y: Math.round(y)};
@@ -1142,10 +1092,14 @@
 
     function saveMarker() {
       const title = document.getElementById('markerTitle').value.trim();
-      const text = document.getElementById('markerText').value.trim();
-      const image = document.getElementById('markerImage').value.trim();
       if (!title) return;
-      mapMarkers.push({ x: pendingMarkerCoord.x, y: pendingMarkerCoord.y, title, text, image });
+      mapMarkers.push({
+        x: pendingMarkerCoord.x,
+        y: pendingMarkerCoord.y,
+        title,
+        text: document.getElementById('markerText').value.trim(),
+        image: document.getElementById('markerImage').value.trim()
+      });
       document.getElementById('markerForm').style.display = 'none';
       pendingMarkerCoord = null;
       drawEditorCanvas();
@@ -1160,9 +1114,9 @@
     function renderMarkerList() {
       const list = document.getElementById('markerList');
       list.innerHTML = mapMarkers.map((m,i) => `
-        <div class="editor-marker-item">
-          <span onclick="highlightMarker(${i})">📍 ${m.title}</span>
-          <span class="delete-marker" onclick="deleteMarker(${i})">✕</span>
+        <div style="cursor:pointer; display:flex; justify-content:space-between;" onclick="deleteMarker(${i})">
+          <span>📍 ${escapeHtml(m.title)}</span>
+          <span style="color:#ff8a8a;">✕</span>
         </div>
       `).join('');
     }
@@ -1171,18 +1125,6 @@
       mapMarkers.splice(index,1);
       drawEditorCanvas();
       renderMarkerList();
-    }
-
-    function highlightMarker(index) {
-      drawEditorCanvas();
-      const canvas = document.getElementById('mapEditorCanvas');
-      const ctx = canvas.getContext('2d');
-      const m = mapMarkers[index];
-      ctx.strokeStyle = '#ffeaa7';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(m.x, m.y, 12, 0, 2*Math.PI);
-      ctx.stroke();
     }
 
     function saveMapData() {
@@ -1195,6 +1137,7 @@
       renderAdmin();
     }
 
+    // ADMIN
     function renderAdmin() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
@@ -1258,7 +1201,6 @@
 
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
-    // Preset
     (function preset() {
       let data = loadState().starData;
       const presets = [
@@ -1278,12 +1220,12 @@
 
     document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => { 
-      if(e.target===starCodeModal) closeStarCodeModal(); 
-      if(e.target===contentModal) closeContentModal(); 
+    window.addEventListener('click', e => {
+      if (e.target === starCodeModal) closeStarCodeModal();
+      if (e.target === contentModal) closeContentModal();
     });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     landing.style.display = 'flex';
   </script>
 </body>
-                                                                            </html>
+        </html>
