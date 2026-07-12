@@ -197,7 +197,7 @@
       height:8px;
       background:#fff;
       border-radius:50%;
-      box-shadow: 0 0 15px 5px rgba(255,255,255,0.9), 0 0 40px 15px rgba(255,240,220,0.6), 0 0 80px 30px rgba(250,217,116,0.3);
+      box-shadow: 0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25);
       z-index:2;
       transition: none;
     }
@@ -401,8 +401,8 @@
       50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
     }
 
-    .map-container { width:100%; height:50vh; border-radius:1rem; overflow:hidden; margin-bottom:1rem; }
-    .map-container img { max-width:120px; border-radius:0.5rem; margin-top:0.3rem; }
+    .map-container { width:100%; height:50vh; border-radius:1rem; overflow:hidden; margin-bottom:1rem; background:#1a1530; }
+    .leaflet-popup-content img { max-width:120px; border-radius:0.5rem; margin-top:0.3rem; }
     
     #mapEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
@@ -412,11 +412,44 @@
       visibility:hidden;
     }
     #mapEditorOverlay.active { visibility:visible; }
-    .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; }
-    .editor-canvas-wrap { position:relative; max-width:95vw; max-height:55vh; border:1px solid #6b4ecc; border-radius:1rem; overflow:auto; background:#1a1530; }
-    #mapEditorCanvas { display:block; cursor:crosshair; }
-    .marker-form { background:rgba(20,15,45,0.95); backdrop-filter:blur(10px); border-radius:1rem; padding:1rem; margin-top:0.5rem; display:flex; flex-direction:column; gap:0.5rem; width:320px; max-width:90%; border:1px solid #6b4ecc; }
-    .marker-form input, .marker-form textarea { background:rgba(255,255,255,0.08); border:1px solid #6b4ecc; border-radius:0.7rem; padding:0.6rem; color:#fff; font-family:inherit; text-align:left; }
+    .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; padding:0 1rem; }
+    .editor-canvas-wrap {
+      position:relative;
+      max-width:95vw;
+      max-height:60vh;
+      border:1px solid #6b4ecc;
+      border-radius:1rem;
+      overflow:auto;
+      background:#1a1530;
+    }
+    #mapEditorCanvas {
+      display:block;
+      cursor:crosshair;
+      max-width:100%;
+      height:auto;
+    }
+    .marker-form {
+      background:rgba(20,15,45,0.95);
+      backdrop-filter:blur(10px);
+      border-radius:1rem;
+      padding:1rem;
+      margin-top:0.5rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+      width:320px;
+      max-width:90%;
+      border:1px solid #6b4ecc;
+    }
+    .marker-form input, .marker-form textarea {
+      background:rgba(255,255,255,0.08);
+      border:1px solid #6b4ecc;
+      border-radius:0.7rem;
+      padding:0.6rem;
+      color:#fff;
+      font-family:inherit;
+      text-align:left;
+    }
     .marker-form label { font-size:0.75rem; color:#b0a0c8; margin-bottom:-0.3rem; }
   </style>
 </head>
@@ -492,9 +525,9 @@
 
   <!-- CONTENT MODAL -->
   <div id="contentModal" class="overlay">
-    <div class="glass" style="max-width:400px;">
+    <div class="glass" style="max-width:420px;">
       <h3 id="contentTitle">✦</h3>
-      <div id="contentBody" style="margin:1.5rem 0; max-height:55vh; overflow-y:auto;"></div>
+      <div id="contentBody" style="margin:1.2rem 0; max-height:60vh; overflow-y:auto;"></div>
       <button class="btn-ghost" onclick="closeContentModal()">close</button>
     </div>
   </div>
@@ -513,7 +546,7 @@
   <div id="mapEditorOverlay">
     <div class="editor-toolbar">
       <button class="btn-ghost" onclick="closeMapEditor()">↩ back</button>
-      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;">
+      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;" value="https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg">
       <button class="btn" onclick="loadMapImage()">Load</button>
     </div>
     <div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div>
@@ -716,8 +749,6 @@
 
     function startIntroSequence() {
       introSequence.classList.add('active');
-      
-      // ستاره ساده و قشنگ - بدون خطا، فقط نور خالص
       followStar.style.width = '8px';
       followStar.style.height = '8px';
       followStar.style.top = '50%';
@@ -726,29 +757,24 @@
       followStar.style.transition = 'opacity 0.6s';
       followStar.style.background = '#fff';
       followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
-      
       setTimeout(() => { followStar.style.opacity = '1'; }, 200);
       setTimeout(() => { followText.style.opacity = '1'; }, 1000);
 
       const centerX = window.innerWidth/2;
       const centerY = window.innerHeight/2;
       let startTime = Date.now();
-      const duration = 6200; // 6.2 ثانیه
+      const duration = 6200;
 
       const animate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
-        // حرکت سریع و رو به جلو
         const angle = progress * Math.PI * 1.8;
         const radius = Math.min(window.innerWidth, window.innerHeight) * 0.3 * (1 - progress * 0.85);
         const x = centerX + Math.cos(angle) * radius;
         const y = centerY + Math.sin(angle * 1.3) * radius * 0.5 - progress * 60;
-        
         followStar.style.left = x + 'px';
         followStar.style.top = y + 'px';
-        
-        // اندازه ثابت می‌مونه تا لحظه انفجار
+
         if (progress < 0.92) {
           followStar.style.width = '8px';
           followStar.style.height = '8px';
@@ -757,7 +783,6 @@
         }
 
         if (progress >= 0.92 && progress < 1) {
-          // انفجار ناگهانی
           const explodeProgress = (progress - 0.92) / 0.08;
           const size = 8 + explodeProgress * 120;
           followStar.style.width = size + 'px';
@@ -769,7 +794,6 @@
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          // پایان - انتقال به آسمون
           document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
           setTimeout(() => {
             introSequence.classList.remove('active');
@@ -783,7 +807,6 @@
           }, 500);
         }
       };
-
       requestAnimationFrame(animate);
     }
 
@@ -932,46 +955,80 @@
     function showContent(index) {
       const d = state.starData[index];
       contentTitle.textContent = '✦ star ' + (index+1);
-      let html = '';
+      contentBody.innerHTML = '';
+      contentModal.classList.add('active');
+
       if (!d || !d.content) {
-        html = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>';
-      } else {
-        switch(d.type) {
-          case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
-          case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;">`; break;
-          case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
-          case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
-          case 'spotify':
-            let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
-            html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-            break;
-          case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
-          case 'map': renderMapViewer(d, contentBody); return;
-          default: html = `<p>${escapeHtml(d.content)}</p>`;
-        }
+        contentBody.innerHTML = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>';
+        return;
+      }
+
+      if (d.type === 'map') {
+        renderMapViewer(d, contentBody);
+        return;
+      }
+
+      let html = '';
+      switch(d.type) {
+        case 'text': html = `<p style="white-space:pre-wrap; line-height:1.8;">${escapeHtml(d.content)}</p>`; break;
+        case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;">`; break;
+        case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
+        case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
+        case 'spotify':
+          let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
+          html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+          break;
+        case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
+        default: html = `<p>${escapeHtml(d.content)}</p>`;
       }
       contentBody.innerHTML = html;
-      contentModal.classList.add('active');
     }
 
     function renderMapViewer(data, container) {
       let mapData;
-      try { mapData = JSON.parse(data.content); } catch(e) { container.innerHTML = '<p style="color:#b0a0d4;">Map data error.</p>'; return; }
-      if (!mapData.image) { container.innerHTML = '<p style="color:#b0a0d4;">Map image missing.</p>'; return; }
-      const mapId = 'map-' + Date.now();
+      try { mapData = JSON.parse(data.content); } catch(e) {
+        container.innerHTML = '<p style="color:#b0a0d4;">Map data not ready yet.</p>';
+        return;
+      }
+      if (!mapData.image) {
+        container.innerHTML = '<p style="color:#b0a0d4;">Map image not set.</p>';
+        return;
+      }
+      
+      const mapId = 'viewMap-' + Date.now();
       container.innerHTML = `<div id="${mapId}" class="map-container"></div>`;
+      
       const img = new Image();
+      img.crossOrigin = 'Anonymous';
       img.onload = () => {
-        const map = L.map(mapId, { crs: L.CRS.Simple, minZoom: -1, maxZoom: 3, attributionControl: false, zoomControl: true });
-        L.imageOverlay(mapData.image, [[0,0], [img.height, img.width]]).addTo(map);
-        map.fitBounds([[0,0], [img.height, img.width]]);
-        (mapData.markers||[]).forEach(m => {
-          const popupHtml = `<div style="font-family:Vazirmatn,sans-serif; color:#2d1b3a;"><b>${escapeHtml(m.title)}</b><br>${escapeHtml(m.text||'')}${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:120px; border-radius:0.5rem; margin-top:0.3rem;">`:''}</div>`;
-          L.marker([m.y, m.x]).addTo(map).bindPopup(popupHtml, { maxWidth: 200 });
+        const mapBounds = [[0, 0], [img.height, img.width]];
+        const map = L.map(mapId, {
+          crs: L.CRS.Simple,
+          minZoom: -2,
+          maxZoom: 3,
+          zoomControl: true,
+          attributionControl: false
         });
+        
+        L.imageOverlay(mapData.image, mapBounds).addTo(map);
+        map.fitBounds(mapBounds);
+        
+        if (mapData.markers && mapData.markers.length > 0) {
+          mapData.markers.forEach(m => {
+            const popupContent = `
+              <div style="font-family:Vazirmatn,sans-serif; color:#1a0a2e; min-width:120px;">
+                <b>${escapeHtml(m.title)}</b>
+                ${m.text ? `<br><span style="font-size:0.85rem;">${escapeHtml(m.text)}</span>` : ''}
+                ${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:140px; border-radius:0.5rem; margin-top:0.3rem;" onerror="this.style.display='none'">` : ''}
+              </div>`;
+            L.marker([m.y, m.x]).addTo(map).bindPopup(popupContent, { maxWidth: 250 });
+          });
+        }
+      };
+      img.onerror = () => {
+        container.innerHTML = '<p style="color:#ffb3b3;">Failed to load map image.</p>';
       };
       img.src = mapData.image;
-      contentModal.classList.add('active');
     }
 
     function closeContentModal() { contentModal.classList.remove('active'); }
@@ -991,70 +1048,117 @@
       messageModal.classList.remove('active');
     }
 
-    // MAP EDITOR (same as before, omitted for brevity but still functional)
+    // MAP EDITOR
     function openMapEditor(starIndex) {
       currentMapStarIndex = starIndex;
       const d = state.starData[starIndex];
       try { const json = JSON.parse(d.content || '{}'); mapMarkers = json.markers || []; mapImageUrl = json.image || ''; }
       catch(e) { mapMarkers = []; mapImageUrl = ''; }
-      document.getElementById('mapImageUrl').value = mapImageUrl;
+      document.getElementById('mapImageUrl').value = mapImageUrl || 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
       if (mapImageUrl) loadMapImage();
+      else document.getElementById('mapImageUrl').value = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
       document.getElementById('mapEditorOverlay').classList.add('active');
       renderMarkerList();
     }
+
     function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
+
     function loadMapImage() {
       const url = document.getElementById('mapImageUrl').value.trim();
       if (!url) return;
       mapImageUrl = url;
-      const img = new Image(); img.crossOrigin = 'Anonymous';
-      img.onload = () => { mapImage = img; mapEditorCanvas.width = img.width; mapEditorCanvas.height = img.height; drawEditorCanvas(); };
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        mapImage = img;
+        const canvas = mapEditorCanvas;
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.style.maxWidth = '100%';
+        canvas.style.height = 'auto';
+        drawEditorCanvas();
+      };
+      img.onerror = () => { alert('Failed to load image. Check the URL.'); };
       img.src = url;
     }
+
     function drawEditorCanvas() {
       if (!mapEditorCanvas || !mapImage) return;
-      const ctx2 = mapEditorCanvas.getContext('2d');
-      ctx2.clearRect(0,0,mapEditorCanvas.width, mapEditorCanvas.height);
+      const canvas = mapEditorCanvas;
+      const ctx2 = canvas.getContext('2d');
+      ctx2.clearRect(0, 0, canvas.width, canvas.height);
       ctx2.drawImage(mapImage, 0, 0);
+      
       mapMarkers.forEach(m => {
-        ctx2.fillStyle = '#fad974'; ctx2.shadowColor = '#fad974'; ctx2.shadowBlur = 12;
-        ctx2.beginPath(); ctx2.arc(m.x, m.y, 9, 0, 2*Math.PI); ctx2.fill();
-        ctx2.shadowBlur = 0; ctx2.fillStyle = '#1a0a2e'; ctx2.font = 'bold 11px Vazirmatn'; ctx2.fillText(m.title, m.x+14, m.y-8);
+        ctx2.beginPath();
+        ctx2.arc(m.x, m.y, 10, 0, 2 * Math.PI);
+        ctx2.fillStyle = '#fad974';
+        ctx2.shadowColor = '#fad974';
+        ctx2.shadowBlur = 14;
+        ctx2.fill();
+        ctx2.shadowBlur = 0;
+        
+        ctx2.fillStyle = '#1a0a2e';
+        ctx2.font = 'bold 12px Vazirmatn';
+        ctx2.fillText(m.title, m.x + 15, m.y - 10);
       });
     }
+
     mapEditorCanvas.addEventListener('click', (e) => {
-      const rect = mapEditorCanvas.getBoundingClientRect();
-      const scaleX = mapEditorCanvas.width / rect.width;
-      const scaleY = mapEditorCanvas.height / rect.height;
+      const canvas = mapEditorCanvas;
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
       const x = (e.clientX - rect.left) * scaleX;
       const y = (e.clientY - rect.top) * scaleY;
-      pendingMarkerCoord = {x: Math.round(x), y: Math.round(y)};
+      pendingMarkerCoord = { x: Math.round(x), y: Math.round(y) };
       document.getElementById('markerForm').style.display = 'flex';
       document.getElementById('markerTitle').value = '';
       document.getElementById('markerText').value = '';
       document.getElementById('markerImage').value = '';
     });
+
     function saveMarker() {
       const title = document.getElementById('markerTitle').value.trim();
       if (!title) return;
-      mapMarkers.push({ x: pendingMarkerCoord.x, y: pendingMarkerCoord.y, title, text: document.getElementById('markerText').value.trim(), image: document.getElementById('markerImage').value.trim() });
+      mapMarkers.push({
+        x: pendingMarkerCoord.x,
+        y: pendingMarkerCoord.y,
+        title,
+        text: document.getElementById('markerText').value.trim(),
+        image: document.getElementById('markerImage').value.trim()
+      });
       document.getElementById('markerForm').style.display = 'none';
       pendingMarkerCoord = null;
-      drawEditorCanvas(); renderMarkerList();
-    }
-    function cancelMarker() { document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; }
-    function renderMarkerList() {
-      document.getElementById('markerList').innerHTML = mapMarkers.map((m,i) => `<div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})"><span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span><span style="color:#ff8a8a;">✕</span></div>`).join('');
-    }
-    function deleteMarker(index) { mapMarkers.splice(index,1); drawEditorCanvas(); renderMarkerList(); }
-    function saveMapData() {
-      if (currentMapStarIndex === null) return;
-      state.starData[currentMapStarIndex].content = JSON.stringify({ image: mapImageUrl, markers: mapMarkers });
-      state.starData[currentMapStarIndex].type = 'map';
-      saveStarData(state.starData);
-      closeMapEditor(); renderAdmin();
+      drawEditorCanvas();
+      renderMarkerList();
     }
 
+    function cancelMarker() { document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; }
+
+    function renderMarkerList() {
+      const list = document.getElementById('markerList');
+      list.innerHTML = mapMarkers.map((m, i) => `
+        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})">
+          <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
+          <span style="color:#ff8a8a;">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function deleteMarker(index) { mapMarkers.splice(index, 1); drawEditorCanvas(); renderMarkerList(); }
+
+    function saveMapData() {
+      if (currentMapStarIndex === null) return;
+      const data = { image: mapImageUrl, markers: mapMarkers };
+      state.starData[currentMapStarIndex].content = JSON.stringify(data);
+      state.starData[currentMapStarIndex].type = 'map';
+      saveStarData(state.starData);
+      closeMapEditor();
+      renderAdmin();
+    }
+
+    // ADMIN
     function renderAdmin() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
@@ -1095,13 +1199,20 @@
       log.style.display = log.style.display === 'block' ? 'none' : 'block';
       log.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>';
     }
+
     function toggleMessages() {
       const box = document.getElementById('adminMessages');
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
       box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
     }
+
     function resetAllData() { localStorage.clear(); state = loadState(); renderAdmin(); alert('All data has been reset.'); }
-    function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    }
+
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
     (function preset() {
@@ -1128,4 +1239,4 @@
     landing.style.display = 'flex';
   </script>
 </body>
-</html>
+  </html>
