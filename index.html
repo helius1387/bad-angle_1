@@ -179,6 +179,7 @@
     }
     .overlay.active { opacity:1; visibility:visible; }
 
+    /* INTRO SEQUENCE */
     #introSequence {
       position:fixed;
       top:0;left:0;width:100%;height:100%;
@@ -190,43 +191,42 @@
       flex-direction:column;
       cursor:pointer;
       visibility:hidden;
+      overflow:hidden;
     }
     #introSequence.active { visibility:visible; }
     #followStar {
       position:absolute;
-      width:12px; height:12px;
+      width:20px; height:20px;
       background:white;
       border-radius:50%;
-      box-shadow: 0 0 15px 5px rgba(255,255,255,0.8), 0 0 40px 15px rgba(255,240,200,0.4);
+      box-shadow: 0 0 20px 8px rgba(255,255,255,0.9), 0 0 50px 20px rgba(255,240,200,0.5), 0 0 80px 35px rgba(250,217,116,0.3);
       transition: none;
-    }
-    #followStar::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 30px; height: 30px;
-      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
-      border-radius: 50%;
+      z-index:2;
     }
     #followText {
       color:white;
       position:absolute;
-      top:62%;
-      font-size:1.2rem;
-      letter-spacing:3px;
+      top:58%;
+      font-size:1.4rem;
+      letter-spacing:4px;
       opacity:0;
-      transition:opacity 1.5s;
+      transition:opacity 1s;
+      z-index:2;
+      text-shadow: 0 0 20px rgba(255,255,255,0.5);
     }
     .ray {
       position: absolute;
       top: 50%; left: 50%;
       width: 2px;
-      height: 20px;
-      background: white;
+      background: linear-gradient(to top, white, transparent);
       transform-origin: center bottom;
-      opacity: 0.6;
-      box-shadow: 0 0 6px white;
+      box-shadow: 0 0 8px white;
+      z-index:1;
+      animation: rayGlow 1.5s ease-in-out infinite;
+    }
+    @keyframes rayGlow {
+      0%,100% { opacity: 0.4; }
+      50% { opacity: 1; }
     }
 
     #skyView {
@@ -303,8 +303,8 @@
       50%{transform:translateY(-8px) rotate(5deg);}
     }
     .message-label {
-      color: rgba(180,170,220,0.35);
-      font-size: 0.45rem;
+      color: rgba(180,170,220,0.4);
+      font-size: 0.5rem;
       margin-top: 2px;
       letter-spacing: 0.5px;
     }
@@ -604,7 +604,7 @@
     <div class="glass">
       <h3>🪽 whisper to the sky</h3>
       <textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea>
-      <button class="btn" onclick="sendYeganehMessage()">send to Bad Angel</button>
+      <button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button>
       <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button>
     </div>
   </div>
@@ -638,7 +638,7 @@
   <!-- ADMIN -->
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:900px; align-items:center;">
-      <h2 style="color:#cbb8ff;">🛠 Admin · Bad Angel</h2>
+      <h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2>
       <button class="btn-ghost" onclick="logout()">↩ leave</button>
     </div>
     <div class="admin-grid" id="adminGrid"></div>
@@ -654,13 +654,13 @@
     <div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div>
   </div>
 
-  <audio id="bgMusic" loop preload="none"></audio>
+  <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
   <script>
     const YEGANEH_PASS = 'Heliganeh';
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const MUSIC_URL = 'https://cdn.freesound.org/previews/723/723123_5673399-lq.mp3'; // mysterious ambient
+    const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3'; // peaceful mysterious ambient
 
     const POETIC_LINES = {
       0: "in this sky, every star holds a secret from me to you…",
@@ -802,84 +802,88 @@
       musicPrompt.classList.remove('active');
       if (playMusic) {
         bgMusic.src = MUSIC_URL;
-        bgMusic.volume = 0;
-        bgMusic.play().then(() => { bgMusic.volume = 0.2; }).catch(() => {});
+        bgMusic.volume = 0.3;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Retry with user interaction
+            document.addEventListener('click', function retry() {
+              bgMusic.play().catch(()=>{});
+              document.removeEventListener('click', retry);
+            }, {once: true});
+          });
+        }
       }
       startIntroSequence();
     }
 
     function startIntroSequence() {
       introSequence.classList.add('active');
+      
       // Create rays
-      for (let i=0; i<12; i++) {
+      for (let i=0; i<16; i++) {
         const ray = document.createElement('div');
         ray.className = 'ray';
-        ray.style.transform = `translate(-50%, -50%) rotate(${i*30}deg) translateY(-14px)`;
-        ray.style.animation = `rayPulse ${1.5 + Math.random()}s ease-in-out infinite`;
+        const angle = i * 22.5;
+        ray.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-16px)`;
+        ray.style.height = (18 + Math.random()*15) + 'px';
+        ray.style.animationDelay = (Math.random()*0.8) + 's';
+        ray.style.animationDuration = (1.2 + Math.random()*1.5) + 's';
         followStar.appendChild(ray);
       }
-      // Add keyframes dynamically
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        @keyframes rayPulse {
-          0%,100% { opacity: 0.3; height: 15px; }
-          50% { opacity: 0.8; height: 25px; }
-        }
-        @keyframes starFloat {
-          0%,100% { transform: translate(-50%,-50%) scale(1); }
-          50% { transform: translate(-50%,-50%) scale(1.2); }
-        }
-      `;
-      document.head.appendChild(styleSheet);
 
       followStar.style.top = '50%';
       followStar.style.left = '50%';
       followStar.style.opacity = '0';
-      followStar.style.transition = 'opacity 3s';
-      followStar.style.animation = 'starFloat 3s ease-in-out infinite';
-      setTimeout(() => { followStar.style.opacity = '1'; }, 600);
-      setTimeout(() => { followText.style.opacity = '1'; }, 3000);
+      followStar.style.transition = 'opacity 0.8s';
+      setTimeout(() => { followStar.style.opacity = '1'; }, 300);
+      setTimeout(() => { followText.style.opacity = '1'; }, 1200);
 
       let angle = 0;
       const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
-      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.28;
+      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.3;
       const interval = setInterval(() => {
-        angle += 0.012;
-        const shrinkingRadius = startRadius * (1 - angle * 0.06);
-        const x = centerX + Math.cos(angle)*shrinkingRadius;
-        const y = centerY + Math.sin(angle)*shrinkingRadius*0.4;
+        angle += 0.03;
+        const shrinkingRadius = startRadius * (1 - angle * 0.07);
+        const x = centerX + Math.cos(angle*1.3)*shrinkingRadius;
+        const y = centerY + Math.sin(angle*0.8)*shrinkingRadius*0.5;
         followStar.style.left = x + 'px';
         followStar.style.top = y + 'px';
-        const scale = 1 + angle * 0.03;
-        followStar.style.transform = `translate(-50%,-50%) scale(${scale})`;
+        
+        const pulse = 1 + Math.sin(angle*5)*0.3;
+        followStar.style.transform = `translate(-50%,-50%) scale(${pulse})`;
+        
+        const glowSize = 25 + angle*3;
+        followStar.style.boxShadow = `0 0 ${glowSize}px ${glowSize*0.3}px rgba(255,255,255,0.9), 0 0 ${glowSize*2}px ${glowSize*0.6}px rgba(255,240,200,0.5), 0 0 ${glowSize*3}px ${glowSize}px rgba(250,217,116,0.3)`;
 
-        if (shrinkingRadius < 8) {
+        if (shrinkingRadius < 10) {
           clearInterval(interval);
           const glowInterval = setInterval(() => {
             const currentScale = parseFloat(followStar.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
-            if (currentScale >= 40) {
+            if (currentScale >= 50) {
               clearInterval(glowInterval);
               document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
-              introSequence.style.background = 'rgba(0,0,0,0)';
               setTimeout(() => {
                 introSequence.classList.remove('active');
                 followStar.style.opacity = '0';
                 followText.style.opacity = '0';
                 followStar.querySelectorAll('.ray').forEach(r => r.remove());
-                followStar.style.animation = '';
                 followStar.style.transform = 'translate(-50%,-50%) scale(1)';
+                followStar.style.boxShadow = '0 0 20px 8px rgba(255,255,255,0.9), 0 0 50px 20px rgba(255,240,200,0.5)';
                 introSequence.style.background = '#000';
                 showSky();
-              }, 1000);
+              }, 800);
             } else {
-              const newScale = currentScale * 1.2;
+              const newScale = currentScale * 1.25;
               followStar.style.transform = `translate(-50%,-50%) scale(${newScale})`;
-              followStar.style.boxShadow = `0 0 ${30+newScale*3}px white, 0 0 ${60+newScale*5}px #ffeaa7, 0 0 ${100+newScale*8}px #fad974`;
+              followStar.style.boxShadow = `0 0 ${50+newScale*2}px white, 0 0 ${100+newScale*3}px #ffeaa7, 0 0 ${150+newScale*4}px #fad974`;
               followStar.style.background = '#ffeaa7';
+              followStar.style.width = (20*newScale*0.3) + 'px';
+              followStar.style.height = (20*newScale*0.3) + 'px';
             }
-          }, 50);
+          }, 40);
         }
-      }, 50);
+      }, 40);
     }
 
     function showSky() {
@@ -1135,14 +1139,14 @@
       mapMarkers.forEach(m => {
         ctx2.fillStyle = '#fad974';
         ctx2.shadowColor = '#fad974';
-        ctx2.shadowBlur = 10;
+        ctx2.shadowBlur = 12;
         ctx2.beginPath();
-        ctx2.arc(m.x, m.y, 8, 0, 2*Math.PI);
+        ctx2.arc(m.x, m.y, 9, 0, 2*Math.PI);
         ctx2.fill();
         ctx2.shadowBlur = 0;
         ctx2.fillStyle = '#1a0a2e';
-        ctx2.font = 'bold 10px Vazirmatn';
-        ctx2.fillText(m.title, m.x+12, m.y-8);
+        ctx2.font = 'bold 11px Vazirmatn';
+        ctx2.fillText(m.title, m.x+14, m.y-8);
       });
     }
 
@@ -1183,7 +1187,7 @@
     function renderMarkerList() {
       const list = document.getElementById('markerList');
       list.innerHTML = mapMarkers.map((m,i) => `
-        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.2rem 0;" onclick="deleteMarker(${i})">
+        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})">
           <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
           <span style="color:#ff8a8a;">✕</span>
         </div>
@@ -1297,4 +1301,4 @@
     landing.style.display = 'flex';
   </script>
 </body>
-        </html>
+    </html>
