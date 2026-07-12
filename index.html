@@ -193,21 +193,40 @@
     }
     #introSequence.active { visibility:visible; }
     #followStar {
-      width:30px; height:30px;
+      position:absolute;
+      width:12px; height:12px;
       background:white;
       border-radius:50%;
-      box-shadow:0 0 20px white;
-      position:absolute;
-      transition: width 0.5s, height 0.5s;
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.8), 0 0 40px 15px rgba(255,240,200,0.4);
+      transition: none;
+    }
+    #followStar::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px; height: 30px;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+      border-radius: 50%;
     }
     #followText {
       color:white;
       position:absolute;
-      top:60%;
+      top:62%;
       font-size:1.2rem;
       letter-spacing:3px;
       opacity:0;
       transition:opacity 1.5s;
+    }
+    .ray {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 2px;
+      height: 20px;
+      background: white;
+      transform-origin: center bottom;
+      opacity: 0.6;
+      box-shadow: 0 0 6px white;
     }
 
     #skyView {
@@ -265,18 +284,29 @@
       z-index:10;
       backdrop-filter:blur(8px);
     }
-    .message-wings {
+    .message-wings-wrap {
       position:absolute;
       top:2rem;
       right:2rem;
-      font-size:1.5rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
       cursor:pointer;
       z-index:10;
+    }
+    .message-wings {
+      font-size:1.5rem;
       animation:floatWings 2s infinite;
     }
     @keyframes floatWings {
       0%,100%{transform:translateY(0) rotate(0deg);}
       50%{transform:translateY(-8px) rotate(5deg);}
+    }
+    .message-label {
+      color: rgba(180,170,220,0.35);
+      font-size: 0.45rem;
+      margin-top: 2px;
+      letter-spacing: 0.5px;
     }
 
     .stars-container {
@@ -427,7 +457,11 @@
       overflow:hidden;
       margin-bottom:1rem;
     }
-
+    .map-container img {
+      max-width: 120px;
+      border-radius: 0.5rem;
+      margin-top: 0.3rem;
+    }
     #mapEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background: rgba(5,5,20,0.95);
@@ -444,11 +478,13 @@
       display: flex;
       gap: 0.5rem;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .editor-canvas-wrap {
       position: relative;
       max-width: 95vw;
-      max-height: 65vh;
+      max-height: 55vh;
       border: 1px solid #6b4ecc;
       border-radius: 1rem;
       overflow: auto;
@@ -456,7 +492,7 @@
     }
     #mapEditorCanvas { display: block; cursor: crosshair; }
     .marker-form {
-      background: rgba(20,15,45,0.9);
+      background: rgba(20,15,45,0.95);
       backdrop-filter: blur(10px);
       border-radius: 1rem;
       padding: 1rem;
@@ -464,17 +500,23 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      width: 300px;
+      width: 320px;
       max-width: 90%;
+      border: 1px solid #6b4ecc;
     }
     .marker-form input, .marker-form textarea {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       border: 1px solid #6b4ecc;
       border-radius: 0.7rem;
-      padding: 0.5rem;
+      padding: 0.6rem;
       color: #fff;
       font-family: inherit;
       text-align: left;
+    }
+    .marker-form label {
+      font-size: 0.75rem;
+      color: #b0a0c8;
+      margin-bottom: -0.3rem;
     }
   </style>
 </head>
@@ -531,7 +573,10 @@
     <div class="stars-container" id="starsContainer"></div>
     <div class="crafted-sign">made with stardust for my bad angel</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
-    <div class="message-wings" id="messageWings" title="send a message to Bad Angel" onclick="openMessageBox()">🪽</div>
+    <div class="message-wings-wrap" onclick="openMessageBox()">
+      <span class="message-wings">🪽</span>
+      <span class="message-label">send a message</span>
+    </div>
   </div>
 
   <!-- STAR CODE MODAL -->
@@ -568,23 +613,26 @@
   <div id="mapEditorOverlay">
     <div class="editor-toolbar">
       <button class="btn-ghost" onclick="closeMapEditor()">↩ back</button>
-      <input type="text" id="mapImageUrl" placeholder="map image URL" style="width:200px;">
+      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;">
       <button class="btn" onclick="loadMapImage()">Load</button>
     </div>
     <div class="editor-canvas-wrap">
       <canvas id="mapEditorCanvas"></canvas>
     </div>
     <div class="marker-form" id="markerForm" style="display:none;">
-      <input type="text" id="markerTitle" placeholder="Memory title">
-      <textarea id="markerText" rows="2" placeholder="Your memory text..."></textarea>
-      <input type="text" id="markerImage" placeholder="Optional image URL">
-      <div style="display:flex; gap:0.5rem; justify-content:center;">
+      <label>Memory Title *</label>
+      <input type="text" id="markerTitle" placeholder="e.g., First meeting">
+      <label>Text</label>
+      <textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea>
+      <label>Image URL (optional)</label>
+      <input type="text" id="markerImage" placeholder="https://...">
+      <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
         <button class="btn" onclick="saveMarker()">Save Marker</button>
         <button class="btn-ghost" onclick="cancelMarker()">Cancel</button>
       </div>
     </div>
-    <div id="markerList" style="max-height:15vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.8rem;"></div>
-    <button class="btn" style="margin-top:1rem;" onclick="saveMapData()">💾 Save Map to Star</button>
+    <div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div>
+    <button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button>
   </div>
 
   <!-- ADMIN -->
@@ -762,59 +810,76 @@
 
     function startIntroSequence() {
       introSequence.classList.add('active');
-      followStar.style.width = '8px';
-      followStar.style.height = '8px';
+      // Create rays
+      for (let i=0; i<12; i++) {
+        const ray = document.createElement('div');
+        ray.className = 'ray';
+        ray.style.transform = `translate(-50%, -50%) rotate(${i*30}deg) translateY(-14px)`;
+        ray.style.animation = `rayPulse ${1.5 + Math.random()}s ease-in-out infinite`;
+        followStar.appendChild(ray);
+      }
+      // Add keyframes dynamically
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+        @keyframes rayPulse {
+          0%,100% { opacity: 0.3; height: 15px; }
+          50% { opacity: 0.8; height: 25px; }
+        }
+        @keyframes starFloat {
+          0%,100% { transform: translate(-50%,-50%) scale(1); }
+          50% { transform: translate(-50%,-50%) scale(1.2); }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+
       followStar.style.top = '50%';
       followStar.style.left = '50%';
-      followStar.style.transform = 'translate(-50%,-50%)';
-      followStar.style.boxShadow = '0 0 8px white';
       followStar.style.opacity = '0';
-      followStar.style.transition = 'opacity 2s';
-      setTimeout(() => { followStar.style.opacity = '1'; }, 500);
-      setTimeout(() => { followText.style.opacity = '1'; }, 2500);
+      followStar.style.transition = 'opacity 3s';
+      followStar.style.animation = 'starFloat 3s ease-in-out infinite';
+      setTimeout(() => { followStar.style.opacity = '1'; }, 600);
+      setTimeout(() => { followText.style.opacity = '1'; }, 3000);
 
       let angle = 0;
       const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
-      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.2;
+      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.28;
       const interval = setInterval(() => {
-        angle += 0.015;
-        const shrinkingRadius = startRadius * (1 - angle * 0.08);
+        angle += 0.012;
+        const shrinkingRadius = startRadius * (1 - angle * 0.06);
         const x = centerX + Math.cos(angle)*shrinkingRadius;
-        const y = centerY + Math.sin(angle)*shrinkingRadius*0.5;
+        const y = centerY + Math.sin(angle)*shrinkingRadius*0.4;
         followStar.style.left = x + 'px';
         followStar.style.top = y + 'px';
-        const starSize = Math.max(2, 8 - angle * 0.5);
-        followStar.style.width = starSize + 'px';
-        followStar.style.height = starSize + 'px';
-        followStar.style.boxShadow = `0 0 ${15 + angle*2}px white`;
+        const scale = 1 + angle * 0.03;
+        followStar.style.transform = `translate(-50%,-50%) scale(${scale})`;
 
-        if (shrinkingRadius < 5) {
+        if (shrinkingRadius < 8) {
           clearInterval(interval);
           const glowInterval = setInterval(() => {
-            const currentSize = parseFloat(followStar.style.width);
-            if (currentSize >= window.innerWidth*1.5) {
+            const currentScale = parseFloat(followStar.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+            if (currentScale >= 40) {
               clearInterval(glowInterval);
               document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
               introSequence.style.background = 'rgba(0,0,0,0)';
               setTimeout(() => {
                 introSequence.classList.remove('active');
-                followStar.style.width = '8px';
-                followStar.style.height = '8px';
-                followStar.style.boxShadow = '0 0 8px white';
                 followStar.style.opacity = '0';
                 followText.style.opacity = '0';
+                followStar.querySelectorAll('.ray').forEach(r => r.remove());
+                followStar.style.animation = '';
+                followStar.style.transform = 'translate(-50%,-50%) scale(1)';
                 introSequence.style.background = '#000';
                 showSky();
-              }, 800);
+              }, 1000);
             } else {
-              followStar.style.width = (currentSize * 1.3) + 'px';
-              followStar.style.height = (currentSize * 1.3) + 'px';
-              followStar.style.boxShadow = `0 0 ${50 + currentSize*0.2}px white, 0 0 ${100 + currentSize*0.3}px #fad974`;
+              const newScale = currentScale * 1.2;
+              followStar.style.transform = `translate(-50%,-50%) scale(${newScale})`;
+              followStar.style.boxShadow = `0 0 ${30+newScale*3}px white, 0 0 ${60+newScale*5}px #ffeaa7, 0 0 ${100+newScale*8}px #fad974`;
               followStar.style.background = '#ffeaa7';
             }
-          }, 40);
+          }, 50);
         }
-      }, 40);
+      }, 50);
     }
 
     function showSky() {
@@ -996,7 +1061,8 @@
         L.imageOverlay(mapData.image, [[0,0], [img.height, img.width]]).addTo(map);
         map.fitBounds([[0,0], [img.height, img.width]]);
         (mapData.markers||[]).forEach(m => {
-          L.marker([m.y, m.x]).addTo(map).bindPopup(`<b>${escapeHtml(m.title)}</b><br>${escapeHtml(m.text||'')}${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:100px;">`:''}`);
+          const popupHtml = `<div style="font-family:Vazirmatn,sans-serif; color:#2d1b3a;"><b>${escapeHtml(m.title)}</b><br>${escapeHtml(m.text||'')}${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:120px; border-radius:0.5rem; margin-top:0.3rem;">`:''}</div>`;
+          L.marker([m.y, m.x]).addTo(map).bindPopup(popupHtml, { maxWidth: 200 });
         });
       };
       img.src = mapData.image;
@@ -1068,9 +1134,12 @@
       ctx2.drawImage(mapImage, 0, 0);
       mapMarkers.forEach(m => {
         ctx2.fillStyle = '#fad974';
+        ctx2.shadowColor = '#fad974';
+        ctx2.shadowBlur = 10;
         ctx2.beginPath();
         ctx2.arc(m.x, m.y, 8, 0, 2*Math.PI);
         ctx2.fill();
+        ctx2.shadowBlur = 0;
         ctx2.fillStyle = '#1a0a2e';
         ctx2.font = 'bold 10px Vazirmatn';
         ctx2.fillText(m.title, m.x+12, m.y-8);
@@ -1114,8 +1183,8 @@
     function renderMarkerList() {
       const list = document.getElementById('markerList');
       list.innerHTML = mapMarkers.map((m,i) => `
-        <div style="cursor:pointer; display:flex; justify-content:space-between;" onclick="deleteMarker(${i})">
-          <span>📍 ${escapeHtml(m.title)}</span>
+        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.2rem 0;" onclick="deleteMarker(${i})">
+          <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
           <span style="color:#ff8a8a;">✕</span>
         </div>
       `).join('');
@@ -1228,4 +1297,4 @@
     landing.style.display = 'flex';
   </script>
 </body>
-</html>
+        </html>
