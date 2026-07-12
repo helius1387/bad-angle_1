@@ -179,54 +179,41 @@
     }
     .overlay.active { opacity:1; visibility:visible; }
 
-    /* INTRO SEQUENCE */
+    /* INTRO - ساده و قشنگ */
     #introSequence {
       position:fixed;
       top:0;left:0;width:100%;height:100%;
       background:#000;
       z-index:300;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
       cursor:pointer;
       visibility:hidden;
       overflow:hidden;
     }
     #introSequence.active { visibility:visible; }
+    
     #followStar {
       position:absolute;
-      width:20px; height:20px;
-      background:white;
+      width:8px;
+      height:8px;
+      background:#fff;
       border-radius:50%;
-      box-shadow: 0 0 20px 8px rgba(255,255,255,0.9), 0 0 50px 20px rgba(255,240,200,0.5), 0 0 80px 35px rgba(250,217,116,0.3);
-      transition: none;
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.9), 0 0 40px 15px rgba(255,240,220,0.6), 0 0 80px 30px rgba(250,217,116,0.3);
       z-index:2;
+      transition: none;
     }
+    
     #followText {
-      color:white;
       position:absolute;
-      top:58%;
-      font-size:1.4rem;
+      top:55%;
+      left:50%;
+      transform:translateX(-50%);
+      color:#fff;
+      font-size:1.3rem;
       letter-spacing:4px;
       opacity:0;
       transition:opacity 1s;
       z-index:2;
-      text-shadow: 0 0 20px rgba(255,255,255,0.5);
-    }
-    .ray {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 2px;
-      background: linear-gradient(to top, white, transparent);
-      transform-origin: center bottom;
-      box-shadow: 0 0 8px white;
-      z-index:1;
-      animation: rayGlow 1.5s ease-in-out infinite;
-    }
-    @keyframes rayGlow {
-      0%,100% { opacity: 0.4; }
-      50% { opacity: 1; }
+      text-shadow:0 0 20px rgba(255,255,255,0.4);
     }
 
     #skyView {
@@ -303,18 +290,13 @@
       50%{transform:translateY(-8px) rotate(5deg);}
     }
     .message-label {
-      color: rgba(180,170,220,0.4);
-      font-size: 0.5rem;
-      margin-top: 2px;
-      letter-spacing: 0.5px;
+      color:rgba(180,170,220,0.4);
+      font-size:0.5rem;
+      margin-top:2px;
+      letter-spacing:0.5px;
     }
 
-    .stars-container {
-      flex:1;
-      width:100%;
-      position:relative;
-      overflow:hidden;
-    }
+    .stars-container { flex:1; width:100%; position:relative; overflow:hidden; }
     .star {
       position:absolute;
       width:50px; height:50px;
@@ -344,19 +326,13 @@
       50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974);}
     }
     .star-number {
-      position:absolute;
-      top:50%;left:50%;
+      position:absolute; top:50%;left:50%;
       transform:translate(-50%,-50%);
-      font-size:0.7rem;
-      font-weight:bold;
-      color:#2d1b3a;
-      pointer-events:none;
+      font-size:0.7rem; font-weight:bold; color:#2d1b3a; pointer-events:none;
     }
     .sparkle {
-      position:absolute;
-      width:4px; height:4px;
-      background:white;
-      border-radius:50%;
+      position:absolute; width:4px; height:4px;
+      background:white; border-radius:50%;
       box-shadow:0 0 10px #ffeaa7;
       pointer-events:none;
       animation:sparkleDrift 2s infinite;
@@ -377,147 +353,71 @@
     }
 
     #adminPanel {
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      z-index:15;
-      background:rgba(5,5,18,0.92);
-      backdrop-filter:blur(20px);
-      padding:2rem 1.5rem;
-      overflow-y:auto;
-      display:none;
-      flex-direction:column;
-      align-items:center;
+      position:fixed; top:0;left:0;width:100%;height:100%;
+      z-index:15; background:rgba(5,5,18,0.92);
+      backdrop-filter:blur(20px); padding:2rem 1.5rem;
+      overflow-y:auto; display:none;
+      flex-direction:column; align-items:center;
     }
     #adminPanel.active { display:flex; }
-
     .admin-grid {
       display:grid;
       grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
-      gap:1rem;
-      max-width:900px;
-      width:100%;
-      margin-top:1.5rem;
+      gap:1rem; max-width:900px; width:100%; margin-top:1.5rem;
     }
     .admin-card {
-      background:rgba(20,15,45,0.7);
-      border-radius:1.5rem;
-      padding:1.2rem;
-      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(20,15,45,0.7); border-radius:1.5rem;
+      padding:1.2rem; border:1px solid rgba(255,255,255,0.08);
     }
     .admin-card label { font-size:0.75rem; color:#b0a0c8; }
     .admin-card input, .admin-card select, .admin-card textarea {
-      width:100%;
-      margin:0.3rem 0 0.8rem;
-      background:rgba(255,255,255,0.05);
-      border:1px solid #443366;
-      border-radius:1rem;
-      padding:0.5rem 1rem;
-      color:#f0e5ff;
-      font-family:inherit;
+      width:100%; margin:0.3rem 0 0.8rem;
+      background:rgba(255,255,255,0.05); border:1px solid #443366;
+      border-radius:1rem; padding:0.5rem 1rem;
+      color:#f0e5ff; font-family:inherit;
     }
     .admin-log, .message-box {
-      margin-top:2rem;
-      max-width:900px;
-      width:100%;
-      background:rgba(20,15,45,0.6);
-      border-radius:1.5rem;
-      padding:1.2rem;
-      color:#b0a0d4;
-      font-size:0.8rem;
+      margin-top:2rem; max-width:900px; width:100%;
+      background:rgba(20,15,45,0.6); border-radius:1.5rem;
+      padding:1.2rem; color:#b0a0d4; font-size:0.8rem;
     }
 
     #finalMessage {
-      position:fixed;
-      top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.92);
-      z-index:200;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
+      position:fixed; top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.92); z-index:200;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
       visibility:hidden;
     }
     #finalMessage.active { visibility:visible; }
     .final-text {
-      font-size:2rem;
-      color:#ffeaa7;
+      font-size:2rem; color:#ffeaa7;
       text-shadow:0 0 50px #f5d742;
       animation:finalPulse 2s infinite;
-      padding:1rem;
-      text-align:center;
+      padding:1rem; text-align:center;
     }
     @keyframes finalPulse {
       0%,100%{text-shadow:0 0 35px #f5d742;}
       50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
     }
 
-    .map-container {
-      width:100%; height:50vh;
-      border-radius:1rem;
-      overflow:hidden;
-      margin-bottom:1rem;
-    }
-    .map-container img {
-      max-width: 120px;
-      border-radius: 0.5rem;
-      margin-top: 0.3rem;
-    }
+    .map-container { width:100%; height:50vh; border-radius:1rem; overflow:hidden; margin-bottom:1rem; }
+    .map-container img { max-width:120px; border-radius:0.5rem; margin-top:0.3rem; }
+    
     #mapEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
-      background: rgba(5,5,20,0.95);
-      z-index: 400;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      visibility: hidden;
+      background:rgba(5,5,20,0.95); z-index:400;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      visibility:hidden;
     }
-    #mapEditorOverlay.active { visibility: visible; }
-    .editor-toolbar {
-      margin-bottom: 0.5rem;
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .editor-canvas-wrap {
-      position: relative;
-      max-width: 95vw;
-      max-height: 55vh;
-      border: 1px solid #6b4ecc;
-      border-radius: 1rem;
-      overflow: auto;
-      background: #1a1530;
-    }
-    #mapEditorCanvas { display: block; cursor: crosshair; }
-    .marker-form {
-      background: rgba(20,15,45,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      width: 320px;
-      max-width: 90%;
-      border: 1px solid #6b4ecc;
-    }
-    .marker-form input, .marker-form textarea {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid #6b4ecc;
-      border-radius: 0.7rem;
-      padding: 0.6rem;
-      color: #fff;
-      font-family: inherit;
-      text-align: left;
-    }
-    .marker-form label {
-      font-size: 0.75rem;
-      color: #b0a0c8;
-      margin-bottom: -0.3rem;
-    }
+    #mapEditorOverlay.active { visibility:visible; }
+    .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; }
+    .editor-canvas-wrap { position:relative; max-width:95vw; max-height:55vh; border:1px solid #6b4ecc; border-radius:1rem; overflow:auto; background:#1a1530; }
+    #mapEditorCanvas { display:block; cursor:crosshair; }
+    .marker-form { background:rgba(20,15,45,0.95); backdrop-filter:blur(10px); border-radius:1rem; padding:1rem; margin-top:0.5rem; display:flex; flex-direction:column; gap:0.5rem; width:320px; max-width:90%; border:1px solid #6b4ecc; }
+    .marker-form input, .marker-form textarea { background:rgba(255,255,255,0.08); border:1px solid #6b4ecc; border-radius:0.7rem; padding:0.6rem; color:#fff; font-family:inherit; text-align:left; }
+    .marker-form label { font-size:0.75rem; color:#b0a0c8; margin-bottom:-0.3rem; }
   </style>
 </head>
 <body>
@@ -616,9 +516,7 @@
       <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;">
       <button class="btn" onclick="loadMapImage()">Load</button>
     </div>
-    <div class="editor-canvas-wrap">
-      <canvas id="mapEditorCanvas"></canvas>
-    </div>
+    <div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div>
     <div class="marker-form" id="markerForm" style="display:none;">
       <label>Memory Title *</label>
       <input type="text" id="markerTitle" placeholder="e.g., First meeting">
@@ -660,7 +558,7 @@
     const YEGANEH_PASS = 'Heliganeh';
     const ADMIN_PASS = '221B';
     const TOTAL_STARS = 21;
-    const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3'; // peaceful mysterious ambient
+    const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
 
     const POETIC_LINES = {
       0: "in this sky, every star holds a secret from me to you…",
@@ -806,7 +704,6 @@
         const playPromise = bgMusic.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {
-            // Retry with user interaction
             document.addEventListener('click', function retry() {
               bgMusic.play().catch(()=>{});
               document.removeEventListener('click', retry);
@@ -820,70 +717,74 @@
     function startIntroSequence() {
       introSequence.classList.add('active');
       
-      // Create rays
-      for (let i=0; i<16; i++) {
-        const ray = document.createElement('div');
-        ray.className = 'ray';
-        const angle = i * 22.5;
-        ray.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-16px)`;
-        ray.style.height = (18 + Math.random()*15) + 'px';
-        ray.style.animationDelay = (Math.random()*0.8) + 's';
-        ray.style.animationDuration = (1.2 + Math.random()*1.5) + 's';
-        followStar.appendChild(ray);
-      }
-
+      // ستاره ساده و قشنگ - بدون خطا، فقط نور خالص
+      followStar.style.width = '8px';
+      followStar.style.height = '8px';
       followStar.style.top = '50%';
       followStar.style.left = '50%';
       followStar.style.opacity = '0';
-      followStar.style.transition = 'opacity 0.8s';
-      setTimeout(() => { followStar.style.opacity = '1'; }, 300);
-      setTimeout(() => { followText.style.opacity = '1'; }, 1200);
+      followStar.style.transition = 'opacity 0.6s';
+      followStar.style.background = '#fff';
+      followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
+      
+      setTimeout(() => { followStar.style.opacity = '1'; }, 200);
+      setTimeout(() => { followText.style.opacity = '1'; }, 1000);
 
-      let angle = 0;
-      const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
-      const startRadius = Math.min(window.innerWidth, window.innerHeight)*0.3;
-      const interval = setInterval(() => {
-        angle += 0.03;
-        const shrinkingRadius = startRadius * (1 - angle * 0.07);
-        const x = centerX + Math.cos(angle*1.3)*shrinkingRadius;
-        const y = centerY + Math.sin(angle*0.8)*shrinkingRadius*0.5;
+      const centerX = window.innerWidth/2;
+      const centerY = window.innerHeight/2;
+      let startTime = Date.now();
+      const duration = 6200; // 6.2 ثانیه
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // حرکت سریع و رو به جلو
+        const angle = progress * Math.PI * 1.8;
+        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.3 * (1 - progress * 0.85);
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle * 1.3) * radius * 0.5 - progress * 60;
+        
         followStar.style.left = x + 'px';
         followStar.style.top = y + 'px';
         
-        const pulse = 1 + Math.sin(angle*5)*0.3;
-        followStar.style.transform = `translate(-50%,-50%) scale(${pulse})`;
-        
-        const glowSize = 25 + angle*3;
-        followStar.style.boxShadow = `0 0 ${glowSize}px ${glowSize*0.3}px rgba(255,255,255,0.9), 0 0 ${glowSize*2}px ${glowSize*0.6}px rgba(255,240,200,0.5), 0 0 ${glowSize*3}px ${glowSize}px rgba(250,217,116,0.3)`;
-
-        if (shrinkingRadius < 10) {
-          clearInterval(interval);
-          const glowInterval = setInterval(() => {
-            const currentScale = parseFloat(followStar.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
-            if (currentScale >= 50) {
-              clearInterval(glowInterval);
-              document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
-              setTimeout(() => {
-                introSequence.classList.remove('active');
-                followStar.style.opacity = '0';
-                followText.style.opacity = '0';
-                followStar.querySelectorAll('.ray').forEach(r => r.remove());
-                followStar.style.transform = 'translate(-50%,-50%) scale(1)';
-                followStar.style.boxShadow = '0 0 20px 8px rgba(255,255,255,0.9), 0 0 50px 20px rgba(255,240,200,0.5)';
-                introSequence.style.background = '#000';
-                showSky();
-              }, 800);
-            } else {
-              const newScale = currentScale * 1.25;
-              followStar.style.transform = `translate(-50%,-50%) scale(${newScale})`;
-              followStar.style.boxShadow = `0 0 ${50+newScale*2}px white, 0 0 ${100+newScale*3}px #ffeaa7, 0 0 ${150+newScale*4}px #fad974`;
-              followStar.style.background = '#ffeaa7';
-              followStar.style.width = (20*newScale*0.3) + 'px';
-              followStar.style.height = (20*newScale*0.3) + 'px';
-            }
-          }, 40);
+        // اندازه ثابت می‌مونه تا لحظه انفجار
+        if (progress < 0.92) {
+          followStar.style.width = '8px';
+          followStar.style.height = '8px';
+          followStar.style.background = '#fff';
+          followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
         }
-      }, 40);
+
+        if (progress >= 0.92 && progress < 1) {
+          // انفجار ناگهانی
+          const explodeProgress = (progress - 0.92) / 0.08;
+          const size = 8 + explodeProgress * 120;
+          followStar.style.width = size + 'px';
+          followStar.style.height = size + 'px';
+          followStar.style.background = '#ffeaa7';
+          followStar.style.boxShadow = `0 0 ${30+size}px white, 0 0 ${60+size*2}px #ffeaa7, 0 0 ${100+size*3}px #fad974`;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // پایان - انتقال به آسمون
+          document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
+          setTimeout(() => {
+            introSequence.classList.remove('active');
+            followStar.style.opacity = '0';
+            followText.style.opacity = '0';
+            followStar.style.width = '8px';
+            followStar.style.height = '8px';
+            followStar.style.background = '#fff';
+            followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5)';
+            showSky();
+          }, 500);
+        }
+      };
+
+      requestAnimationFrame(animate);
     }
 
     function showSky() {
@@ -1080,10 +981,7 @@
       messageModal.classList.remove('active');
     }
 
-    function openMessageBox() {
-      yeganehMessage.value = '';
-      messageModal.classList.add('active');
-    }
+    function openMessageBox() { yeganehMessage.value = ''; messageModal.classList.add('active'); }
     function closeMessageModal() { messageModal.classList.remove('active'); }
     function sendYeganehMessage() {
       const msg = yeganehMessage.value.trim();
@@ -1093,63 +991,37 @@
       messageModal.classList.remove('active');
     }
 
-    // MAP EDITOR
+    // MAP EDITOR (same as before, omitted for brevity but still functional)
     function openMapEditor(starIndex) {
       currentMapStarIndex = starIndex;
       const d = state.starData[starIndex];
-      try {
-        const json = JSON.parse(d.content || '{}');
-        mapMarkers = json.markers || [];
-        mapImageUrl = json.image || '';
-      } catch(e) {
-        mapMarkers = [];
-        mapImageUrl = '';
-      }
+      try { const json = JSON.parse(d.content || '{}'); mapMarkers = json.markers || []; mapImageUrl = json.image || ''; }
+      catch(e) { mapMarkers = []; mapImageUrl = ''; }
       document.getElementById('mapImageUrl').value = mapImageUrl;
       if (mapImageUrl) loadMapImage();
       document.getElementById('mapEditorOverlay').classList.add('active');
       renderMarkerList();
     }
-
-    function closeMapEditor() {
-      document.getElementById('mapEditorOverlay').classList.remove('active');
-      currentMapStarIndex = null;
-    }
-
+    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
     function loadMapImage() {
       const url = document.getElementById('mapImageUrl').value.trim();
       if (!url) return;
       mapImageUrl = url;
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        mapImage = img;
-        mapEditorCanvas.width = img.width;
-        mapEditorCanvas.height = img.height;
-        drawEditorCanvas();
-      };
+      const img = new Image(); img.crossOrigin = 'Anonymous';
+      img.onload = () => { mapImage = img; mapEditorCanvas.width = img.width; mapEditorCanvas.height = img.height; drawEditorCanvas(); };
       img.src = url;
     }
-
     function drawEditorCanvas() {
       if (!mapEditorCanvas || !mapImage) return;
       const ctx2 = mapEditorCanvas.getContext('2d');
       ctx2.clearRect(0,0,mapEditorCanvas.width, mapEditorCanvas.height);
       ctx2.drawImage(mapImage, 0, 0);
       mapMarkers.forEach(m => {
-        ctx2.fillStyle = '#fad974';
-        ctx2.shadowColor = '#fad974';
-        ctx2.shadowBlur = 12;
-        ctx2.beginPath();
-        ctx2.arc(m.x, m.y, 9, 0, 2*Math.PI);
-        ctx2.fill();
-        ctx2.shadowBlur = 0;
-        ctx2.fillStyle = '#1a0a2e';
-        ctx2.font = 'bold 11px Vazirmatn';
-        ctx2.fillText(m.title, m.x+14, m.y-8);
+        ctx2.fillStyle = '#fad974'; ctx2.shadowColor = '#fad974'; ctx2.shadowBlur = 12;
+        ctx2.beginPath(); ctx2.arc(m.x, m.y, 9, 0, 2*Math.PI); ctx2.fill();
+        ctx2.shadowBlur = 0; ctx2.fillStyle = '#1a0a2e'; ctx2.font = 'bold 11px Vazirmatn'; ctx2.fillText(m.title, m.x+14, m.y-8);
       });
     }
-
     mapEditorCanvas.addEventListener('click', (e) => {
       const rect = mapEditorCanvas.getBoundingClientRect();
       const scaleX = mapEditorCanvas.width / rect.width;
@@ -1162,55 +1034,27 @@
       document.getElementById('markerText').value = '';
       document.getElementById('markerImage').value = '';
     });
-
     function saveMarker() {
       const title = document.getElementById('markerTitle').value.trim();
       if (!title) return;
-      mapMarkers.push({
-        x: pendingMarkerCoord.x,
-        y: pendingMarkerCoord.y,
-        title,
-        text: document.getElementById('markerText').value.trim(),
-        image: document.getElementById('markerImage').value.trim()
-      });
+      mapMarkers.push({ x: pendingMarkerCoord.x, y: pendingMarkerCoord.y, title, text: document.getElementById('markerText').value.trim(), image: document.getElementById('markerImage').value.trim() });
       document.getElementById('markerForm').style.display = 'none';
       pendingMarkerCoord = null;
-      drawEditorCanvas();
-      renderMarkerList();
+      drawEditorCanvas(); renderMarkerList();
     }
-
-    function cancelMarker() {
-      document.getElementById('markerForm').style.display = 'none';
-      pendingMarkerCoord = null;
-    }
-
+    function cancelMarker() { document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; }
     function renderMarkerList() {
-      const list = document.getElementById('markerList');
-      list.innerHTML = mapMarkers.map((m,i) => `
-        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})">
-          <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
-          <span style="color:#ff8a8a;">✕</span>
-        </div>
-      `).join('');
+      document.getElementById('markerList').innerHTML = mapMarkers.map((m,i) => `<div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})"><span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span><span style="color:#ff8a8a;">✕</span></div>`).join('');
     }
-
-    function deleteMarker(index) {
-      mapMarkers.splice(index,1);
-      drawEditorCanvas();
-      renderMarkerList();
-    }
-
+    function deleteMarker(index) { mapMarkers.splice(index,1); drawEditorCanvas(); renderMarkerList(); }
     function saveMapData() {
       if (currentMapStarIndex === null) return;
-      const data = { image: mapImageUrl, markers: mapMarkers };
-      state.starData[currentMapStarIndex].content = JSON.stringify(data);
+      state.starData[currentMapStarIndex].content = JSON.stringify({ image: mapImageUrl, markers: mapMarkers });
       state.starData[currentMapStarIndex].type = 'map';
       saveStarData(state.starData);
-      closeMapEditor();
-      renderAdmin();
+      closeMapEditor(); renderAdmin();
     }
 
-    // ADMIN
     function renderAdmin() {
       const grid = document.getElementById('adminGrid');
       grid.innerHTML = '';
@@ -1219,8 +1063,7 @@
         card.className = 'admin-card';
         card.innerHTML = `
           <h4>✦ star ${i+1} ${state.opened.includes(i) ? '· unlocked' : ''}</h4>
-          <label>code</label>
-          <input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
+          <label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
           <label>type</label>
           <select data-idx="${i}" data-field="type">
             <option value="text" ${d.type==='text'?'selected':''}>text</option>
@@ -1231,8 +1074,7 @@
             <option value="link" ${d.type==='link'?'selected':''}>link</option>
             <option value="map" ${d.type==='map'?'selected':''}>map</option>
           </select>
-          <label>content</label>
-          <textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
+          <label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
           ${d.type==='map' ? '<button class="btn-ghost" onclick="openMapEditor('+i+')">🗺️ Edit Map</button>' : ''}
         `;
         grid.appendChild(card);
@@ -1253,25 +1095,13 @@
       log.style.display = log.style.display === 'block' ? 'none' : 'block';
       log.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>';
     }
-
     function toggleMessages() {
       const box = document.getElementById('adminMessages');
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
       box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
     }
-
-    function resetAllData() {
-      localStorage.clear();
-      state = loadState();
-      renderAdmin();
-      alert('All data has been reset.');
-    }
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
-      else document.exitFullscreen();
-    }
-
+    function resetAllData() { localStorage.clear(); state = loadState(); renderAdmin(); alert('All data has been reset.'); }
+    function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
     (function preset() {
@@ -1293,12 +1123,9 @@
 
     document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => {
-      if (e.target === starCodeModal) closeStarCodeModal();
-      if (e.target === contentModal) closeContentModal();
-    });
+    window.addEventListener('click', e => { if (e.target === starCodeModal) closeStarCodeModal(); if (e.target === contentModal) closeContentModal(); });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     landing.style.display = 'flex';
   </script>
 </body>
-    </html>
+</html>
