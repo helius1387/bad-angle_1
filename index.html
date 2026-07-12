@@ -179,7 +179,6 @@
     }
     .overlay.active { opacity:1; visibility:visible; }
 
-    /* INTRO - ساده و قشنگ */
     #introSequence {
       position:fixed;
       top:0;left:0;width:100%;height:100%;
@@ -401,8 +400,22 @@
       50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
     }
 
-    .map-container { width:100%; height:50vh; border-radius:1rem; overflow:hidden; margin-bottom:1rem; background:#1a1530; }
-    .leaflet-popup-content img { max-width:120px; border-radius:0.5rem; margin-top:0.3rem; }
+    /* MAP STYLES */
+    .map-container {
+      width: 100% !important;
+      height: 45vh !important;
+      min-height: 300px;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #1a1530;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .leaflet-popup-content img {
+      max-width: 130px;
+      border-radius: 0.5rem;
+      margin-top: 0.3rem;
+    }
     
     #mapEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
@@ -525,9 +538,9 @@
 
   <!-- CONTENT MODAL -->
   <div id="contentModal" class="overlay">
-    <div class="glass" style="max-width:420px;">
+    <div class="glass" style="max-width:440px; width:95%;">
       <h3 id="contentTitle">✦</h3>
-      <div id="contentBody" style="margin:1.2rem 0; max-height:60vh; overflow-y:auto;"></div>
+      <div id="contentBody" style="margin:1rem 0; max-height:65vh; overflow-y:auto; overflow-x:hidden;"></div>
       <button class="btn-ghost" onclick="closeContentModal()">close</button>
     </div>
   </div>
@@ -546,7 +559,7 @@
   <div id="mapEditorOverlay">
     <div class="editor-toolbar">
       <button class="btn-ghost" onclick="closeMapEditor()">↩ back</button>
-      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;" value="https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg">
+      <input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;">
       <button class="btn" onclick="loadMapImage()">Load</button>
     </div>
     <div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div>
@@ -964,7 +977,7 @@
       }
 
       if (d.type === 'map') {
-        renderMapViewer(d, contentBody);
+        renderMapForYeganeh(d);
         return;
       }
 
@@ -984,51 +997,88 @@
       contentBody.innerHTML = html;
     }
 
-    function renderMapViewer(data, container) {
+    function renderMapForYeganeh(starData) {
+      // Create unique ID
+      const mapId = 'yeganehMap-' + Date.now();
+      
+      // Parse map data
       let mapData;
-      try { mapData = JSON.parse(data.content); } catch(e) {
-        container.innerHTML = '<p style="color:#b0a0d4;">Map data not ready yet.</p>';
+      try {
+        mapData = JSON.parse(starData.content);
+      } catch(e) {
+        contentBody.innerHTML = '<p style="color:#ffb3b3;">Could not load map data.</p>';
         return;
       }
+      
       if (!mapData.image) {
-        container.innerHTML = '<p style="color:#b0a0d4;">Map image not set.</p>';
+        contentBody.innerHTML = '<p style="color:#b0a0d4;">This map is still being prepared…</p>';
         return;
       }
       
-      const mapId = 'viewMap-' + Date.now();
-      container.innerHTML = `<div id="${mapId}" class="map-container"></div>`;
+      // Create map container with fixed dimensions
+      contentBody.innerHTML = `
+        <div id="${mapId}" class="map-container"></div>
+      `;
       
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        const mapBounds = [[0, 0], [img.height, img.width]];
-        const map = L.map(mapId, {
-          crs: L.CRS.Simple,
-          minZoom: -2,
-          maxZoom: 3,
-          zoomControl: true,
-          attributionControl: false
-        });
-        
-        L.imageOverlay(mapData.image, mapBounds).addTo(map);
-        map.fitBounds(mapBounds);
-        
-        if (mapData.markers && mapData.markers.length > 0) {
-          mapData.markers.forEach(m => {
-            const popupContent = `
-              <div style="font-family:Vazirmatn,sans-serif; color:#1a0a2e; min-width:120px;">
-                <b>${escapeHtml(m.title)}</b>
-                ${m.text ? `<br><span style="font-size:0.85rem;">${escapeHtml(m.text)}</span>` : ''}
-                ${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:140px; border-radius:0.5rem; margin-top:0.3rem;" onerror="this.style.display='none'">` : ''}
-              </div>`;
-            L.marker([m.y, m.x]).addTo(map).bindPopup(popupContent, { maxWidth: 250 });
-          });
+      // Wait a tiny bit for DOM to render, then initialize map
+      setTimeout(() => {
+        const container = document.getElementById(mapId);
+        if (!container) {
+          contentBody.innerHTML = '<p style="color:#ffb3b3;">Error creating map.</p>';
+          return;
         }
-      };
-      img.onerror = () => {
-        container.innerHTML = '<p style="color:#ffb3b3;">Failed to load map image.</p>';
-      };
-      img.src = mapData.image;
+        
+        // Force container size
+        container.style.width = '100%';
+        container.style.height = '350px';
+        container.style.minHeight = '300px';
+        
+        // Load image to get dimensions
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        
+        img.onload = () => {
+          const imgW = img.width;
+          const imgH = img.height;
+          
+          const map = L.map(mapId, {
+            crs: L.CRS.Simple,
+            minZoom: -2,
+            maxZoom: 3,
+            zoomControl: true,
+            attributionControl: false,
+            center: [imgH/2, imgW/2],
+            zoom: 0
+          });
+          
+          const bounds = [[0, 0], [imgH, imgW]];
+          L.imageOverlay(mapData.image, bounds).addTo(map);
+          map.fitBounds(bounds);
+          
+          // Add markers
+          if (mapData.markers && mapData.markers.length > 0) {
+            mapData.markers.forEach(m => {
+              const popupHtml = `
+                <div style="font-family:Vazirmatn,sans-serif; color:#1a0a2e; min-width:100px;">
+                  <b>${escapeHtml(m.title)}</b>
+                  ${m.text ? `<br><span style="font-size:0.8rem;">${escapeHtml(m.text)}</span>` : ''}
+                  ${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:120px; border-radius:0.5rem; margin-top:0.3rem;" onerror="this.style.display='none'">` : ''}
+                </div>
+              `;
+              L.marker([m.y, m.x]).addTo(map).bindPopup(popupHtml, { maxWidth: 200 });
+            });
+          }
+          
+          // Fix tile rendering issue
+          setTimeout(() => { map.invalidateSize(); }, 300);
+        };
+        
+        img.onerror = () => {
+          container.innerHTML = '<p style="color:#ffb3b3; padding:1rem;">Failed to load map image.<br><span style="font-size:0.7rem;">Check the image URL.</span></p>';
+        };
+        
+        img.src = mapData.image;
+      }, 200);
     }
 
     function closeContentModal() { contentModal.classList.remove('active'); }
@@ -1048,25 +1098,36 @@
       messageModal.classList.remove('active');
     }
 
-    // MAP EDITOR
+    // MAP EDITOR (for admin)
     function openMapEditor(starIndex) {
       currentMapStarIndex = starIndex;
       const d = state.starData[starIndex];
       try { const json = JSON.parse(d.content || '{}'); mapMarkers = json.markers || []; mapImageUrl = json.image || ''; }
       catch(e) { mapMarkers = []; mapImageUrl = ''; }
-      document.getElementById('mapImageUrl').value = mapImageUrl || 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
-      if (mapImageUrl) loadMapImage();
-      else document.getElementById('mapImageUrl').value = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
+      
+      if (!mapImageUrl) {
+        mapImageUrl = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
+      }
+      
+      document.getElementById('mapImageUrl').value = mapImageUrl;
+      loadMapImage();
       document.getElementById('mapEditorOverlay').classList.add('active');
       renderMarkerList();
     }
 
-    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
+    function closeMapEditor() { 
+      document.getElementById('mapEditorOverlay').classList.remove('active'); 
+      currentMapStarIndex = null;
+      mapMarkers = [];
+      mapImage = null;
+      mapImageUrl = '';
+    }
 
     function loadMapImage() {
       const url = document.getElementById('mapImageUrl').value.trim();
       if (!url) return;
       mapImageUrl = url;
+      
       const img = new Image();
       img.crossOrigin = 'Anonymous';
       img.onload = () => {
@@ -1078,7 +1139,7 @@
         canvas.style.height = 'auto';
         drawEditorCanvas();
       };
-      img.onerror = () => { alert('Failed to load image. Check the URL.'); };
+      img.onerror = () => { alert('Failed to load image. Check the URL and try again.'); };
       img.src = url;
     }
 
@@ -1139,7 +1200,7 @@
     function renderMarkerList() {
       const list = document.getElementById('markerList');
       list.innerHTML = mapMarkers.map((m, i) => `
-        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0;" onclick="deleteMarker(${i})">
+        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0.5rem;" onclick="deleteMarker(${i})">
           <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
           <span style="color:#ff8a8a;">✕</span>
         </div>
@@ -1156,6 +1217,7 @@
       saveStarData(state.starData);
       closeMapEditor();
       renderAdmin();
+      alert('Map saved to star ' + (currentMapStarIndex + 1));
     }
 
     // ADMIN
@@ -1206,7 +1268,14 @@
       box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
     }
 
-    function resetAllData() { localStorage.clear(); state = loadState(); renderAdmin(); alert('All data has been reset.'); }
+    function resetAllData() { 
+      if (confirm('Delete ALL data? This cannot be undone.')) {
+        localStorage.clear();
+        state = loadState();
+        renderAdmin();
+        alert('All data has been reset. Refresh the page.');
+      }
+    }
 
     function toggleFullscreen() {
       if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
@@ -1234,7 +1303,10 @@
 
     document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => { if (e.target === starCodeModal) closeStarCodeModal(); if (e.target === contentModal) closeContentModal(); });
+    window.addEventListener('click', e => { 
+      if (e.target === starCodeModal) closeStarCodeModal(); 
+      if (e.target === contentModal) closeContentModal(); 
+    });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     landing.style.display = 'flex';
   </script>
