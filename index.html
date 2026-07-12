@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Heliganeh · Bad Angel's Sky</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -241,81 +240,37 @@
       border:1px solid rgba(250,217,116,0.25);
       margin-top:0.5rem;
     }
-    .poetic-note {
-      color:#9a8fc4;
-      font-size:0.78rem;
-      margin-top:0.7rem;
-      font-style:italic;
-    }
+    .poetic-note { color:#9a8fc4; font-size:0.78rem; margin-top:0.7rem; font-style:italic; }
     .crafted-sign {
-      position:absolute;
-      bottom:1.5rem;
-      right:1.8rem;
-      color:rgba(180,170,220,0.25);
-      font-size:0.65rem;
-      z-index:3;
-      pointer-events:none;
+      position:absolute; bottom:1.5rem; right:1.8rem;
+      color:rgba(180,170,220,0.25); font-size:0.65rem; z-index:3; pointer-events:none;
     }
     .fullscreen-btn {
-      position:absolute;
-      bottom:1.5rem;
-      left:1.8rem;
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.15);
-      color:#b0a0d4;
-      border-radius:2rem;
-      padding:0.3rem 1rem;
-      font-size:0.7rem;
-      cursor:pointer;
-      z-index:10;
+      position:absolute; bottom:1.5rem; left:1.8rem;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+      color:#b0a0d4; border-radius:2rem; padding:0.3rem 1rem; font-size:0.7rem; cursor:pointer; z-index:10;
       backdrop-filter:blur(8px);
     }
     .message-wings-wrap {
-      position:absolute;
-      top:2rem;
-      right:2rem;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      cursor:pointer;
-      z-index:10;
+      position:absolute; top:2rem; right:2rem; display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10;
     }
-    .message-wings {
-      font-size:1.5rem;
-      animation:floatWings 2s infinite;
-    }
-    @keyframes floatWings {
-      0%,100%{transform:translateY(0) rotate(0deg);}
-      50%{transform:translateY(-8px) rotate(5deg);}
-    }
-    .message-label {
-      color:rgba(180,170,220,0.4);
-      font-size:0.5rem;
-      margin-top:2px;
-      letter-spacing:0.5px;
-    }
+    .message-wings { font-size:1.5rem; animation:floatWings 2s infinite; }
+    @keyframes floatWings { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-8px) rotate(5deg);} }
+    .message-label { color:rgba(180,170,220,0.4); font-size:0.5rem; margin-top:2px; letter-spacing:0.5px; }
 
     .stars-container { flex:1; width:100%; position:relative; overflow:hidden; }
     .star {
-      position:absolute;
-      width:50px; height:50px;
-      cursor:pointer;
-      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-      z-index:1;
+      position:absolute; width:50px; height:50px; cursor:pointer;
+      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:1;
     }
     .star:hover { transform:scale(1.25); }
     .star:active { transform:scale(0.85); }
     .star.enlarged {
-      transform:scale(1.8) !important;
-      z-index:50 !important;
+      transform:scale(1.8) !important; z-index:50 !important;
       filter:drop-shadow(0 0 30px #ffeaa7);
       transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .star svg {
-      width:100%; height:100%;
-      filter:drop-shadow(0 0 6px rgba(150,140,220,0.5));
-      transition:filter 0.6s;
-    }
+    .star svg { width:100%; height:100%; filter:drop-shadow(0 0 6px rgba(150,140,220,0.5)); transition:filter 0.6s; }
     .star.unlocked svg {
       filter:drop-shadow(0 0 18px #fad974) drop-shadow(0 0 40px #f5d742);
       animation:starGlow 3s infinite;
@@ -325,26 +280,20 @@
       50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974);}
     }
     .star-number {
-      position:absolute; top:50%;left:50%;
-      transform:translate(-50%,-50%);
+      position:absolute; top:50%;left:50%; transform:translate(-50%,-50%);
       font-size:0.7rem; font-weight:bold; color:#2d1b3a; pointer-events:none;
     }
     .sparkle {
-      position:absolute; width:4px; height:4px;
-      background:white; border-radius:50%;
-      box-shadow:0 0 10px #ffeaa7;
-      pointer-events:none;
-      animation:sparkleDrift 2s infinite;
-      opacity:0;
+      position:absolute; width:4px; height:4px; background:white; border-radius:50%;
+      box-shadow:0 0 10px #ffeaa7; pointer-events:none;
+      animation:sparkleDrift 2s infinite; opacity:0;
     }
     @keyframes sparkleDrift {
       0%{opacity:0;transform:translate(0,0) scale(0.3);}
       30%{opacity:1;transform:translate(8px,-12px) scale(1);}
       100%{opacity:0;transform:translate(20px,-28px) scale(0.2);}
     }
-    .star.bursting {
-      animation:burst 0.8s ease-out forwards !important;
-    }
+    .star.bursting { animation:burst 0.8s ease-out forwards !important; }
     @keyframes burst {
       0%{transform:scale(1); filter:brightness(1);}
       50%{transform:scale(2.2); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);}
@@ -352,16 +301,14 @@
     }
 
     #adminPanel {
-      position:fixed; top:0;left:0;width:100%;height:100%;
-      z-index:15; background:rgba(5,5,18,0.92);
-      backdrop-filter:blur(20px); padding:2rem 1.5rem;
-      overflow-y:auto; display:none;
+      position:fixed; top:0;left:0;width:100%;height:100%; z-index:15;
+      background:rgba(5,5,18,0.92); backdrop-filter:blur(20px);
+      padding:2rem 1.5rem; overflow-y:auto; display:none;
       flex-direction:column; align-items:center;
     }
     #adminPanel.active { display:flex; }
     .admin-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
       gap:1rem; max-width:900px; width:100%; margin-top:1.5rem;
     }
     .admin-card {
@@ -370,9 +317,8 @@
     }
     .admin-card label { font-size:0.75rem; color:#b0a0c8; }
     .admin-card input, .admin-card select, .admin-card textarea {
-      width:100%; margin:0.3rem 0 0.8rem;
-      background:rgba(255,255,255,0.05); border:1px solid #443366;
-      border-radius:1rem; padding:0.5rem 1rem;
+      width:100%; margin:0.3rem 0 0.8rem; background:rgba(255,255,255,0.05);
+      border:1px solid #443366; border-radius:1rem; padding:0.5rem 1rem;
       color:#f0e5ff; font-family:inherit;
     }
     .admin-log, .message-box {
@@ -385,83 +331,104 @@
       position:fixed; top:0;left:0;width:100%;height:100%;
       background:rgba(0,0,0,0.92); z-index:200;
       display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      visibility:hidden;
+      align-items:center; justify-content:center; visibility:hidden;
     }
     #finalMessage.active { visibility:visible; }
     .final-text {
-      font-size:2rem; color:#ffeaa7;
-      text-shadow:0 0 50px #f5d742;
-      animation:finalPulse 2s infinite;
-      padding:1rem; text-align:center;
+      font-size:2rem; color:#ffeaa7; text-shadow:0 0 50px #f5d742;
+      animation:finalPulse 2s infinite; padding:1rem; text-align:center;
     }
     @keyframes finalPulse {
       0%,100%{text-shadow:0 0 35px #f5d742;}
       50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;}
     }
 
-    /* MAP STYLES */
-    .map-container {
-      width: 100% !important;
-      height: 45vh !important;
-      min-height: 300px;
+    /* ========== SIMPLE MAP (no Leaflet) ========== */
+    .simple-map-wrap {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
       border-radius: 1rem;
       overflow: hidden;
-      margin-bottom: 1rem;
-      background: #1a1530;
       border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 0.5rem;
     }
-    .leaflet-popup-content img {
-      max-width: 130px;
-      border-radius: 0.5rem;
-      margin-top: 0.3rem;
+    .simple-map-wrap img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 1rem;
     }
-    
+    .map-marker {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #fad974;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #fad974, 0 0 25px rgba(250,217,116,0.5);
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s;
+      z-index: 2;
+    }
+    .map-marker:hover {
+      transform: translate(-50%, -50%) scale(1.5);
+      box-shadow: 0 0 20px #ffeaa7, 0 0 40px #fad974;
+    }
+    .map-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(20,15,45,0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(250,217,116,0.5);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      max-width: 300px;
+      width: 85%;
+      z-index: 500;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+      display: none;
+    }
+    .map-popup.active { display: block; }
+    .map-popup h4 { color: #fad974; margin-bottom: 0.5rem; }
+    .map-popup p { color: #d4c0e0; font-size: 0.9rem; line-height: 1.5; }
+    .map-popup img { max-width: 140px; border-radius: 0.5rem; margin-top: 0.5rem; }
+    .map-popup .close-popup {
+      margin-top: 0.8rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #b0a0d4;
+      padding: 0.4rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
     #mapEditorOverlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(5,5,20,0.95); z-index:400;
       display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      visibility:hidden;
+      align-items:center; justify-content:center; visibility:hidden;
     }
     #mapEditorOverlay.active { visibility:visible; }
     .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; padding:0 1rem; }
     .editor-canvas-wrap {
-      position:relative;
-      max-width:95vw;
-      max-height:60vh;
-      border:1px solid #6b4ecc;
-      border-radius:1rem;
-      overflow:auto;
-      background:#1a1530;
+      position:relative; max-width:95vw; max-height:60vh;
+      border:1px solid #6b4ecc; border-radius:1rem; overflow:auto; background:#1a1530;
     }
-    #mapEditorCanvas {
-      display:block;
-      cursor:crosshair;
-      max-width:100%;
-      height:auto;
-    }
+    #mapEditorCanvas { display:block; cursor:crosshair; max-width:100%; height:auto; }
     .marker-form {
-      background:rgba(20,15,45,0.95);
-      backdrop-filter:blur(10px);
-      border-radius:1rem;
-      padding:1rem;
-      margin-top:0.5rem;
-      display:flex;
-      flex-direction:column;
-      gap:0.5rem;
-      width:320px;
-      max-width:90%;
-      border:1px solid #6b4ecc;
+      background:rgba(20,15,45,0.95); backdrop-filter:blur(10px);
+      border-radius:1rem; padding:1rem; margin-top:0.5rem;
+      display:flex; flex-direction:column; gap:0.5rem;
+      width:320px; max-width:90%; border:1px solid #6b4ecc;
     }
     .marker-form input, .marker-form textarea {
-      background:rgba(255,255,255,0.08);
-      border:1px solid #6b4ecc;
-      border-radius:0.7rem;
-      padding:0.6rem;
-      color:#fff;
-      font-family:inherit;
-      text-align:left;
+      background:rgba(255,255,255,0.08); border:1px solid #6b4ecc;
+      border-radius:0.7rem; padding:0.6rem; color:#fff; font-family:inherit; text-align:left;
     }
     .marker-form label { font-size:0.75rem; color:#b0a0c8; margin-bottom:-0.3rem; }
   </style>
@@ -540,9 +507,17 @@
   <div id="contentModal" class="overlay">
     <div class="glass" style="max-width:440px; width:95%;">
       <h3 id="contentTitle">✦</h3>
-      <div id="contentBody" style="margin:1rem 0; max-height:65vh; overflow-y:auto; overflow-x:hidden;"></div>
+      <div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div>
       <button class="btn-ghost" onclick="closeContentModal()">close</button>
     </div>
+  </div>
+
+  <!-- MAP POPUP -->
+  <div class="map-popup" id="mapPopup">
+    <h4 id="mapPopupTitle"></h4>
+    <p id="mapPopupText"></p>
+    <img id="mapPopupImage" style="display:none;" alt="">
+    <button class="close-popup" onclick="closeMapPopup()">close</button>
   </div>
 
   <!-- MESSAGE MODAL -->
@@ -564,12 +539,9 @@
     </div>
     <div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div>
     <div class="marker-form" id="markerForm" style="display:none;">
-      <label>Memory Title *</label>
-      <input type="text" id="markerTitle" placeholder="e.g., First meeting">
-      <label>Text</label>
-      <textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea>
-      <label>Image URL (optional)</label>
-      <input type="text" id="markerImage" placeholder="https://...">
+      <label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting">
+      <label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea>
+      <label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://...">
       <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
         <button class="btn" onclick="saveMarker()">Save Marker</button>
         <button class="btn-ghost" onclick="cancelMarker()">Cancel</button>
@@ -710,6 +682,7 @@
     const bgMusic = document.getElementById('bgMusic');
     const mapEditorOverlay = document.getElementById('mapEditorOverlay');
     const mapEditorCanvas = document.getElementById('mapEditorCanvas');
+    const mapPopup = document.getElementById('mapPopup');
 
     let currentUser = null;
     let pendingStar = null;
@@ -747,34 +720,22 @@
       if (playMusic) {
         bgMusic.src = MUSIC_URL;
         bgMusic.volume = 0.3;
-        const playPromise = bgMusic.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            document.addEventListener('click', function retry() {
-              bgMusic.play().catch(()=>{});
-              document.removeEventListener('click', retry);
-            }, {once: true});
-          });
-        }
+        bgMusic.play().catch(()=>{});
       }
       startIntroSequence();
     }
 
     function startIntroSequence() {
       introSequence.classList.add('active');
-      followStar.style.width = '8px';
-      followStar.style.height = '8px';
-      followStar.style.top = '50%';
-      followStar.style.left = '50%';
-      followStar.style.opacity = '0';
-      followStar.style.transition = 'opacity 0.6s';
+      followStar.style.width = '8px'; followStar.style.height = '8px';
+      followStar.style.top = '50%'; followStar.style.left = '50%';
+      followStar.style.opacity = '0'; followStar.style.transition = 'opacity 0.6s';
       followStar.style.background = '#fff';
       followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
       setTimeout(() => { followStar.style.opacity = '1'; }, 200);
       setTimeout(() => { followText.style.opacity = '1'; }, 1000);
 
-      const centerX = window.innerWidth/2;
-      const centerY = window.innerHeight/2;
+      const centerX = window.innerWidth/2, centerY = window.innerHeight/2;
       let startTime = Date.now();
       const duration = 6200;
 
@@ -783,37 +744,27 @@
         const progress = Math.min(elapsed / duration, 1);
         const angle = progress * Math.PI * 1.8;
         const radius = Math.min(window.innerWidth, window.innerHeight) * 0.3 * (1 - progress * 0.85);
-        const x = centerX + Math.cos(angle) * radius;
-        const y = centerY + Math.sin(angle * 1.3) * radius * 0.5 - progress * 60;
-        followStar.style.left = x + 'px';
-        followStar.style.top = y + 'px';
+        followStar.style.left = (centerX + Math.cos(angle) * radius) + 'px';
+        followStar.style.top = (centerY + Math.sin(angle * 1.3) * radius * 0.5 - progress * 60) + 'px';
 
         if (progress < 0.92) {
-          followStar.style.width = '8px';
-          followStar.style.height = '8px';
+          followStar.style.width = '8px'; followStar.style.height = '8px';
           followStar.style.background = '#fff';
           followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
         }
-
         if (progress >= 0.92 && progress < 1) {
-          const explodeProgress = (progress - 0.92) / 0.08;
-          const size = 8 + explodeProgress * 120;
-          followStar.style.width = size + 'px';
-          followStar.style.height = size + 'px';
+          const size = 8 + ((progress - 0.92) / 0.08) * 120;
+          followStar.style.width = size+'px'; followStar.style.height = size+'px';
           followStar.style.background = '#ffeaa7';
           followStar.style.boxShadow = `0 0 ${30+size}px white, 0 0 ${60+size*2}px #ffeaa7, 0 0 ${100+size*3}px #fad974`;
         }
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
+        if (progress < 1) requestAnimationFrame(animate);
+        else {
           document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18');
           setTimeout(() => {
             introSequence.classList.remove('active');
-            followStar.style.opacity = '0';
-            followText.style.opacity = '0';
-            followStar.style.width = '8px';
-            followStar.style.height = '8px';
+            followStar.style.opacity = '0'; followText.style.opacity = '0';
+            followStar.style.width = '8px'; followStar.style.height = '8px';
             followStar.style.background = '#fff';
             followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5)';
             showSky();
@@ -832,32 +783,21 @@
       if (state.opened.length === TOTAL_STARS) revealFinal();
     }
 
-    function showAdmin() {
-      skyView.classList.remove('active');
-      adminPanel.classList.add('active');
-      renderAdmin();
-    }
+    function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); renderAdmin(); }
 
     function logout() {
-      currentUser = null;
-      skyView.classList.remove('active');
-      adminPanel.classList.remove('active');
-      landing.style.display = 'flex';
-      loginOverlay.classList.remove('active');
-      musicPrompt.classList.remove('active');
-      closeAllModals();
-      bgMusic.pause();
+      currentUser = null; skyView.classList.remove('active'); adminPanel.classList.remove('active');
+      landing.style.display = 'flex'; loginOverlay.classList.remove('active');
+      musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause();
     }
 
     function renderStarsInstant() {
       starsContainer.innerHTML = '';
       const openedSet = new Set(state.opened);
       for (let i=0;i<TOTAL_STARS;i++) {
-        const pos = positions[i];
-        const unlocked = openedSet.has(i);
+        const pos = positions[i], unlocked = openedSet.has(i);
         const starEl = createStarElement(i, pos, unlocked);
-        starEl.style.opacity = '1';
-        starEl.style.transform = 'scale(1)';
+        starEl.style.opacity = '1'; starEl.style.transform = 'scale(1)';
         starsContainer.appendChild(starEl);
       }
     }
@@ -865,26 +805,9 @@
     function createStarElement(index, pos, unlocked) {
       const starEl = document.createElement('div');
       starEl.className = 'star' + (unlocked ? ' unlocked' : '');
-      starEl.style.left = pos.x + '%';
-      starEl.style.top = pos.y + '%';
-      starEl.innerHTML = `
-        <svg viewBox="0 0 100 100">
-          <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
-            fill="${unlocked ? '#fad974' : '#7d6c9c'}"
-            stroke="${unlocked ? '#ffeaa7' : '#aa99c4'}" stroke-width="2"/>
-        </svg>
-        <span class="star-number">${index+1}</span>
-      `;
-      if (unlocked) {
-        for(let s=0;s<3;s++) {
-          let sp = document.createElement('div');
-          sp.className = 'sparkle';
-          sp.style.top = (20+Math.random()*40)+'%';
-          sp.style.left = (20+Math.random()*40)+'%';
-          sp.style.animationDelay = s*0.5+'s';
-          starEl.appendChild(sp);
-        }
-      }
+      starEl.style.left = pos.x+'%'; starEl.style.top = pos.y+'%';
+      starEl.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${unlocked?'#fad974':'#7d6c9c'}" stroke="${unlocked?'#ffeaa7':'#aa99c4'}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`;
+      if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; starEl.appendChild(sp); }
       starEl.addEventListener('click', (e) => handleStarClick(index, unlocked, starEl, e));
       return starEl;
     }
@@ -893,15 +816,8 @@
       event.stopPropagation();
       starEl.classList.add('enlarged');
       setTimeout(() => starEl.classList.remove('enlarged'), 600);
-      if (isUnlocked) {
-        setTimeout(() => showContent(index), 400);
-      } else {
-        pendingStar = index;
-        starCodeInput.value = '';
-        starCodeError.textContent = '';
-        starCodeModal.classList.add('active');
-        starCodeInput.focus();
-      }
+      if (isUnlocked) setTimeout(() => showContent(index), 400);
+      else { pendingStar = index; starCodeInput.value = ''; starCodeError.textContent = ''; starCodeModal.classList.add('active'); starCodeInput.focus(); }
     }
 
     function submitStarCode() {
@@ -909,77 +825,57 @@
       if (!code) return;
       if (state.starData[pendingStar]?.code === code) {
         if (!state.opened.includes(pendingStar)) {
-          state.opened.push(pendingStar);
-          saveOpened(state.opened);
+          state.opened.push(pendingStar); saveOpened(state.opened);
           state.activity.push({ star: pendingStar+1, time: new Date().toLocaleString() });
           saveActivity(state.activity);
         }
         starCodeModal.classList.remove('active');
-        renderStarsInstant();
-        updateCounterAndPoetry();
+        renderStarsInstant(); updateCounterAndPoetry();
         const starEls = document.querySelectorAll('.star');
-        if (starEls[pendingStar]) {
-          starEls[pendingStar].classList.add('bursting');
-          setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800);
-        }
+        if (starEls[pendingStar]) { starEls[pendingStar].classList.add('bursting'); setTimeout(() => starEls[pendingStar].classList.remove('bursting'), 800); }
         playUnlockSound();
         setTimeout(() => showContent(pendingStar), 500);
         if (state.opened.length === TOTAL_STARS) revealFinal();
-      } else {
-        starCodeError.textContent = 'نه یگانه اشتباهه😔🎀';
-        starCodeInput.value = '';
-      }
+      } else { starCodeError.textContent = 'نه یگانه اشتباهه😔🎀'; starCodeInput.value = ''; }
     }
 
     function playUnlockSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
+        osc.type='sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime+0.2);
         gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.4);
+        osc.start(); osc.stop(audioCtx.currentTime+0.4);
       } catch(e) {}
     }
 
     function updateCounterAndPoetry() {
       const count = state.opened.length;
       counterDisplay.textContent = count + ' / 21 stars discovered';
-      let line = '';
-      const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
+      let line = ''; const thresholds = Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a);
       for (let t of thresholds) if (count >= t) { line = POETIC_LINES[t]; break; }
       poeticNote.textContent = line;
     }
 
     function revealFinal() {
-      if (!state.finalShown) {
-        localStorage.setItem('finalShown', 'true');
-        finalMessage.classList.add('active');
-        setTimeout(() => finalMessage.classList.remove('active'), 7000);
-      }
+      if (!state.finalShown) { localStorage.setItem('finalShown', 'true'); finalMessage.classList.add('active'); setTimeout(() => finalMessage.classList.remove('active'), 7000); }
     }
 
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar = null; }
 
+    /* ========== CONTENT RENDERER ========== */
     function showContent(index) {
       const d = state.starData[index];
       contentTitle.textContent = '✦ star ' + (index+1);
       contentBody.innerHTML = '';
       contentModal.classList.add('active');
 
-      if (!d || !d.content) {
-        contentBody.innerHTML = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>';
-        return;
-      }
+      if (!d || !d.content) { contentBody.innerHTML = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; }
 
-      if (d.type === 'map') {
-        renderMapForYeganeh(d);
-        return;
-      }
+      if (d.type === 'map') { renderSimpleMap(d); return; }
 
       let html = '';
       switch(d.type) {
@@ -987,301 +883,167 @@
         case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1.2rem;">`; break;
         case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break;
         case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%; border-radius:1rem;"></video>`; break;
-        case 'spotify':
-          let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0];
-          html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-          break;
+        case 'spotify': let id = d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break;
         case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break;
         default: html = `<p>${escapeHtml(d.content)}</p>`;
       }
       contentBody.innerHTML = html;
     }
 
-    function renderMapForYeganeh(starData) {
-      // Create unique ID
-      const mapId = 'yeganehMap-' + Date.now();
-      
-      // Parse map data
+    /* ========== SIMPLE MAP (NO LEAFLET) ========== */
+    function renderSimpleMap(starData) {
       let mapData;
-      try {
-        mapData = JSON.parse(starData.content);
-      } catch(e) {
-        contentBody.innerHTML = '<p style="color:#ffb3b3;">Could not load map data.</p>';
-        return;
-      }
-      
-      if (!mapData.image) {
-        contentBody.innerHTML = '<p style="color:#b0a0d4;">This map is still being prepared…</p>';
-        return;
-      }
-      
-      // Create map container with fixed dimensions
-      contentBody.innerHTML = `
-        <div id="${mapId}" class="map-container"></div>
-      `;
-      
-      // Wait a tiny bit for DOM to render, then initialize map
-      setTimeout(() => {
-        const container = document.getElementById(mapId);
-        if (!container) {
-          contentBody.innerHTML = '<p style="color:#ffb3b3;">Error creating map.</p>';
-          return;
-        }
-        
-        // Force container size
-        container.style.width = '100%';
-        container.style.height = '350px';
-        container.style.minHeight = '300px';
-        
-        // Load image to get dimensions
-        const img = new Image();
-        img.crossOrigin = 'Anonymous';
-        
+      try { mapData = JSON.parse(starData.content); } catch(e) { contentBody.innerHTML = '<p style="color:#ffb3b3;">Map data error.</p>'; return; }
+      if (!mapData.image) { contentBody.innerHTML = '<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; }
+
+      const wrap = document.createElement('div');
+      wrap.className = 'simple-map-wrap';
+      wrap.style.position = 'relative';
+      wrap.style.display = 'inline-block';
+
+      const img = document.createElement('img');
+      img.src = mapData.image;
+      img.style.maxWidth = '100%';
+      img.style.height = 'auto';
+      img.style.borderRadius = '1rem';
+      img.onerror = () => { contentBody.innerHTML = '<p style="color:#ffb3b3;">Failed to load map image.</p>'; };
+
+      wrap.appendChild(img);
+
+      // Add markers
+      if (mapData.markers && mapData.markers.length > 0) {
         img.onload = () => {
-          const imgW = img.width;
-          const imgH = img.height;
-          
-          const map = L.map(mapId, {
-            crs: L.CRS.Simple,
-            minZoom: -2,
-            maxZoom: 3,
-            zoomControl: true,
-            attributionControl: false,
-            center: [imgH/2, imgW/2],
-            zoom: 0
-          });
-          
-          const bounds = [[0, 0], [imgH, imgW]];
-          L.imageOverlay(mapData.image, bounds).addTo(map);
-          map.fitBounds(bounds);
-          
-          // Add markers
-          if (mapData.markers && mapData.markers.length > 0) {
-            mapData.markers.forEach(m => {
-              const popupHtml = `
-                <div style="font-family:Vazirmatn,sans-serif; color:#1a0a2e; min-width:100px;">
-                  <b>${escapeHtml(m.title)}</b>
-                  ${m.text ? `<br><span style="font-size:0.8rem;">${escapeHtml(m.text)}</span>` : ''}
-                  ${m.image ? `<br><img src="${escapeHtml(m.image)}" style="max-width:120px; border-radius:0.5rem; margin-top:0.3rem;" onerror="this.style.display='none'">` : ''}
-                </div>
-              `;
-              L.marker([m.y, m.x]).addTo(map).bindPopup(popupHtml, { maxWidth: 200 });
+          mapData.markers.forEach(m => {
+            const marker = document.createElement('div');
+            marker.className = 'map-marker';
+            const xPercent = (m.x / img.naturalWidth) * 100;
+            const yPercent = (m.y / img.naturalHeight) * 100;
+            marker.style.left = xPercent + '%';
+            marker.style.top = yPercent + '%';
+            marker.title = m.title;
+            marker.addEventListener('click', (e) => {
+              e.stopPropagation();
+              document.getElementById('mapPopupTitle').textContent = m.title;
+              document.getElementById('mapPopupText').textContent = m.text || '';
+              const popupImg = document.getElementById('mapPopupImage');
+              if (m.image) { popupImg.src = m.image; popupImg.style.display = 'block'; }
+              else { popupImg.style.display = 'none'; }
+              mapPopup.classList.add('active');
             });
-          }
-          
-          // Fix tile rendering issue
-          setTimeout(() => { map.invalidateSize(); }, 300);
+            wrap.appendChild(marker);
+          });
         };
-        
-        img.onerror = () => {
-          container.innerHTML = '<p style="color:#ffb3b3; padding:1rem;">Failed to load map image.<br><span style="font-size:0.7rem;">Check the image URL.</span></p>';
-        };
-        
-        img.src = mapData.image;
-      }, 200);
+      }
+
+      contentBody.appendChild(wrap);
     }
 
-    function closeContentModal() { contentModal.classList.remove('active'); }
-    function closeAllModals() {
-      starCodeModal.classList.remove('active');
-      contentModal.classList.remove('active');
-      messageModal.classList.remove('active');
-    }
+    function closeMapPopup() { mapPopup.classList.remove('active'); }
+
+    function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); }
+    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); closeMapPopup(); }
 
     function openMessageBox() { yeganehMessage.value = ''; messageModal.classList.add('active'); }
     function closeMessageModal() { messageModal.classList.remove('active'); }
     function sendYeganehMessage() {
-      const msg = yeganehMessage.value.trim();
-      if (!msg) return;
+      const msg = yeganehMessage.value.trim(); if (!msg) return;
       state.messages.push({ text: msg, time: new Date().toLocaleString() });
       saveMessages(state.messages);
       messageModal.classList.remove('active');
     }
 
-    // MAP EDITOR (for admin)
+    // MAP EDITOR
     function openMapEditor(starIndex) {
       currentMapStarIndex = starIndex;
       const d = state.starData[starIndex];
       try { const json = JSON.parse(d.content || '{}'); mapMarkers = json.markers || []; mapImageUrl = json.image || ''; }
       catch(e) { mapMarkers = []; mapImageUrl = ''; }
-      
-      if (!mapImageUrl) {
-        mapImageUrl = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
-      }
-      
+      if (!mapImageUrl) mapImageUrl = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg';
       document.getElementById('mapImageUrl').value = mapImageUrl;
       loadMapImage();
       document.getElementById('mapEditorOverlay').classList.add('active');
       renderMarkerList();
     }
-
-    function closeMapEditor() { 
-      document.getElementById('mapEditorOverlay').classList.remove('active'); 
-      currentMapStarIndex = null;
-      mapMarkers = [];
-      mapImage = null;
-      mapImageUrl = '';
-    }
-
+    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
     function loadMapImage() {
-      const url = document.getElementById('mapImageUrl').value.trim();
-      if (!url) return;
+      const url = document.getElementById('mapImageUrl').value.trim(); if (!url) return;
       mapImageUrl = url;
-      
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        mapImage = img;
-        const canvas = mapEditorCanvas;
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.style.maxWidth = '100%';
-        canvas.style.height = 'auto';
-        drawEditorCanvas();
-      };
-      img.onerror = () => { alert('Failed to load image. Check the URL and try again.'); };
+      const img = new Image(); img.crossOrigin = 'Anonymous';
+      img.onload = () => { mapImage = img; mapEditorCanvas.width = img.width; mapEditorCanvas.height = img.height; mapEditorCanvas.style.maxWidth='100%'; mapEditorCanvas.style.height='auto'; drawEditorCanvas(); };
+      img.onerror = () => { alert('Failed to load image.'); };
       img.src = url;
     }
-
     function drawEditorCanvas() {
       if (!mapEditorCanvas || !mapImage) return;
-      const canvas = mapEditorCanvas;
-      const ctx2 = canvas.getContext('2d');
-      ctx2.clearRect(0, 0, canvas.width, canvas.height);
-      ctx2.drawImage(mapImage, 0, 0);
-      
+      const ctx2 = mapEditorCanvas.getContext('2d');
+      ctx2.clearRect(0,0,mapEditorCanvas.width, mapEditorCanvas.height);
+      ctx2.drawImage(mapImage,0,0);
       mapMarkers.forEach(m => {
-        ctx2.beginPath();
-        ctx2.arc(m.x, m.y, 10, 0, 2 * Math.PI);
-        ctx2.fillStyle = '#fad974';
-        ctx2.shadowColor = '#fad974';
-        ctx2.shadowBlur = 14;
-        ctx2.fill();
-        ctx2.shadowBlur = 0;
-        
-        ctx2.fillStyle = '#1a0a2e';
-        ctx2.font = 'bold 12px Vazirmatn';
-        ctx2.fillText(m.title, m.x + 15, m.y - 10);
+        ctx2.beginPath(); ctx2.arc(m.x,m.y,10,0,2*Math.PI);
+        ctx2.fillStyle='#fad974'; ctx2.shadowColor='#fad974'; ctx2.shadowBlur=14; ctx2.fill(); ctx2.shadowBlur=0;
+        ctx2.fillStyle='#1a0a2e'; ctx2.font='bold 12px Vazirmatn'; ctx2.fillText(m.title,m.x+15,m.y-10);
       });
     }
-
     mapEditorCanvas.addEventListener('click', (e) => {
-      const canvas = mapEditorCanvas;
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
-      pendingMarkerCoord = { x: Math.round(x), y: Math.round(y) };
-      document.getElementById('markerForm').style.display = 'flex';
-      document.getElementById('markerTitle').value = '';
-      document.getElementById('markerText').value = '';
-      document.getElementById('markerImage').value = '';
+      const rect = mapEditorCanvas.getBoundingClientRect();
+      const scaleX = mapEditorCanvas.width/rect.width, scaleY = mapEditorCanvas.height/rect.height;
+      pendingMarkerCoord = { x: Math.round((e.clientX-rect.left)*scaleX), y: Math.round((e.clientY-rect.top)*scaleY) };
+      document.getElementById('markerForm').style.display='flex';
+      document.getElementById('markerTitle').value=''; document.getElementById('markerText').value=''; document.getElementById('markerImage').value='';
     });
-
     function saveMarker() {
-      const title = document.getElementById('markerTitle').value.trim();
-      if (!title) return;
-      mapMarkers.push({
-        x: pendingMarkerCoord.x,
-        y: pendingMarkerCoord.y,
-        title,
-        text: document.getElementById('markerText').value.trim(),
-        image: document.getElementById('markerImage').value.trim()
-      });
-      document.getElementById('markerForm').style.display = 'none';
-      pendingMarkerCoord = null;
-      drawEditorCanvas();
-      renderMarkerList();
+      const title = document.getElementById('markerTitle').value.trim(); if (!title) return;
+      mapMarkers.push({ x:pendingMarkerCoord.x, y:pendingMarkerCoord.y, title, text:document.getElementById('markerText').value.trim(), image:document.getElementById('markerImage').value.trim() });
+      document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; drawEditorCanvas(); renderMarkerList();
     }
-
-    function cancelMarker() { document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; }
-
+    function cancelMarker() { document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; }
     function renderMarkerList() {
-      const list = document.getElementById('markerList');
-      list.innerHTML = mapMarkers.map((m, i) => `
-        <div style="cursor:pointer; display:flex; justify-content:space-between; padding:0.25rem 0.5rem;" onclick="deleteMarker(${i})">
-          <span>📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span>
-          <span style="color:#ff8a8a;">✕</span>
-        </div>
-      `).join('');
+      document.getElementById('markerList').innerHTML = mapMarkers.map((m,i) => `<div style="cursor:pointer;display:flex;justify-content:space-between;padding:0.25rem 0.5rem;" onclick="deleteMarker(${i})"><span>📍 ${escapeHtml(m.title)} ${m.image?'🖼️':''}</span><span style="color:#ff8a8a;">✕</span></div>`).join('');
     }
-
-    function deleteMarker(index) { mapMarkers.splice(index, 1); drawEditorCanvas(); renderMarkerList(); }
-
+    function deleteMarker(index) { mapMarkers.splice(index,1); drawEditorCanvas(); renderMarkerList(); }
     function saveMapData() {
-      if (currentMapStarIndex === null) return;
-      const data = { image: mapImageUrl, markers: mapMarkers };
-      state.starData[currentMapStarIndex].content = JSON.stringify(data);
+      if (currentMapStarIndex===null) return;
+      state.starData[currentMapStarIndex].content = JSON.stringify({ image: mapImageUrl, markers: mapMarkers });
       state.starData[currentMapStarIndex].type = 'map';
       saveStarData(state.starData);
-      closeMapEditor();
-      renderAdmin();
-      alert('Map saved to star ' + (currentMapStarIndex + 1));
+      closeMapEditor(); renderAdmin();
+      alert('Map saved to star '+(currentMapStarIndex+1));
     }
 
-    // ADMIN
     function renderAdmin() {
-      const grid = document.getElementById('adminGrid');
-      grid.innerHTML = '';
+      const grid = document.getElementById('adminGrid'); grid.innerHTML = '';
       state.starData.forEach((d,i)=>{
-        const card = document.createElement('div');
-        card.className = 'admin-card';
-        card.innerHTML = `
-          <h4>✦ star ${i+1} ${state.opened.includes(i) ? '· unlocked' : ''}</h4>
+        const card = document.createElement('div'); card.className='admin-card';
+        card.innerHTML = `<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4>
           <label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
-          <label>type</label>
-          <select data-idx="${i}" data-field="type">
-            <option value="text" ${d.type==='text'?'selected':''}>text</option>
-            <option value="image" ${d.type==='image'?'selected':''}>image</option>
-            <option value="audio" ${d.type==='audio'?'selected':''}>audio</option>
-            <option value="video" ${d.type==='video'?'selected':''}>video</option>
-            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option>
-            <option value="link" ${d.type==='link'?'selected':''}>link</option>
+          <label>type</label><select data-idx="${i}" data-field="type">
+            <option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option>
+            <option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option>
+            <option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option>
             <option value="map" ${d.type==='map'?'selected':''}>map</option>
           </select>
           <label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
-          ${d.type==='map' ? '<button class="btn-ghost" onclick="openMapEditor('+i+')">🗺️ Edit Map</button>' : ''}
-        `;
+          ${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`;
         grid.appendChild(card);
       });
       document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{
         el.addEventListener('change', (e)=>{
-          const idx = parseInt(e.target.dataset.idx);
-          const field = e.target.dataset.field;
-          state.starData[idx][field] = e.target.value;
-          saveStarData(state.starData);
-          renderAdmin();
+          const idx = parseInt(e.target.dataset.idx), field = e.target.dataset.field;
+          state.starData[idx][field] = e.target.value; saveStarData(state.starData); renderAdmin();
         });
       });
     }
 
     function toggleActivityLog() {
-      const log = document.getElementById('activityLog');
-      log.style.display = log.style.display === 'block' ? 'none' : 'block';
+      const log = document.getElementById('activityLog'); log.style.display = log.style.display==='block'?'none':'block';
       log.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>';
     }
-
     function toggleMessages() {
-      const box = document.getElementById('adminMessages');
-      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+      const box = document.getElementById('adminMessages'); box.style.display = box.style.display==='block'?'none':'block';
       box.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>';
     }
-
-    function resetAllData() { 
-      if (confirm('Delete ALL data? This cannot be undone.')) {
-        localStorage.clear();
-        state = loadState();
-        renderAdmin();
-        alert('All data has been reset. Refresh the page.');
-      }
-    }
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
-      else document.exitFullscreen();
-    }
-
+    function resetAllData() { if(confirm('Delete ALL data?')) { localStorage.clear(); state = loadState(); renderAdmin(); alert('Done.'); } }
+    function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
     (function preset() {
@@ -1295,18 +1057,13 @@
         {code:'', type:'map', content:'{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}' }
       ];
       let changed = false;
-      for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) {
-        if(!data[i].code && !data[i].content) { data[i]=presets[i]; changed=true; }
-      }
+      for(let i=0;i<presets.length&&i<TOTAL_STARS;i++) { if(!data[i].code && !data[i].content) { data[i]=presets[i]; changed=true; } }
       if(changed) saveStarData(data);
     })();
 
     document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown', e => { if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click', e => { 
-      if (e.target === starCodeModal) closeStarCodeModal(); 
-      if (e.target === contentModal) closeContentModal(); 
-    });
+    window.addEventListener('click', e => { if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllModals(); });
     landing.style.display = 'flex';
   </script>
