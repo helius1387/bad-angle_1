@@ -184,10 +184,9 @@
   <div class="nebula" id="nebula2"></div>
   <div class="nebula" id="nebula3"></div>
 
-  <!-- LANDING --><div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
-  <!-- LOGIN --><div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
+  <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
+  <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
   
-  <!-- MOOD CHECK -->
   <div id="moodCheck" class="overlay">
     <div class="glass">
       <h3>How are you feeling today?</h3>
@@ -205,11 +204,9 @@
     </div>
   </div>
 
-  <!-- MUSIC --><div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
+  <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
+  <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
 
-  <!-- INTRO --><div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
-
-  <!-- SKY VIEW -->
   <div id="skyView">
     <div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 21 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div>
     <div class="stars-container" id="starsContainer"></div>
@@ -218,15 +215,14 @@
     <div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div>
   </div>
 
-  <!-- STAR CODE MODAL --><div id="starCodeModal" class="overlay"><div class="glass"><h3>🔑 star code</h3><input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off"><button class="btn" onclick="submitStarCode()">open</button><button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button><div class="error-message" id="starCodeError"></div></div></div>
-  <!-- CONTENT MODAL --><div id="contentModal" class="overlay"><div class="glass" style="max-width:440px; width:95%;"><h3 id="contentTitle">✦</h3><div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div><button class="btn-ghost" onclick="closeContentModal()">close</button></div></div>
-  <!-- MAP POPUP --><div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
-  <!-- MESSAGE MODAL --><div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
-  <!-- DRAG EDITOR --><div id="dragEditorOverlay"><div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;"><h3 style="color:#fad974;">✋ Drag stars to reposition</h3><div style="display:flex; gap:0.5rem;"><button class="btn" onclick="saveDragPositions()">💾 Save</button><button class="btn-ghost" onclick="closeDragEditor()">Cancel</button></div></div><div id="dragCanvas"></div></div>
-  <!-- MAP EDITOR --><div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
-  <!-- DAILY STAR MODAL --><div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
+  <div id="starCodeModal" class="overlay"><div class="glass"><h3>🔑 star code</h3><input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off"><button class="btn" onclick="submitStarCode()">open</button><button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button><div class="error-message" id="starCodeError"></div></div></div>
+  <div id="contentModal" class="overlay"><div class="glass" style="max-width:440px; width:95%;"><h3 id="contentTitle">✦</h3><div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div><button class="btn-ghost" onclick="closeContentModal()">close</button></div></div>
+  <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
+  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
+  <div id="dragEditorOverlay"><div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;"><h3 style="color:#fad974;">✋ Drag stars to reposition</h3><div style="display:flex; gap:0.5rem;"><button class="btn" onclick="saveDragPositions()">💾 Save</button><button class="btn-ghost" onclick="closeDragEditor()">Cancel</button></div></div><div id="dragCanvas"></div></div>
+  <div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
+  <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
 
-  <!-- ADMIN -->
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:950px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div>
     <div class="admin-grid" id="adminGrid"></div>
@@ -247,11 +243,13 @@
     <div class="capsule-log" id="capsuleLog" style="display:none;"></div>
   </div>
 
-  <!-- FINAL --><div id="finalMessage"><div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div></div>
-
+  <div id="finalMessage"><div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div></div>
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
   <script>
+    // ⚡ GLOBAL mood variable - accessible everywhere
+    window.selectedMood = null;
+
     const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 21;
     const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
     const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 3:"some secrets are silent, waiting for your touch…", 7:"you're getting closer to the heart of the story…", 14:"more than half of the love journey is walked…", 18:"the sky is almost full of our whispers…", 21:"now the whole sky belongs to you, Heliganeh ✦" };
@@ -283,7 +281,7 @@
 
     const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), moodCheck=document.getElementById('moodCheck'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
 
-    let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedMood=null, selectedQuizOption=null;
+    let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedQuizOption=null;
 
     function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
     
@@ -308,7 +306,7 @@
       const today = new Date().toDateString();
       if (state.lastLogin !== today && state.opened.length > 0) {
         moodCheck.classList.add('active');
-        selectedMood = null;
+        window.selectedMood = null;
         document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
         document.getElementById('moodError').textContent = '';
       } else {
@@ -321,18 +319,18 @@
       if (e.target.classList.contains('mood-emoji')) {
         document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
         e.target.classList.add('selected');
-        selectedMood = e.target.dataset.mood;
+        window.selectedMood = e.target.dataset.mood;
         document.getElementById('moodError').textContent = '';
       }
     });
 
-    // Mood submit button
+    // Mood submit button - FIXED
     document.getElementById('moodSubmitBtn').addEventListener('click', () => {
-      if (!selectedMood) {
+      if (!window.selectedMood) {
         document.getElementById('moodError').textContent = 'Please select how you feel!';
         return;
       }
-      state.moods.push({ mood: selectedMood, date: new Date().toLocaleString() });
+      state.moods.push({ mood: window.selectedMood, date: new Date().toLocaleString() });
       saveMoods(state.moods);
       localStorage.setItem('lastLoginDate', new Date().toDateString());
       state.lastLogin = new Date().toDateString();
@@ -437,4 +435,4 @@
     landing.style.display='flex';
   </script>
 </body>
-  </html>
+</html>
