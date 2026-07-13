@@ -186,8 +186,7 @@
 
   <!-- LANDING --><div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
   <!-- LOGIN --><div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
-  <!-- MUSIC --><div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
-
+  
   <!-- MOOD CHECK -->
   <div id="moodCheck" class="overlay">
     <div class="glass">
@@ -201,9 +200,12 @@
         <span class="mood-emoji" data-mood="🫤">🫤</span>
         <span class="mood-emoji" data-mood="💩">💩</span>
       </div>
-      <button class="btn" onclick="submitMood()">continue ✨</button>
+      <button class="btn" id="moodSubmitBtn">continue ✨</button>
+      <p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p>
     </div>
   </div>
+
+  <!-- MUSIC --><div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
 
   <!-- INTRO --><div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
 
@@ -253,7 +255,6 @@
     const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 21;
     const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
     const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 3:"some secrets are silent, waiting for your touch…", 7:"you're getting closer to the heart of the story…", 14:"more than half of the love journey is walked…", 18:"the sky is almost full of our whispers…", 21:"now the whole sky belongs to you, Heliganeh ✦" };
-    const MOOD_EMOJIS = ['😭','🥰','🤣','🙂','🤕','🫤','💩'];
 
     function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[{x:20,y:25},{x:35,y:20},{x:48,y:15},{x:52,y:25},{x:65,y:20},{x:78,y:15},{x:15,y:40},{x:30,y:45},{x:45,y:50},{x:55,y:40},{x:70,y:48},{x:85,y:42},{x:25,y:60},{x:40,y:65},{x:58,y:60},{x:20,y:78},{x:38,y:72},{x:55,y:80},{x:68,y:70},{x:82,y:75},{x:90,y:85}]; localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
@@ -263,7 +264,7 @@
     let starStyles = getStarStyles();
     function saveStarStyles(arr) { localStorage.setItem('starStyles',JSON.stringify(arr)); starStyles=arr; }
 
-    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let moods=JSON.parse(localStorage.getItem('moodLog'))||[]; let quizAnswers=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let capsule=JSON.parse(localStorage.getItem('timeCapsule'))||null; let lastLogin=localStorage.getItem('lastLoginDate')||''; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,moods,quizAnswers,capsule,lastLogin}; }
+    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let moods=JSON.parse(localStorage.getItem('moodLog'))||[]; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let ll=localStorage.getItem('lastLoginDate')||''; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,moods,quizAnswers:qa,capsule:cap,lastLogin:ll}; }
     function saveOpened(arr) { localStorage.setItem('openedStars',JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData',JSON.stringify(arr)); }
     function saveActivity(arr) { localStorage.setItem('activityLog',JSON.stringify(arr)); }
@@ -280,42 +281,64 @@
     function drawSky() { const c=state.opened.length, hue=240-c*3; document.body.style.background=`hsl(${hue},60%,3%)`; const g=ctx.createRadialGradient(width*0.4,height*0.3,0,width*0.6,height*0.7,width); g.addColorStop(0,`hsla(${hue+20},50%,8%,1)`); g.addColorStop(0.6,'#030312'); g.addColorStop(1,'#010108'); ctx.fillStyle=g; ctx.fillRect(0,0,width,height); for(let p of dust) { p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.fillStyle=`hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } if(Math.random()<0.006) { let sx=Math.random()*width*0.8,sy=Math.random()*height*0.5; ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke(); } requestAnimationFrame(drawSky); }
     let state=loadState(); drawSky();
 
-    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), musicPrompt=document.getElementById('musicPrompt'), moodCheck=document.getElementById('moodCheck'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
+    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), moodCheck=document.getElementById('moodCheck'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
 
     let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedMood=null, selectedQuizOption=null;
 
     function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
-    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); checkMoodOrContinue(); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
+    
+    function handleLogin() { 
+      const pw=document.getElementById('loginPass').value.trim(); 
+      document.getElementById('loginError').textContent=''; 
+      if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { 
+        currentUser='yeganeh'; 
+        loginOverlay.classList.remove('active'); 
+        checkMoodOrContinue(); 
+      } else if(pw===ADMIN_PASS) { 
+        currentUser='admin'; 
+        loginOverlay.classList.remove('active'); 
+        showAdmin(); 
+      } else { 
+        document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; 
+        document.getElementById('loginPass').value=''; 
+      } 
+    }
 
     function checkMoodOrContinue() {
       const today = new Date().toDateString();
       if (state.lastLogin !== today && state.opened.length > 0) {
-        // Show mood check if not first login and not already checked today
         moodCheck.classList.add('active');
         selectedMood = null;
         document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
+        document.getElementById('moodError').textContent = '';
       } else {
         musicPrompt.classList.add('active');
       }
     }
 
+    // Mood emoji click handler
     document.getElementById('moodEmojis').addEventListener('click', (e) => {
       if (e.target.classList.contains('mood-emoji')) {
         document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
         e.target.classList.add('selected');
         selectedMood = e.target.dataset.mood;
+        document.getElementById('moodError').textContent = '';
       }
     });
 
-    function submitMood() {
-      if (!selectedMood) { alert('Please select how you feel!'); return; }
+    // Mood submit button
+    document.getElementById('moodSubmitBtn').addEventListener('click', () => {
+      if (!selectedMood) {
+        document.getElementById('moodError').textContent = 'Please select how you feel!';
+        return;
+      }
       state.moods.push({ mood: selectedMood, date: new Date().toLocaleString() });
       saveMoods(state.moods);
       localStorage.setItem('lastLoginDate', new Date().toDateString());
       state.lastLogin = new Date().toDateString();
       moodCheck.classList.remove('active');
       musicPrompt.classList.add('active');
-    }
+    });
 
     function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=MUSIC_URL; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
@@ -342,52 +365,12 @@
       if(state.capsule) { const cs=document.createElement('div'); cs.className='star capsule-star'; cs.style.left='50%'; cs.style.top='80%'; cs.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click',()=>openCapsuleForYeganeh()); starsContainer.appendChild(cs); }
     }
 
-    function createStarElement(index,pos,unlocked,style) {
-      const el=document.createElement('div'); el.className='star'+(unlocked?' unlocked':''); el.style.left=pos.x+'%'; el.style.top=pos.y+'%';
-      const fc=unlocked?style.unlockedColor:style.lockedColor, sc=unlocked?'#ffeaa7':'#aa99c4';
-      el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`;
-      if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; el.appendChild(sp); }
-      el.addEventListener('click',(e)=>handleStarClick(index,unlocked,el,e)); return el;
-    }
+    function createStarElement(index,pos,unlocked,style) { const el=document.createElement('div'); el.className='star'+(unlocked?' unlocked':''); el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; const fc=unlocked?style.unlockedColor:style.lockedColor, sc=unlocked?'#ffeaa7':'#aa99c4'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`; if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; el.appendChild(sp); } el.addEventListener('click',(e)=>handleStarClick(index,unlocked,el,e)); return el; }
 
     function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; contentModal.classList.add('active'); }
 
-    // CAPSULE
-    function openCapsuleForYeganeh() {
-      if (!state.capsule) return;
-      if (state.capsule.email) {
-        // Already subscribed - show timer
-        const target = new Date(state.capsule.targetDate);
-        const now = new Date();
-        const diff = target - now;
-        if (diff <= 0) {
-          contentTitle.textContent = '⏳ Time Capsule';
-          contentBody.innerHTML = '<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: ' + escapeHtml(state.capsule.email) + '</p>';
-        } else {
-          const days = Math.floor(diff / (1000*60*60*24));
-          const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-          const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-          contentTitle.textContent = '⏳ Time Capsule';
-          contentBody.innerHTML = `<div class="timer-display">${days}d ${hours}h ${mins}m</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>`;
-        }
-      } else {
-        // Ask for email
-        contentTitle.textContent = '⏳ Time Capsule';
-        contentBody.innerHTML = '<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>';
-      }
-      contentModal.classList.add('active');
-    }
-
-    function submitCapsuleEmail() {
-      const email = document.getElementById('capsuleEmail')?.value.trim();
-      if (!email || !email.includes('@')) { alert('Please enter a valid email!'); return; }
-      const now = new Date();
-      const target = new Date(now);
-      target.setFullYear(target.getFullYear() + 1);
-      state.capsule = { email, targetDate: target.toISOString(), createdAt: now.toISOString() };
-      localStorage.setItem('timeCapsule', JSON.stringify(state.capsule));
-      contentBody.innerHTML = '<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>';
-    }
+    function openCapsuleForYeganeh() { if(!state.capsule) return; if(state.capsule.email) { const t=new Date(state.capsule.targetDate), n=new Date(), diff=t-n; if(diff<=0) { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: '+escapeHtml(state.capsule.email)+'</p>'; } else { const days=Math.floor(diff/(1000*60*60*24)), hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), mins=Math.floor((diff%(1000*60*60))/(1000*60)); contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML=`<div class="timer-display">${days}d ${hours}h ${mins}m</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>`; } } else { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>'; } contentModal.classList.add('active'); }
+    function submitCapsuleEmail() { const email=document.getElementById('capsuleEmail')?.value.trim(); if(!email||!email.includes('@')) { alert('Please enter a valid email!'); return; } const now=new Date(), target=new Date(now); target.setFullYear(target.getFullYear()+1); state.capsule={email,targetDate:target.toISOString(),createdAt:now.toISOString()}; localStorage.setItem('timeCapsule',JSON.stringify(state.capsule)); contentBody.innerHTML='<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
 
     function handleStarClick(index,isUnlocked,starEl,event) { event.stopPropagation(); starEl.classList.add('enlarged'); setTimeout(()=>starEl.classList.remove('enlarged'),600); if(isUnlocked) setTimeout(()=>showContent(index),400); else { pendingStar=index; starCodeInput.value=''; starCodeError.textContent=''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
     function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),800); } playUnlockSound(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
@@ -398,53 +381,13 @@
 
     function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; contentModal.classList.add('active'); if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d); return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
 
-    // QUIZ
-    function renderQuiz(d,index) {
-      let qData;
-      try { qData = JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; }
-      if (!qData.question || !qData.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; }
-      let html = `<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qData.question)}</p>`;
-      qData.options.forEach((opt,i) => {
-        html += `<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this, ${index}, '${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`;
-      });
-      html += `<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`;
-      contentBody.innerHTML = html;
-      selectedQuizOption = null;
-    }
+    function renderQuiz(d,index) { let qd; try { qd=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if(!qd.question||!qd.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((opt,i)=>{ html+=`<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this,${index},'${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`; }); html+=`<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`; contentBody.innerHTML=html; selectedQuizOption=null; }
+    function selectQuizOption(el,starIndex,option) { document.querySelectorAll('.quiz-option').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption={starIndex,option}; }
+    function submitQuizAnswer(si) { if(!selectedQuizOption) { alert('Please select an option!'); return; } state.quizAnswers[si]={answer:selectedQuizOption.option,time:new Date().toLocaleString()}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Answer recorded!</p><p style="color:#b0a0d4; font-size:0.8rem;">Your secret is safe in the stars.</p>'; }
+    function renderEssay(d,index) { let ed; try { ed=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Question data error.</p>'; return; } if(!ed.question) { contentBody.innerHTML='<p style="color:#b0a0d4;">Question not set yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(ed.question)}</p><textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea><button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${index})">Submit</button>`; contentBody.innerHTML=html; }
+    function submitEssayAnswer(si) { const ans=document.getElementById('essayAnswer')?.value.trim(); if(!ans) { alert('Please write something!'); return; } state.quizAnswers[si]={answer:ans,time:new Date().toLocaleString(),type:'essay'}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Your words are saved.</p><p style="color:#b0a0d4; font-size:0.8rem;">They will echo among the stars.</p>'; }
 
-    function selectQuizOption(el, starIndex, option) {
-      document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedQuizOption = { starIndex, option };
-    }
-
-    function submitQuizAnswer(starIndex) {
-      if (!selectedQuizOption) { alert('Please select an option!'); return; }
-      state.quizAnswers[starIndex] = { answer: selectedQuizOption.option, time: new Date().toLocaleString() };
-      saveQuizAnswers(state.quizAnswers);
-      contentBody.innerHTML = '<p style="color:#fad974;">✨ Answer recorded!</p><p style="color:#b0a0d4; font-size:0.8rem;">Your secret is safe in the stars.</p>';
-    }
-
-    // ESSAY
-    function renderEssay(d,index) {
-      let eData;
-      try { eData = JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Question data error.</p>'; return; }
-      if (!eData.question) { contentBody.innerHTML='<p style="color:#b0a0d4;">Question not set yet.</p>'; return; }
-      let html = `<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(eData.question)}</p>`;
-      html += `<textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea>`;
-      html += `<button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${index})">Submit</button>`;
-      contentBody.innerHTML = html;
-    }
-
-    function submitEssayAnswer(starIndex) {
-      const answer = document.getElementById('essayAnswer')?.value.trim();
-      if (!answer) { alert('Please write something!'); return; }
-      state.quizAnswers[starIndex] = { answer, time: new Date().toLocaleString(), type: 'essay' };
-      saveQuizAnswers(state.quizAnswers);
-      contentBody.innerHTML = '<p style="color:#fad974;">✨ Your words are saved.</p><p style="color:#b0a0d4; font-size:0.8rem;">They will echo among the stars.</p>';
-    }
-
-    function renderSimpleMap(starData) { let mapData; try { mapData=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!mapData.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=mapData.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); if(mapData.markers&&mapData.markers.length>0) { img.onload=()=>{ mapData.markers.forEach(m=>{ const marker=document.createElement('div'); marker.className='map-marker'; marker.style.left=(m.x/img.naturalWidth*100)+'%'; marker.style.top=(m.y/img.naturalHeight*100)+'%'; marker.addEventListener('click',(e)=>{ e.stopPropagation(); document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pImg=document.getElementById('mapPopupImage'); if(m.image) { pImg.src=m.image; pImg.style.display='block'; } else { pImg.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(marker); }); }; } contentBody.appendChild(wrap); }
+    function renderSimpleMap(starData) { let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); if(md.markers&&md.markers.length>0) { img.onload=()=>{ md.markers.forEach(m=>{ const mk=document.createElement('div'); mk.className='map-marker'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(e)=>{ e.stopPropagation(); document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } contentBody.appendChild(wrap); }
     function closeMapPopup() { mapPopup.classList.remove('active'); }
     function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption=null; }
     function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); closeMapPopup(); }
@@ -454,36 +397,21 @@
 
     function openDailyStarModal() { document.getElementById('dailyStarTitle').value=''; document.getElementById('dailyStarContent').value=''; dailyStarModal.classList.add('active'); }
     function closeDailyStarModal() { dailyStarModal.classList.remove('active'); }
-    function sendDailyStar() { const title=document.getElementById('dailyStarTitle').value.trim(), content=document.getElementById('dailyStarContent').value.trim(); if(!title&&!content) return; const isImage=content.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd={title,text:isImage?'':content,image:isImage?content:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dd)); state.dailyStar=dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
+    function sendDailyStar() { const t=document.getElementById('dailyStarTitle').value.trim(), c=document.getElementById('dailyStarContent').value.trim(); if(!t&&!c) return; const im=c.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd={title:t,text:im?'':c,image:im?c:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dd)); state.dailyStar=dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
 
     function openDragEditor() { dragStars=JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML=''; dragStars.forEach((pos,i)=>{ const el=document.createElement('div'); el.className='drag-star'; el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`; el.addEventListener('pointerdown',(e)=>startDrag(e,i,el)); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
-    function startDrag(e,index,el) { e.preventDefault(); draggedStarIndex=index; el.setPointerCapture(e.pointerId); el.addEventListener('pointermove',onDrag); el.addEventListener('pointerup',endDrag); }
-    function onDrag(e) { if(draggedStarIndex===null) return; const rect=dragCanvas.getBoundingClientRect(); dragStars[draggedStarIndex]={x:Math.min(95,Math.max(5,Math.round(((e.clientX-rect.left)/rect.width)*100))),y:Math.min(95,Math.max(5,Math.round(((e.clientY-rect.top)/rect.height)*100)))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
+    function startDrag(e,i,el) { e.preventDefault(); draggedStarIndex=i; el.setPointerCapture(e.pointerId); el.addEventListener('pointermove',onDrag); el.addEventListener('pointerup',endDrag); }
+    function onDrag(e) { if(draggedStarIndex===null) return; const r=dragCanvas.getBoundingClientRect(); dragStars[draggedStarIndex]={x:Math.min(95,Math.max(5,Math.round(((e.clientX-r.left)/r.width)*100))),y:Math.min(95,Math.max(5,Math.round(((e.clientY-r.top)/r.height)*100)))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
     function endDrag(e) { const el=dragCanvas.children[draggedStarIndex]; el.removeEventListener('pointermove',onDrag); el.removeEventListener('pointerup',endDrag); draggedStarIndex=null; }
     function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
 
-    function renderAdmin() {
-      const grid=document.getElementById('adminGrid'); grid.innerHTML='';
-      state.starData.forEach((d,i)=>{ const style=starStyles[i]; const card=document.createElement('div'); card.className='admin-card';
-        card.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4>
-          <label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code">
-          <label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (multiple choice)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option></select>
-          <label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>
-          ${d.type==='quiz'?'<p style="font-size:0.6rem; color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}
-          ${d.type==='essay'?'<p style="font-size:0.6rem; color:#b0a0c8;">Format: {"question":"..."}</p>':''}
-          <label>Locked Color</label><input type="color" value="${style.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;">
-          <label>Unlocked Color</label><input type="color" value="${style.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">
-          ${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`;
-        grid.appendChild(card);
-      });
-      document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), field=e.target.dataset.field; if(field==='lockedColor'||field==='unlockedColor') { starStyles[idx][field]=e.target.value; saveStarStyles(starStyles); } else { state.starData[idx][field]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); });
-    }
+    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option></select><label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
 
     function toggleActivityLog() { const l=document.getElementById('activityLog'); l.style.display=l.style.display==='block'?'none':'block'; l.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
     function toggleMessages() { const b=document.getElementById('adminMessages'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
     function toggleMoodLog() { const b=document.getElementById('moodLog'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.moods.length?state.moods.map(m=>`<p>${m.mood} — ${m.date}</p>`).join(''):'<p>No mood data yet.</p>'; }
-    function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const entries=Object.entries(state.quizAnswers); b.innerHTML=entries.length?entries.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
+    function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const e=Object.entries(state.quizAnswers); b.innerHTML=e.length?e.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
     function toggleCapsuleLog() { const b=document.getElementById('capsuleLog'); b.style.display=b.style.display==='block'?'none':'block'; if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); b.innerHTML=`<p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { b.innerHTML='<p>No time capsule set yet.</p>'; } }
     function resetAllData() { if(confirm('Delete ALL data?')) { localStorage.clear(); state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); renderAdmin(); alert('Done.'); } }
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
@@ -509,4 +437,4 @@
     landing.style.display='flex';
   </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </html>
