@@ -46,7 +46,7 @@
       background: rgba(18,14,42,0.55); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
       border-radius: 2.5rem; border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(100,80,200,0.1);
-      padding: 2.5rem 2rem; text-align: center; max-width: 400px; width: 90%;
+      padding: 2.5rem 2rem; text-align: center; max-width: 420px; width: 90%;
       animation: float 6s ease-in-out infinite;
     }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -66,6 +66,7 @@
     }
     .btn-ghost:hover { background: rgba(160,130,255,0.15); }
     .btn-danger { background: transparent; border: 1px solid #ff8a8a; color: #ff8a8a; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; margin-top: 2rem; }
+    .btn-reset { background: transparent; border: 1px solid #ffb347; color: #ffb347; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; margin-top: 1rem; }
 
     input, textarea, select {
       width: 100%; padding: 1rem; border-radius: 3rem;
@@ -111,7 +112,7 @@
     .star:active { transform:scale(0.85); }
     .star.enlarged { transform:scale(1.8) !important; z-index:50 !important; filter:drop-shadow(0 0 30px #ffeaa7); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     .star.daily-star { animation: dailyPulse 1.5s ease-in-out infinite; }
-    @keyframes dailyPulse { 0%,100% { filter: drop-shadow(0 0 15px #ff9ecd) drop-shadow(0 0 30px #ff6bb5); } 50% { filter: drop-shadow(0 0 25px #ffb8d9) drop-shadow(0 0 50px #ff9ecd); } }
+    @keyframes dailyPulse { 0%,100% { filter: drop-shadow(0 0 18px #fad974) drop-shadow(0 0 35px #f5d742) brightness(1.2); } 50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974) brightness(1.5); } }
     .star.capsule-star { animation: capsuleGlow 2s ease-in-out infinite; }
     @keyframes capsuleGlow { 0%,100% { filter: drop-shadow(0 0 10px #c4b5fd) drop-shadow(0 0 20px #a78bfa); } 50% { filter: drop-shadow(0 0 20px #ddd6fe) drop-shadow(0 0 40px #c4b5fd); } }
     .star svg { width:100%; height:100%; filter:drop-shadow(0 0 6px rgba(150,140,220,0.5)); transition:filter 0.6s; }
@@ -120,8 +121,8 @@
     .star-number { position:absolute; top:50%;left:50%; transform:translate(-50%,-50%); font-size:0.7rem; font-weight:bold; color:#2d1b3a; pointer-events:none; }
     .sparkle { position:absolute; width:4px; height:4px; background:white; border-radius:50%; box-shadow:0 0 10px #ffeaa7; pointer-events:none; animation:sparkleDrift 2s infinite; opacity:0; }
     @keyframes sparkleDrift { 0%{opacity:0;transform:translate(0,0) scale(0.3);} 30%{opacity:1;transform:translate(8px,-12px) scale(1);} 100%{opacity:0;transform:translate(20px,-28px) scale(0.2);} }
-    .star.bursting { animation:burst 0.8s ease-out forwards !important; }
-    @keyframes burst { 0%{transform:scale(1); filter:brightness(1);} 50%{transform:scale(2.2); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);} 100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px var(--gold));} }
+    .star.bursting { animation:burst 0.7s ease-out forwards !important; }
+    @keyframes burst { 0%{transform:scale(1); filter:brightness(1);} 40%{transform:scale(2.5); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);} 100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px var(--gold));} }
 
     #adminPanel { position:fixed; top:0;left:0;width:100%;height:100%; z-index:15; background:rgba(5,5,18,0.92); backdrop-filter:blur(20px); padding:2rem 1.5rem; overflow-y:auto; display:none; flex-direction:column; align-items:center; }
     #adminPanel.active { display:flex; }
@@ -142,8 +143,12 @@
 
     #finalMessage { position:fixed; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.92); z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; visibility:hidden; }
     #finalMessage.active { visibility:visible; }
-    .final-text { font-size:2rem; color:#ffeaa7; text-shadow:0 0 50px #f5d742; animation:finalPulse 2s infinite; padding:1rem; text-align:center; }
-    @keyframes finalPulse { 0%,100%{text-shadow:0 0 35px #f5d742;} 50%{text-shadow:0 0 70px #ffeaa7,0 0 100px #fad974;} }
+    .final-text {
+      font-size:1.2rem; color:#ffeaa7; text-shadow:0 0 30px #f5d742;
+      padding:2rem; text-align:center; line-height:2.2; max-width:500px;
+      animation:finalPulse 3s infinite;
+    }
+    @keyframes finalPulse { 0%,100%{text-shadow:0 0 25px #f5d742;} 50%{text-shadow:0 0 50px #ffeaa7,0 0 80px #fad974;} }
 
     .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; }
     .simple-map-wrap img { display:block; max-width:100%; height:auto; border-radius:1rem; }
@@ -172,7 +177,19 @@
     .mood-emoji:hover { transform:scale(1.3); background:rgba(255,255,255,0.1); }
     .mood-emoji.selected { transform:scale(1.4); background:rgba(250,217,116,0.2); box-shadow:0 0 20px rgba(250,217,116,0.3); }
 
-    .timer-display { font-size:1.8rem; color:#c4b5fd; text-shadow:0 0 20px #a78bfa; margin:1rem 0; letter-spacing:2px; }
+    .timer-display {
+      font-size:1.6rem; color:#c4b5fd; text-shadow:0 0 20px #a78bfa;
+      margin:1rem 0; letter-spacing:2px; font-weight:300;
+    }
+    .timer-display .hourglass {
+      font-size:3rem; display:block; margin-bottom:0.5rem;
+      animation: hourglassTilt 4s ease-in-out infinite;
+    }
+    @keyframes hourglassTilt {
+      0%,100% { transform: rotate(0deg); }
+      25% { transform: rotate(8deg); }
+      75% { transform: rotate(-8deg); }
+    }
     .quiz-option { display:block; width:100%; padding:0.8rem; margin:0.4rem 0; background:rgba(255,255,255,0.05); border:1px solid rgba(180,150,255,0.4); border-radius:2rem; color:#f0e5ff; cursor:pointer; transition:0.3s; font-family:inherit; font-size:0.9rem; }
     .quiz-option:hover { background:rgba(180,150,255,0.2); border-color:#c9b0ff; }
     .quiz-option.selected { background:rgba(250,217,116,0.2); border-color:#fad974; color:#fad974; }
@@ -186,35 +203,10 @@
 
   <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
   <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
-  
-  <div id="moodCheck" class="overlay">
-    <div class="glass">
-      <h3>How are you feeling today?</h3>
-      <div class="mood-emojis" id="moodEmojis">
-        <span class="mood-emoji" data-mood="😭">😭</span>
-        <span class="mood-emoji" data-mood="🥰">🥰</span>
-        <span class="mood-emoji" data-mood="🤣">🤣</span>
-        <span class="mood-emoji" data-mood="🙂">🙂</span>
-        <span class="mood-emoji" data-mood="🤕">🤕</span>
-        <span class="mood-emoji" data-mood="🫤">🫤</span>
-        <span class="mood-emoji" data-mood="💩">💩</span>
-      </div>
-      <button class="btn" id="moodSubmitBtn">continue ✨</button>
-      <p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p>
-    </div>
-  </div>
-
+  <div id="moodCheck" class="overlay"><div class="glass"><h3>How are you feeling today?</h3><div class="mood-emojis" id="moodEmojis"><span class="mood-emoji" data-mood="😭">😭</span><span class="mood-emoji" data-mood="🥰">🥰</span><span class="mood-emoji" data-mood="🤣">🤣</span><span class="mood-emoji" data-mood="🙂">🙂</span><span class="mood-emoji" data-mood="🤕">🤕</span><span class="mood-emoji" data-mood="🫤">🫤</span><span class="mood-emoji" data-mood="💩">💩</span></div><button class="btn" id="moodSubmitBtn">continue ✨</button><p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p></div></div>
   <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
   <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
-
-  <div id="skyView">
-    <div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 21 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div>
-    <div class="stars-container" id="starsContainer"></div>
-    <div class="crafted-sign">made with stardust for my bad angel</div>
-    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button>
-    <div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div>
-  </div>
-
+  <div id="skyView"><div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 22 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div><div class="stars-container" id="starsContainer"></div><div class="crafted-sign">made with stardust for my bad angel</div><button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button><div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div></div>
   <div id="starCodeModal" class="overlay"><div class="glass"><h3>🔑 star code</h3><input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off"><button class="btn" onclick="submitStarCode()">open</button><button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button><div class="error-message" id="starCodeError"></div></div></div>
   <div id="contentModal" class="overlay"><div class="glass" style="max-width:440px; width:95%;"><h3 id="contentTitle">✦</h3><div id="contentBody" style="margin:1rem 0; max-height:60vh; overflow-y:auto; overflow-x:hidden;"></div><button class="btn-ghost" onclick="closeContentModal()">close</button></div></div>
   <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
@@ -225,6 +217,7 @@
 
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:950px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div>
+    <div style="width:100%; max-width:950px; margin-top:1rem;"><label style="color:#b0a0c8; font-size:0.75rem;">🎵 Background Music URL</label><input type="text" id="bgMusicUrl" placeholder="Paste music link here..." style="text-align:left; direction:ltr;" onchange="saveBgMusicUrl()"></div>
     <div class="admin-grid" id="adminGrid"></div>
     <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem;">
       <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
@@ -234,7 +227,8 @@
       <button class="btn-ghost" onclick="toggleCapsuleLog()">⏳ time capsule</button>
       <button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button>
       <button class="btn-ghost" onclick="openDailyStarModal()">📨 daily star</button>
-      <button class="btn-danger" onclick="resetAllData()">🔄 reset all</button>
+      <button class="btn-ghost" onclick="previewFinalMessage()">👁 preview final</button>
+      <button class="btn-reset" onclick="resetYeganehData()">🔄 reset Yeganeh</button>
     </div>
     <div class="admin-log" id="activityLog" style="display:none;"></div>
     <div class="message-box" id="adminMessages" style="display:none;"></div>
@@ -243,18 +237,22 @@
     <div class="capsule-log" id="capsuleLog" style="display:none;"></div>
   </div>
 
-  <div id="finalMessage"><div class="final-text">✦ world is better with you Heliganeh ♡ ✦</div></div>
+  <div id="finalMessage"><div class="final-text" id="finalMessageText"></div></div>
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
   <script>
-    // ⚡ GLOBAL mood variable - accessible everywhere
+    // ⚡ CONSTANTS
+    const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 22;
+    const DEFAULT_MUSIC = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
+    const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 5:"some secrets are silent, waiting for your touch…", 10:"you're getting closer to the heart of the story…", 16:"more than half of the love journey is walked…", 20:"the sky is almost full of our whispers…", 22:"now the whole sky belongs to you, Heliganeh ✦" };
+
+    // ⚡ FINAL MESSAGE
+    const FINAL_MESSAGE = `هر ستاره‌ای که توی این آسمون جا گرفت\nفقط یک بهانه بود برای فکر کردن به تو.\nاما این آسمون هیچ وقت پر از ستاره نبود،\nهمیشه پر از تو بود\nچون تو از اون رازهایی هستی\nکه آسمون از نگه داشتنش لذت می‌بره :)\n\nمراقب خودت باش\nرازِ آسمون`;
+
+    // ⚡ GLOBALS
     window.selectedMood = null;
 
-    const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 21;
-    const MUSIC_URL = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
-    const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 3:"some secrets are silent, waiting for your touch…", 7:"you're getting closer to the heart of the story…", 14:"more than half of the love journey is walked…", 18:"the sky is almost full of our whispers…", 21:"now the whole sky belongs to you, Heliganeh ✦" };
-
-    function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[{x:20,y:25},{x:35,y:20},{x:48,y:15},{x:52,y:25},{x:65,y:20},{x:78,y:15},{x:15,y:40},{x:30,y:45},{x:45,y:50},{x:55,y:40},{x:70,y:48},{x:85,y:42},{x:25,y:60},{x:40,y:65},{x:58,y:60},{x:20,y:78},{x:38,y:72},{x:55,y:80},{x:68,y:70},{x:82,y:75},{x:90,y:85}]; localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
+    function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[]; for(let i=0;i<TOTAL_STARS;i++) { const angle=(i*1.1)+0.5, radius=12+(i*1.6); p.push({x:Math.min(88,Math.max(8,50+Math.cos(angle)*radius)),y:Math.min(85,Math.max(10,50+Math.sin(angle)*radius*0.7))}); } localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
     function savePositionsToStorage(pos) { localStorage.setItem('starPositions',JSON.stringify(pos)); positions=pos; }
 
@@ -262,7 +260,7 @@
     let starStyles = getStarStyles();
     function saveStarStyles(arr) { localStorage.setItem('starStyles',JSON.stringify(arr)); starStyles=arr; }
 
-    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let moods=JSON.parse(localStorage.getItem('moodLog'))||[]; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let ll=localStorage.getItem('lastLoginDate')||''; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,moods,quizAnswers:qa,capsule:cap,lastLogin:ll}; }
+    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let moods=JSON.parse(localStorage.getItem('moodLog'))||[]; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let ll=localStorage.getItem('lastLoginDate')||''; let bgm=localStorage.getItem('bgMusicUrl')||DEFAULT_MUSIC; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,moods,quizAnswers:qa,capsule:cap,lastLogin:ll,bgMusicUrl:bgm}; }
     function saveOpened(arr) { localStorage.setItem('openedStars',JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData',JSON.stringify(arr)); }
     function saveActivity(arr) { localStorage.setItem('activityLog',JSON.stringify(arr)); }
@@ -279,73 +277,22 @@
     function drawSky() { const c=state.opened.length, hue=240-c*3; document.body.style.background=`hsl(${hue},60%,3%)`; const g=ctx.createRadialGradient(width*0.4,height*0.3,0,width*0.6,height*0.7,width); g.addColorStop(0,`hsla(${hue+20},50%,8%,1)`); g.addColorStop(0.6,'#030312'); g.addColorStop(1,'#010108'); ctx.fillStyle=g; ctx.fillRect(0,0,width,height); for(let p of dust) { p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.fillStyle=`hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } if(Math.random()<0.006) { let sx=Math.random()*width*0.8,sy=Math.random()*height*0.5; ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke(); } requestAnimationFrame(drawSky); }
     let state=loadState(); drawSky();
 
-    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), moodCheck=document.getElementById('moodCheck'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
+    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), moodCheck=document.getElementById('moodCheck'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), finalMessageText=document.getElementById('finalMessageText'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
 
     let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedQuizOption=null;
 
     function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
-    
-    function handleLogin() { 
-      const pw=document.getElementById('loginPass').value.trim(); 
-      document.getElementById('loginError').textContent=''; 
-      if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { 
-        currentUser='yeganeh'; 
-        loginOverlay.classList.remove('active'); 
-        checkMoodOrContinue(); 
-      } else if(pw===ADMIN_PASS) { 
-        currentUser='admin'; 
-        loginOverlay.classList.remove('active'); 
-        showAdmin(); 
-      } else { 
-        document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; 
-        document.getElementById('loginPass').value=''; 
-      } 
-    }
+    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); checkMoodOrContinue(); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
 
-    function checkMoodOrContinue() {
-      const today = new Date().toDateString();
-      if (state.lastLogin !== today && state.opened.length > 0) {
-        moodCheck.classList.add('active');
-        window.selectedMood = null;
-        document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
-        document.getElementById('moodError').textContent = '';
-      } else {
-        musicPrompt.classList.add('active');
-      }
-    }
+    function checkMoodOrContinue() { const today=new Date().toDateString(); if(state.lastLogin!==today&&state.opened.length>0) { moodCheck.classList.add('active'); window.selectedMood=null; document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); document.getElementById('moodError').textContent=''; } else { musicPrompt.classList.add('active'); } }
 
-    // Mood emoji click handler
-    document.getElementById('moodEmojis').addEventListener('click', (e) => {
-      if (e.target.classList.contains('mood-emoji')) {
-        document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
-        e.target.classList.add('selected');
-        window.selectedMood = e.target.dataset.mood;
-        document.getElementById('moodError').textContent = '';
-      }
-    });
+    document.getElementById('moodEmojis').addEventListener('click',(e)=>{ if(e.target.classList.contains('mood-emoji')) { document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); e.target.classList.add('selected'); window.selectedMood=e.target.dataset.mood; document.getElementById('moodError').textContent=''; } });
+    document.getElementById('moodSubmitBtn').addEventListener('click',()=>{ if(!window.selectedMood) { document.getElementById('moodError').textContent='Please select how you feel!'; return; } state.moods.push({mood:window.selectedMood,date:new Date().toLocaleString()}); saveMoods(state.moods); localStorage.setItem('lastLoginDate',new Date().toDateString()); state.lastLogin=new Date().toDateString(); moodCheck.classList.remove('active'); musicPrompt.classList.add('active'); });
 
-    // Mood submit button - FIXED
-    document.getElementById('moodSubmitBtn').addEventListener('click', () => {
-      if (!window.selectedMood) {
-        document.getElementById('moodError').textContent = 'Please select how you feel!';
-        return;
-      }
-      state.moods.push({ mood: window.selectedMood, date: new Date().toLocaleString() });
-      saveMoods(state.moods);
-      localStorage.setItem('lastLoginDate', new Date().toDateString());
-      state.lastLogin = new Date().toDateString();
-      moodCheck.classList.remove('active');
-      musicPrompt.classList.add('active');
-    });
-
-    function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=MUSIC_URL; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
+    function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=state.bgMusicUrl||DEFAULT_MUSIC; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
     function startIntroSequence() {
-      introSequence.classList.add('active');
-      followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.top='50%'; followStar.style.left='50%';
-      followStar.style.opacity='0'; followStar.style.transition='opacity 0.6s'; followStar.style.background='#fff';
-      followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)';
-      followText.style.opacity='0';
+      introSequence.classList.add('active'); followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.top='50%'; followStar.style.left='50%'; followStar.style.opacity='0'; followStar.style.transition='opacity 0.6s'; followStar.style.background='#fff'; followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)'; followText.style.opacity='0';
       setTimeout(()=>{ followText.style.opacity='1'; },400);
       setTimeout(()=>{ followStar.style.opacity='1'; },1800);
       const cx=window.innerWidth/2, cy=window.innerHeight/2; let st=Date.now(); const dur=6200;
@@ -353,28 +300,24 @@
     }
 
     function showSky() { state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); skyView.classList.add('active'); adminPanel.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); if(state.opened.length===TOTAL_STARS) revealFinal(); }
-    function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); renderAdmin(); }
+    function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); document.getElementById('bgMusicUrl').value=state.bgMusicUrl||''; renderAdmin(); }
     function logout() { currentUser=null; skyView.classList.remove('active'); adminPanel.classList.remove('active'); landing.style.display='flex'; loginOverlay.classList.remove('active'); musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause(); }
 
-    function renderStarsInstant() {
-      starsContainer.innerHTML=''; const os=new Set(state.opened);
-      for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=os.has(i), style=starStyles[i]; const el=createStarElement(i,pos,unlocked,style); el.style.opacity='1'; el.style.transform='scale(1)'; starsContainer.appendChild(el); }
-      if(state.dailyStar) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='12%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#ff9ecd" stroke="#ffb8d9" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#4a0030;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); }
-      if(state.capsule) { const cs=document.createElement('div'); cs.className='star capsule-star'; cs.style.left='50%'; cs.style.top='80%'; cs.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click',()=>openCapsuleForYeganeh()); starsContainer.appendChild(cs); }
-    }
+    function renderStarsInstant() { starsContainer.innerHTML=''; const os=new Set(state.opened); for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=os.has(i), style=starStyles[i]; const el=createStarElement(i,pos,unlocked,style); el.style.opacity='1'; el.style.transform='scale(1)'; starsContainer.appendChild(el); } if(state.dailyStar) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='12%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2.5"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#5c3d00;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); } if(state.capsule) { const cs=document.createElement('div'); cs.className='star capsule-star'; cs.style.left='50%'; cs.style.top='85%'; cs.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click',()=>openCapsuleForYeganeh()); starsContainer.appendChild(cs); } }
 
     function createStarElement(index,pos,unlocked,style) { const el=document.createElement('div'); el.className='star'+(unlocked?' unlocked':''); el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; const fc=unlocked?style.unlockedColor:style.lockedColor, sc=unlocked?'#ffeaa7':'#aa99c4'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`; if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; el.appendChild(sp); } el.addEventListener('click',(e)=>handleStarClick(index,unlocked,el,e)); return el; }
 
     function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; contentModal.classList.add('active'); }
 
-    function openCapsuleForYeganeh() { if(!state.capsule) return; if(state.capsule.email) { const t=new Date(state.capsule.targetDate), n=new Date(), diff=t-n; if(diff<=0) { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: '+escapeHtml(state.capsule.email)+'</p>'; } else { const days=Math.floor(diff/(1000*60*60*24)), hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), mins=Math.floor((diff%(1000*60*60))/(1000*60)); contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML=`<div class="timer-display">${days}d ${hours}h ${mins}m</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>`; } } else { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>'; } contentModal.classList.add('active'); }
+    function openCapsuleForYeganeh() { if(!state.capsule) return; if(state.capsule.email) { const t=new Date(state.capsule.targetDate), n=new Date(), diff=t-n; if(diff<=0) { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: '+escapeHtml(state.capsule.email)+'</p>'; } else { const days=Math.floor(diff/(1000*60*60*24)), hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), mins=Math.floor((diff%(1000*60*60))/(1000*60)), secs=Math.floor((diff%(1000*60))/1000); contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML=`<div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>`; } } else { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>'; } contentModal.classList.add('active'); }
     function submitCapsuleEmail() { const email=document.getElementById('capsuleEmail')?.value.trim(); if(!email||!email.includes('@')) { alert('Please enter a valid email!'); return; } const now=new Date(), target=new Date(now); target.setFullYear(target.getFullYear()+1); state.capsule={email,targetDate:target.toISOString(),createdAt:now.toISOString()}; localStorage.setItem('timeCapsule',JSON.stringify(state.capsule)); contentBody.innerHTML='<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
 
     function handleStarClick(index,isUnlocked,starEl,event) { event.stopPropagation(); starEl.classList.add('enlarged'); setTimeout(()=>starEl.classList.remove('enlarged'),600); if(isUnlocked) setTimeout(()=>showContent(index),400); else { pendingStar=index; starCodeInput.value=''; starCodeError.textContent=''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
-    function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),800); } playUnlockSound(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
+    function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),700); } playUnlockSound(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
     function playUnlockSound() { try { const ac=new(window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain(); o.connect(g); g.connect(ac.destination); o.type='sine'; o.frequency.setValueAtTime(800,ac.currentTime); o.frequency.exponentialRampToValueAtTime(1200,ac.currentTime+0.2); g.gain.setValueAtTime(0.15,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.4); o.start(); o.stop(ac.currentTime+0.4); } catch(e) {} }
-    function updateCounterAndPoetry() { const c=state.opened.length; counterDisplay.textContent=c+' / 21 stars discovered'; let l=''; const t=Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a); for(let k of t) if(c>=k) { l=POETIC_LINES[k]; break; } poeticNote.textContent=l; }
-    function revealFinal() { if(!state.finalShown) { localStorage.setItem('finalShown','true'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),7000); } }
+    function updateCounterAndPoetry() { const c=state.opened.length; counterDisplay.textContent=c+' / '+TOTAL_STARS+' stars discovered'; let l=''; const t=Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a); for(let k of t) if(c>=k) { l=POETIC_LINES[k]; break; } poeticNote.textContent=l; }
+    function revealFinal() { if(!state.finalShown) { localStorage.setItem('finalShown','true'); finalMessageText.textContent=FINAL_MESSAGE.replace(/\n/g,'\n'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),15000); } }
+    function previewFinalMessage() { finalMessageText.textContent=FINAL_MESSAGE.replace(/\n/g,'\n'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),8000); }
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
     function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; contentModal.classList.add('active'); if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d); return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
@@ -393,13 +336,14 @@
     function closeMessageModal() { messageModal.classList.remove('active'); }
     function sendYeganehMessage() { const msg=yeganehMessage.value.trim(); if(!msg) return; state.messages.push({text:msg,time:new Date().toLocaleString()}); saveMessages(state.messages); messageModal.classList.remove('active'); }
 
+    function saveBgMusicUrl() { const url=document.getElementById('bgMusicUrl').value.trim(); state.bgMusicUrl=url||DEFAULT_MUSIC; localStorage.setItem('bgMusicUrl',state.bgMusicUrl); }
     function openDailyStarModal() { document.getElementById('dailyStarTitle').value=''; document.getElementById('dailyStarContent').value=''; dailyStarModal.classList.add('active'); }
     function closeDailyStarModal() { dailyStarModal.classList.remove('active'); }
     function sendDailyStar() { const t=document.getElementById('dailyStarTitle').value.trim(), c=document.getElementById('dailyStarContent').value.trim(); if(!t&&!c) return; const im=c.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd={title:t,text:im?'':c,image:im?c:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dd)); state.dailyStar=dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
 
     function openDragEditor() { dragStars=JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML=''; dragStars.forEach((pos,i)=>{ const el=document.createElement('div'); el.className='drag-star'; el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`; el.addEventListener('pointerdown',(e)=>startDrag(e,i,el)); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
     function startDrag(e,i,el) { e.preventDefault(); draggedStarIndex=i; el.setPointerCapture(e.pointerId); el.addEventListener('pointermove',onDrag); el.addEventListener('pointerup',endDrag); }
-    function onDrag(e) { if(draggedStarIndex===null) return; const r=dragCanvas.getBoundingClientRect(); dragStars[draggedStarIndex]={x:Math.min(95,Math.max(5,Math.round(((e.clientX-r.left)/r.width)*100))),y:Math.min(95,Math.max(5,Math.round(((e.clientY-r.top)/r.height)*100)))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
+    function onDrag(e) { if(draggedStarIndex===null) return; const r=dragCanvas.getBoundingClientRect(); const x=((e.clientX-r.left)/r.width)*100, y=((e.clientY-r.top)/r.height)*100; dragStars[draggedStarIndex]={x:Math.min(93,Math.max(3,Math.round(x*10)/10)),y:Math.min(93,Math.max(3,Math.round(y*10)/10))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
     function endDrag(e) { const el=dragCanvas.children[draggedStarIndex]; el.removeEventListener('pointermove',onDrag); el.removeEventListener('pointerup',endDrag); draggedStarIndex=null; }
     function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
@@ -411,7 +355,7 @@
     function toggleMoodLog() { const b=document.getElementById('moodLog'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.moods.length?state.moods.map(m=>`<p>${m.mood} — ${m.date}</p>`).join(''):'<p>No mood data yet.</p>'; }
     function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const e=Object.entries(state.quizAnswers); b.innerHTML=e.length?e.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
     function toggleCapsuleLog() { const b=document.getElementById('capsuleLog'); b.style.display=b.style.display==='block'?'none':'block'; if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); b.innerHTML=`<p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { b.innerHTML='<p>No time capsule set yet.</p>'; } }
-    function resetAllData() { if(confirm('Delete ALL data?')) { localStorage.clear(); state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); renderAdmin(); alert('Done.'); } }
+    function resetYeganehData() { if(confirm('Reset all Yeganeh data? (Stars, moods, messages, capsule — admin settings stay)')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('moodLog'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('lastLoginDate'); localStorage.removeItem('finalShown'); state=loadState(); renderAdmin(); alert('Yeganeh data reset. Admin settings preserved.'); } }
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
@@ -430,7 +374,7 @@
 
     document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') handleLogin(); });
     starCodeInput.addEventListener('keydown',e=>{ if(e.key==='Enter') submitStarCode(); });
-    window.addEventListener('click',e=>{ if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
+    window.addEventListener('click',e=>{ if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); if(e.target===finalMessage) finalMessage.classList.remove('active'); });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAllModals(); });
     landing.style.display='flex';
   </script>
