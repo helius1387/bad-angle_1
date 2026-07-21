@@ -203,7 +203,25 @@
 
   <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
   <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
-  <div id="moodCheck" class="overlay"><div class="glass"><h3>How are you feeling today?</h3><div class="mood-emojis" id="moodEmojis"><span class="mood-emoji" data-mood="😭">😭</span><span class="mood-emoji" data-mood="🥰">🥰</span><span class="mood-emoji" data-mood="🤣">🤣</span><span class="mood-emoji" data-mood="🙂">🙂</span><span class="mood-emoji" data-mood="🤕">🤕</span><span class="mood-emoji" data-mood="🫤">🫤</span><span class="mood-emoji" data-mood="💩">💩</span></div><button class="btn" id="moodSubmitBtn">continue ✨</button><p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p></div></div>
+  
+  <!-- MOOD CHECK - FIXED -->
+  <div id="moodCheck" class="overlay">
+    <div class="glass">
+      <h3>How are you feeling today?</h3>
+      <div class="mood-emojis" id="moodEmojis">
+        <span class="mood-emoji" data-mood="😭">😭</span>
+        <span class="mood-emoji" data-mood="🥰">🥰</span>
+        <span class="mood-emoji" data-mood="🤣">🤣</span>
+        <span class="mood-emoji" data-mood="🙂">🙂</span>
+        <span class="mood-emoji" data-mood="🤕">🤕</span>
+        <span class="mood-emoji" data-mood="🫤">🫤</span>
+        <span class="mood-emoji" data-mood="💩">💩</span>
+      </div>
+      <button class="btn" id="moodSubmitBtn">continue ✨</button>
+      <p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p>
+    </div>
+  </div>
+
   <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
   <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
   <div id="skyView"><div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 22 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div><div class="stars-container" id="starsContainer"></div><div class="crafted-sign">made with stardust for my bad angel</div><button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button><div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div></div>
@@ -245,12 +263,10 @@
     const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 22;
     const DEFAULT_MUSIC = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
     const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 5:"some secrets are silent, waiting for your touch…", 10:"you're getting closer to the heart of the story…", 16:"more than half of the love journey is walked…", 20:"the sky is almost full of our whispers…", 22:"now the whole sky belongs to you, Heliganeh ✦" };
-
-    // ⚡ FINAL MESSAGE
     const FINAL_MESSAGE = `هر ستاره‌ای که توی این آسمون جا گرفت\nفقط یک بهانه بود برای فکر کردن به تو.\nاما این آسمون هیچ وقت پر از ستاره نبود،\nهمیشه پر از تو بود\nچون تو از اون رازهایی هستی\nکه آسمون از نگه داشتنش لذت می‌بره :)\n\nمراقب خودت باش\nرازِ آسمون`;
 
     // ⚡ GLOBALS
-    window.selectedMood = null;
+    let selectedMood = null;
 
     function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[]; for(let i=0;i<TOTAL_STARS;i++) { const angle=(i*1.1)+0.5, radius=12+(i*1.6); p.push({x:Math.min(88,Math.max(8,50+Math.cos(angle)*radius)),y:Math.min(85,Math.max(10,50+Math.sin(angle)*radius*0.7))}); } localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
@@ -284,10 +300,32 @@
     function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
     function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); checkMoodOrContinue(); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
 
-    function checkMoodOrContinue() { const today=new Date().toDateString(); if(state.lastLogin!==today&&state.opened.length>0) { moodCheck.classList.add('active'); window.selectedMood=null; document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); document.getElementById('moodError').textContent=''; } else { musicPrompt.classList.add('active'); } }
+    function checkMoodOrContinue() { const today=new Date().toDateString(); if(state.lastLogin!==today&&state.opened.length>0) { moodCheck.classList.add('active'); selectedMood=null; document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); document.getElementById('moodError').textContent=''; } else { musicPrompt.classList.add('active'); } }
 
-    document.getElementById('moodEmojis').addEventListener('click',(e)=>{ if(e.target.classList.contains('mood-emoji')) { document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); e.target.classList.add('selected'); window.selectedMood=e.target.dataset.mood; document.getElementById('moodError').textContent=''; } });
-    document.getElementById('moodSubmitBtn').addEventListener('click',()=>{ if(!window.selectedMood) { document.getElementById('moodError').textContent='Please select how you feel!'; return; } state.moods.push({mood:window.selectedMood,date:new Date().toLocaleString()}); saveMoods(state.moods); localStorage.setItem('lastLoginDate',new Date().toDateString()); state.lastLogin=new Date().toDateString(); moodCheck.classList.remove('active'); musicPrompt.classList.add('active'); });
+    // ✅ FIXED: Mood emoji click handler
+    document.getElementById('moodEmojis').addEventListener('click', (e) => {
+      if (e.target.classList.contains('mood-emoji')) {
+        document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
+        e.target.classList.add('selected');
+        document.getElementById('moodError').textContent = '';
+      }
+    });
+
+    // ✅ FIXED: Mood submit button
+    document.getElementById('moodSubmitBtn').addEventListener('click', () => {
+      const selectedEl = document.querySelector('.mood-emoji.selected');
+      if (!selectedEl) {
+        document.getElementById('moodError').textContent = 'Please select how you feel!';
+        return;
+      }
+      const mood = selectedEl.dataset.mood;
+      state.moods.push({ mood: mood, date: new Date().toLocaleString() });
+      saveMoods(state.moods);
+      localStorage.setItem('lastLoginDate', new Date().toDateString());
+      state.lastLogin = new Date().toDateString();
+      moodCheck.classList.remove('active');
+      musicPrompt.classList.add('active');
+    });
 
     function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=state.bgMusicUrl||DEFAULT_MUSIC; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
@@ -316,8 +354,8 @@
     function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),700); } playUnlockSound(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
     function playUnlockSound() { try { const ac=new(window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain(); o.connect(g); g.connect(ac.destination); o.type='sine'; o.frequency.setValueAtTime(800,ac.currentTime); o.frequency.exponentialRampToValueAtTime(1200,ac.currentTime+0.2); g.gain.setValueAtTime(0.15,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.4); o.start(); o.stop(ac.currentTime+0.4); } catch(e) {} }
     function updateCounterAndPoetry() { const c=state.opened.length; counterDisplay.textContent=c+' / '+TOTAL_STARS+' stars discovered'; let l=''; const t=Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a); for(let k of t) if(c>=k) { l=POETIC_LINES[k]; break; } poeticNote.textContent=l; }
-    function revealFinal() { if(!state.finalShown) { localStorage.setItem('finalShown','true'); finalMessageText.textContent=FINAL_MESSAGE.replace(/\n/g,'\n'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),15000); } }
-    function previewFinalMessage() { finalMessageText.textContent=FINAL_MESSAGE.replace(/\n/g,'\n'); finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),8000); }
+    function revealFinal() { if(!state.finalShown) { localStorage.setItem('finalShown','true'); finalMessageText.textContent=FINAL_MESSAGE; finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),15000); } }
+    function previewFinalMessage() { finalMessageText.textContent=FINAL_MESSAGE; finalMessage.classList.add('active'); setTimeout(()=>finalMessage.classList.remove('active'),8000); }
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
     function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; contentModal.classList.add('active'); if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d); return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
