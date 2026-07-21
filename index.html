@@ -65,7 +65,6 @@
       padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; transition: 0.3s; font-family: inherit;
     }
     .btn-ghost:hover { background: rgba(160,130,255,0.15); }
-    .btn-danger { background: transparent; border: 1px solid #ff8a8a; color: #ff8a8a; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; margin-top: 2rem; }
     .btn-reset { background: transparent; border: 1px solid #ffb347; color: #ffb347; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; margin-top: 1rem; }
 
     input, textarea, select {
@@ -131,7 +130,7 @@
     .admin-card label { font-size:0.7rem; color:#b0a0c8; display:block; margin-top:0.4rem; }
     .admin-card input, .admin-card select, .admin-card textarea { width:100%; margin:0.2rem 0 0.5rem; background:rgba(255,255,255,0.05); border:1px solid #443366; border-radius:0.7rem; padding:0.4rem 0.7rem; color:#f0e5ff; font-family:inherit; font-size:0.8rem; }
     .admin-card input[type="color"] { padding:0.1rem; height:35px; cursor:pointer; }
-    .admin-log, .message-box, .mood-log, .quiz-log, .capsule-log { margin-top:1.5rem; max-width:950px; width:100%; background:rgba(20,15,45,0.6); border-radius:1.5rem; padding:1.2rem; color:#b0a0d4; font-size:0.8rem; }
+    .admin-log, .message-box, .quiz-log, .capsule-log { margin-top:1.5rem; max-width:950px; width:100%; background:rgba(20,15,45,0.6); border-radius:1.5rem; padding:1.2rem; color:#b0a0d4; font-size:0.8rem; }
 
     #dragEditorOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,20,0.95); z-index:400; display:flex; flex-direction:column; align-items:center; visibility:hidden; }
     #dragEditorOverlay.active { visibility:visible; }
@@ -172,11 +171,6 @@
 
     .login-hint { color: rgba(180,170,220,0.35); font-size: 0.55rem; letter-spacing: 2px; margin-bottom: -0.8rem; font-style: italic; }
 
-    .mood-emojis { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; margin:1.5rem 0; }
-    .mood-emoji { font-size:2.5rem; cursor:pointer; transition:0.3s; padding:0.5rem; border-radius:1rem; }
-    .mood-emoji:hover { transform:scale(1.3); background:rgba(255,255,255,0.1); }
-    .mood-emoji.selected { transform:scale(1.4); background:rgba(250,217,116,0.2); box-shadow:0 0 20px rgba(250,217,116,0.3); }
-
     .timer-display {
       font-size:1.6rem; color:#c4b5fd; text-shadow:0 0 20px #a78bfa;
       margin:1rem 0; letter-spacing:2px; font-weight:300;
@@ -203,25 +197,6 @@
 
   <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
   <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
-  
-  <!-- MOOD CHECK - FIXED -->
-  <div id="moodCheck" class="overlay">
-    <div class="glass">
-      <h3>How are you feeling today?</h3>
-      <div class="mood-emojis" id="moodEmojis">
-        <span class="mood-emoji" data-mood="😭">😭</span>
-        <span class="mood-emoji" data-mood="🥰">🥰</span>
-        <span class="mood-emoji" data-mood="🤣">🤣</span>
-        <span class="mood-emoji" data-mood="🙂">🙂</span>
-        <span class="mood-emoji" data-mood="🤕">🤕</span>
-        <span class="mood-emoji" data-mood="🫤">🫤</span>
-        <span class="mood-emoji" data-mood="💩">💩</span>
-      </div>
-      <button class="btn" id="moodSubmitBtn">continue ✨</button>
-      <p id="moodError" style="color:#ffb3b3; font-size:0.8rem; min-height:1.2rem; margin-top:0.5rem;"></p>
-    </div>
-  </div>
-
   <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
   <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
   <div id="skyView"><div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 22 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div><div class="stars-container" id="starsContainer"></div><div class="crafted-sign">made with stardust for my bad angel</div><button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button><div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div></div>
@@ -240,7 +215,6 @@
     <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem;">
       <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
       <button class="btn-ghost" onclick="toggleMessages()">💌 messages</button>
-      <button class="btn-ghost" onclick="toggleMoodLog()">🧠 mood log</button>
       <button class="btn-ghost" onclick="toggleQuizLog()">📝 quiz answers</button>
       <button class="btn-ghost" onclick="toggleCapsuleLog()">⏳ time capsule</button>
       <button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button>
@@ -250,7 +224,6 @@
     </div>
     <div class="admin-log" id="activityLog" style="display:none;"></div>
     <div class="message-box" id="adminMessages" style="display:none;"></div>
-    <div class="mood-log" id="moodLog" style="display:none;"></div>
     <div class="quiz-log" id="quizLog" style="display:none;"></div>
     <div class="capsule-log" id="capsuleLog" style="display:none;"></div>
   </div>
@@ -259,14 +232,10 @@
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
   <script>
-    // ⚡ CONSTANTS
     const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 22;
     const DEFAULT_MUSIC = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
     const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 5:"some secrets are silent, waiting for your touch…", 10:"you're getting closer to the heart of the story…", 16:"more than half of the love journey is walked…", 20:"the sky is almost full of our whispers…", 22:"now the whole sky belongs to you, Heliganeh ✦" };
     const FINAL_MESSAGE = `هر ستاره‌ای که توی این آسمون جا گرفت\nفقط یک بهانه بود برای فکر کردن به تو.\nاما این آسمون هیچ وقت پر از ستاره نبود،\nهمیشه پر از تو بود\nچون تو از اون رازهایی هستی\nکه آسمون از نگه داشتنش لذت می‌بره :)\n\nمراقب خودت باش\nرازِ آسمون`;
-
-    // ⚡ GLOBALS
-    let selectedMood = null;
 
     function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[]; for(let i=0;i<TOTAL_STARS;i++) { const angle=(i*1.1)+0.5, radius=12+(i*1.6); p.push({x:Math.min(88,Math.max(8,50+Math.cos(angle)*radius)),y:Math.min(85,Math.max(10,50+Math.sin(angle)*radius*0.7))}); } localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
@@ -276,12 +245,11 @@
     let starStyles = getStarStyles();
     function saveStarStyles(arr) { localStorage.setItem('starStyles',JSON.stringify(arr)); starStyles=arr; }
 
-    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let moods=JSON.parse(localStorage.getItem('moodLog'))||[]; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let ll=localStorage.getItem('lastLoginDate')||''; let bgm=localStorage.getItem('bgMusicUrl')||DEFAULT_MUSIC; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,moods,quizAnswers:qa,capsule:cap,lastLogin:ll,bgMusicUrl:bgm}; }
+    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let bgm=localStorage.getItem('bgMusicUrl')||DEFAULT_MUSIC; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,quizAnswers:qa,capsule:cap,bgMusicUrl:bgm}; }
     function saveOpened(arr) { localStorage.setItem('openedStars',JSON.stringify(arr)); }
     function saveStarData(arr) { localStorage.setItem('starData',JSON.stringify(arr)); }
     function saveActivity(arr) { localStorage.setItem('activityLog',JSON.stringify(arr)); }
     function saveMessages(arr) { localStorage.setItem('yeganehMessages',JSON.stringify(arr)); }
-    function saveMoods(arr) { localStorage.setItem('moodLog',JSON.stringify(arr)); }
     function saveQuizAnswers(obj) { localStorage.setItem('quizAnswers',JSON.stringify(obj)); }
 
     const canvas=document.getElementById('skyCanvas'), ctx=canvas.getContext('2d');
@@ -293,39 +261,12 @@
     function drawSky() { const c=state.opened.length, hue=240-c*3; document.body.style.background=`hsl(${hue},60%,3%)`; const g=ctx.createRadialGradient(width*0.4,height*0.3,0,width*0.6,height*0.7,width); g.addColorStop(0,`hsla(${hue+20},50%,8%,1)`); g.addColorStop(0.6,'#030312'); g.addColorStop(1,'#010108'); ctx.fillStyle=g; ctx.fillRect(0,0,width,height); for(let p of dust) { p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.fillStyle=`hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } if(Math.random()<0.006) { let sx=Math.random()*width*0.8,sy=Math.random()*height*0.5; ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke(); } requestAnimationFrame(drawSky); }
     let state=loadState(); drawSky();
 
-    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), moodCheck=document.getElementById('moodCheck'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), finalMessageText=document.getElementById('finalMessageText'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
+    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), finalMessageText=document.getElementById('finalMessageText'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal');
 
     let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedQuizOption=null;
 
     function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
-    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); checkMoodOrContinue(); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
-
-    function checkMoodOrContinue() { const today=new Date().toDateString(); if(state.lastLogin!==today&&state.opened.length>0) { moodCheck.classList.add('active'); selectedMood=null; document.querySelectorAll('.mood-emoji').forEach(el=>el.classList.remove('selected')); document.getElementById('moodError').textContent=''; } else { musicPrompt.classList.add('active'); } }
-
-    // ✅ FIXED: Mood emoji click handler
-    document.getElementById('moodEmojis').addEventListener('click', (e) => {
-      if (e.target.classList.contains('mood-emoji')) {
-        document.querySelectorAll('.mood-emoji').forEach(el => el.classList.remove('selected'));
-        e.target.classList.add('selected');
-        document.getElementById('moodError').textContent = '';
-      }
-    });
-
-    // ✅ FIXED: Mood submit button
-    document.getElementById('moodSubmitBtn').addEventListener('click', () => {
-      const selectedEl = document.querySelector('.mood-emoji.selected');
-      if (!selectedEl) {
-        document.getElementById('moodError').textContent = 'Please select how you feel!';
-        return;
-      }
-      const mood = selectedEl.dataset.mood;
-      state.moods.push({ mood: mood, date: new Date().toLocaleString() });
-      saveMoods(state.moods);
-      localStorage.setItem('lastLoginDate', new Date().toDateString());
-      state.lastLogin = new Date().toDateString();
-      moodCheck.classList.remove('active');
-      musicPrompt.classList.add('active');
-    });
+    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); musicPrompt.classList.add('active'); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
 
     function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=state.bgMusicUrl||DEFAULT_MUSIC; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
@@ -379,21 +320,58 @@
     function closeDailyStarModal() { dailyStarModal.classList.remove('active'); }
     function sendDailyStar() { const t=document.getElementById('dailyStarTitle').value.trim(), c=document.getElementById('dailyStarContent').value.trim(); if(!t&&!c) return; const im=c.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd={title:t,text:im?'':c,image:im?c:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dd)); state.dailyStar=dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
 
-    function openDragEditor() { dragStars=JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML=''; dragStars.forEach((pos,i)=>{ const el=document.createElement('div'); el.className='drag-star'; el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`; el.addEventListener('pointerdown',(e)=>startDrag(e,i,el)); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
-    function startDrag(e,i,el) { e.preventDefault(); draggedStarIndex=i; el.setPointerCapture(e.pointerId); el.addEventListener('pointermove',onDrag); el.addEventListener('pointerup',endDrag); }
-    function onDrag(e) { if(draggedStarIndex===null) return; const r=dragCanvas.getBoundingClientRect(); const x=((e.clientX-r.left)/r.width)*100, y=((e.clientY-r.top)/r.height)*100; dragStars[draggedStarIndex]={x:Math.min(93,Math.max(3,Math.round(x*10)/10)),y:Math.min(93,Math.max(3,Math.round(y*10)/10))}; const el=dragCanvas.children[draggedStarIndex]; el.style.left=dragStars[draggedStarIndex].x+'%'; el.style.top=dragStars[draggedStarIndex].y+'%'; }
-    function endDrag(e) { const el=dragCanvas.children[draggedStarIndex]; el.removeEventListener('pointermove',onDrag); el.removeEventListener('pointerup',endDrag); draggedStarIndex=null; }
-    function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
+    // ✅ FIXED: Drag & Drop Position Editor
+    function openDragEditor() {
+      dragStars = JSON.parse(JSON.stringify(getStarPositions()));
+      dragCanvas.innerHTML = '';
+      dragStars.forEach((pos, i) => {
+        const el = document.createElement('div');
+        el.className = 'drag-star';
+        el.style.left = pos.x + '%';
+        el.style.top = pos.y + '%';
+        el.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`;
+        
+        el.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          el.setPointerCapture(e.pointerId);
+          draggedStarIndex = i;
+          
+          const onMove = (ev) => {
+            if (draggedStarIndex === null) return;
+            const rect = dragCanvas.getBoundingClientRect();
+            const px = ((ev.clientX - rect.left) / rect.width) * 100;
+            const py = ((ev.clientY - rect.top) / rect.height) * 100;
+            const x = Math.min(93, Math.max(3, Math.round(px * 10) / 10));
+            const y = Math.min(93, Math.max(3, Math.round(py * 10) / 10));
+            dragStars[draggedStarIndex] = { x, y };
+            el.style.left = x + '%';
+            el.style.top = y + '%';
+          };
+          
+          const onUp = () => {
+            el.removeEventListener('pointermove', onMove);
+            el.removeEventListener('pointerup', onUp);
+            draggedStarIndex = null;
+          };
+          
+          el.addEventListener('pointermove', onMove);
+          el.addEventListener('pointerup', onUp);
+        });
+        
+        dragCanvas.appendChild(el);
+      });
+      dragEditorOverlay.classList.add('active');
+    }
+    function saveDragPositions() { savePositionsToStorage(dragStars); positions = dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
 
     function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option></select><label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
 
     function toggleActivityLog() { const l=document.getElementById('activityLog'); l.style.display=l.style.display==='block'?'none':'block'; l.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
     function toggleMessages() { const b=document.getElementById('adminMessages'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
-    function toggleMoodLog() { const b=document.getElementById('moodLog'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.moods.length?state.moods.map(m=>`<p>${m.mood} — ${m.date}</p>`).join(''):'<p>No mood data yet.</p>'; }
     function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const e=Object.entries(state.quizAnswers); b.innerHTML=e.length?e.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
     function toggleCapsuleLog() { const b=document.getElementById('capsuleLog'); b.style.display=b.style.display==='block'?'none':'block'; if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); b.innerHTML=`<p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { b.innerHTML='<p>No time capsule set yet.</p>'; } }
-    function resetYeganehData() { if(confirm('Reset all Yeganeh data? (Stars, moods, messages, capsule — admin settings stay)')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('moodLog'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('lastLoginDate'); localStorage.removeItem('finalShown'); state=loadState(); renderAdmin(); alert('Yeganeh data reset. Admin settings preserved.'); } }
+    function resetYeganehData() { if(confirm('Reset all Yeganeh data? (Stars, messages, capsule — admin settings stay)')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('finalShown'); state=loadState(); renderAdmin(); alert('Yeganeh data reset. Admin settings preserved.'); } }
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
