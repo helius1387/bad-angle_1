@@ -7,48 +7,109 @@
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    :root { --gold: #fad974; --gold-bright: #ffeaa7; --accent: #b39aff; --text: #e4defa; --text-soft: #b0a0d4; --error: #ffb3b3; --capsule: #c4b5fd; }
-    body { font-family: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif; background: #000; color: var(--text); min-height: 100vh; overflow: hidden; user-select: none; -webkit-tap-highlight-color: transparent; display: flex; justify-content: center; align-items: center; position: relative; transition: background 2s ease; }
+
+    :root {
+      --gold: #fad974;
+      --gold-bright: #ffeaa7;
+      --accent: #b39aff;
+      --text: #e4defa;
+      --text-soft: #b0a0d4;
+      --error: #ffb3b3;
+      --capsule: #c4b5fd;
+    }
+
+    body {
+      font-family: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif;
+      background: #000;
+      color: var(--text);
+      min-height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      transition: background 2s ease;
+    }
+
     #skyCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
     .nebula { position: fixed; border-radius: 50%; filter: blur(140px); opacity: 0; pointer-events: none; z-index: 1; transition: opacity 3s ease; }
     #nebula1 { width:70vw; height:70vw; background:#2a1f6e; top:-20%; left:5%; }
     #nebula2 { width:60vw; height:60vw; background:#1d2870; bottom:-15%; right:5%; }
     #nebula3 { width:50vw; height:50vw; background:#231a5a; top:40%; left:50%; }
+
     .app-layer { position: relative; z-index: 10; width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .glass { background: rgba(18,14,42,0.55); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border-radius: 2.5rem; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(100,80,200,0.1); padding: 2.5rem 2rem; text-align: center; max-width: 420px; width: 90%; animation: float 6s ease-in-out infinite; }
+
+    .glass {
+      background: rgba(18,14,42,0.55); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+      border-radius: 2.5rem; border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(100,80,200,0.1);
+      padding: 2.5rem 2rem; text-align: center; max-width: 420px; width: 90%;
+      animation: float 6s ease-in-out infinite;
+    }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
     .glass h1 { font-size:2.2rem; font-weight:400; color:#f0e6ff; text-shadow:0 0 25px #9a82ff; margin-bottom:0.3rem; }
     .subtitle { color:var(--text-soft); font-size:0.95rem; margin-bottom:2.2rem; letter-spacing:3px; }
-    .btn { background: linear-gradient(135deg, #6b4ecc, #9b7ef5); border: none; color: #e8e0ff; font-weight: 600; padding: 0.9rem 2.8rem; border-radius: 3rem; font-size: 1rem; cursor: pointer; box-shadow: 0 8px 30px rgba(120,90,230,0.4); transition: 0.3s; font-family: inherit; }
+
+    .btn {
+      background: linear-gradient(135deg, #6b4ecc, #9b7ef5); border: none; color: #e8e0ff;
+      font-weight: 600; padding: 0.9rem 2.8rem; border-radius: 3rem; font-size: 1rem;
+      cursor: pointer; box-shadow: 0 8px 30px rgba(120,90,230,0.4); transition: 0.3s; font-family: inherit;
+    }
     .btn:hover { transform: translateY(-2px); box-shadow:0 12px 40px rgba(150,120,255,0.6); }
-    .btn-ghost { background: transparent; border: 1px solid rgba(180,150,255,0.5); color: #cbb8ff; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; transition: 0.3s; font-family: inherit; }
+    .btn-ghost {
+      background: transparent; border: 1px solid rgba(180,150,255,0.5); color: #cbb8ff;
+      padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; transition: 0.3s; font-family: inherit;
+    }
     .btn-ghost:hover { background: rgba(160,130,255,0.15); }
     .btn-reset { background: transparent; border: 1px solid #ffb347; color: #ffb347; padding: 0.65rem 2rem; border-radius: 3rem; font-weight: 500; cursor: pointer; margin-top: 1rem; }
-    input, textarea, select { width: 100%; padding: 1rem; border-radius: 3rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(180,140,255,0.4); color: #f0e5ff; font-size: 1rem; text-align: center; outline: none; font-family: inherit; margin: 0.8rem 0; transition: 0.3s; }
+
+    input, textarea, select {
+      width: 100%; padding: 1rem; border-radius: 3rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(180,140,255,0.4);
+      color: #f0e5ff; font-size: 1rem; text-align: center; outline: none;
+      font-family: inherit; margin: 0.8rem 0; transition: 0.3s;
+    }
     input:focus, textarea:focus, select:focus { border-color: #c9b0ff; box-shadow: 0 0 30px rgba(150,120,255,0.3); }
     textarea { text-align: left; border-radius: 1.5rem; }
+
     .error-message { color: var(--error); font-size: 0.9rem; min-height: 1.5rem; animation: shake 0.4s ease; }
     @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-6px);} 40%{transform:translateX(6px);} 60%{transform:translateX(-3px);} 80%{transform:translateX(3px);} }
-    .overlay { position: fixed; top:0;left:0;width:100%;height:100%; z-index:20; display:flex; align-items:center; justify-content:center; background:rgba(4,4,20,0.65); backdrop-filter:blur(12px); opacity:0; visibility:hidden; transition:0.4s; }
+
+    .overlay {
+      position: fixed; top:0;left:0;width:100%;height:100%; z-index:20;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(4,4,20,0.65); backdrop-filter:blur(12px);
+      opacity:0; visibility:hidden; transition:0.4s;
+    }
     .overlay.active { opacity:1; visibility:visible; }
+
     #introSequence { position:fixed; top:0;left:0;width:100%;height:100%; background:#000; z-index:300; cursor:pointer; visibility:hidden; overflow:hidden; }
     #introSequence.active { visibility:visible; }
     #followStar { position:absolute; width:8px; height:8px; background:#fff; border-radius:50%; box-shadow: 0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25); z-index:2; transition: none; opacity:0; }
     #followText { position:absolute; top:62%; left:50%; transform:translateX(-50%); color:#fff; font-size:1rem; letter-spacing:3px; opacity:0; transition:opacity 1s; z-index:2; text-shadow:0 0 15px rgba(255,255,255,0.3); }
+
     #skyView { position:fixed; top:0;left:0;width:100%;height:100%; z-index:5; display:flex; flex-direction:column; align-items:center; padding:2rem 1rem 1.5rem; opacity:0; visibility:hidden; transition:0.6s; }
     #skyView.active { opacity:1; visibility:visible; }
+
     .sky-header { text-align:center; margin-bottom:0.8rem; z-index:2; }
     .counter { background:rgba(15,12,38,0.6); backdrop-filter:blur(10px); padding:0.5rem 2rem; border-radius:3rem; display:inline-block; color:var(--gold); font-size:0.9rem; border:1px solid rgba(250,217,116,0.25); margin-top:0.5rem; }
     .poetic-note { color:#9a8fc4; font-size:0.78rem; margin-top:0.7rem; font-style:italic; }
     .crafted-sign { position:absolute; bottom:1.5rem; right:1.8rem; color:rgba(180,170,220,0.25); font-size:0.65rem; z-index:3; pointer-events:none; }
     .fullscreen-btn { position:absolute; bottom:1.5rem; left:1.8rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#b0a0d4; border-radius:2rem; padding:0.3rem 1rem; font-size:0.7rem; cursor:pointer; z-index:10; backdrop-filter:blur(8px); }
+    
     .message-wings-wrap { position:absolute; top:1.2rem; right:1.2rem; display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:10; }
     .message-wings { font-size:1.5rem; animation:floatWings 2s infinite; }
     @keyframes floatWings { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-8px) rotate(5deg);} }
     .message-label { color:rgba(180,170,220,0.4); font-size:0.5rem; margin-top:2px; letter-spacing:0.5px; }
+
     .stars-container { flex:1; width:100%; position:relative; overflow:hidden; }
     .star { position:absolute; width:50px; height:50px; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:1; }
-    .star:hover { transform:scale(1.25); } .star:active { transform:scale(0.85); }
+    .star:hover { transform:scale(1.25); }
+    .star:active { transform:scale(0.85); }
     .star.enlarged { transform:scale(1.8) !important; z-index:50 !important; filter:drop-shadow(0 0 30px #ffeaa7); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     .star.daily-star { animation: dailyPulse 1.5s ease-in-out infinite; }
     @keyframes dailyPulse { 0%,100% { filter: drop-shadow(0 0 18px #fad974) drop-shadow(0 0 35px #f5d742) brightness(1.2); } 50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974) brightness(1.5); } }
@@ -62,13 +123,17 @@
     @keyframes sparkleDrift { 0%{opacity:0;transform:translate(0,0) scale(0.3);} 30%{opacity:1;transform:translate(8px,-12px) scale(1);} 100%{opacity:0;transform:translate(20px,-28px) scale(0.2);} }
     .star.bursting { animation:burst 0.7s ease-out forwards !important; }
     @keyframes burst { 0%{transform:scale(1); filter:brightness(1);} 40%{transform:scale(2.5); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);} 100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px var(--gold));} }
-    .float-heart { position: fixed; pointer-events: none; z-index: 100; font-size: 1.5rem; animation: heartFloat 2s ease-out forwards; opacity: 0; color: #6a9eff; text-shadow: 0 0 12px #4a7fdf, 0 0 25px #2a5fbf, 0 0 40px #1a3f8f; }
+
+    /* ✦ قلب‌های آبی تیره */
+    .float-heart { position: fixed; pointer-events: none; z-index: 100; font-size: 1.5rem; animation: heartFloat 2s ease-out forwards; opacity: 0; color: #1e3a5f; text-shadow: 0 0 8px #2a4a7f; }
     @keyframes heartFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-80px) scale(1.8); } }
+
     .zoom-controls { display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem; }
     .zoom-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .zoom-btn:active { background:rgba(250,217,116,0.3); }
     .zoomable-content { transform-origin: top left; transition: transform 0.2s; }
     .zoomable-wrap { overflow: auto; max-height: 55vh; touch-action: pan-x pan-y pinch-zoom; }
+
     #adminPanel { position:fixed; top:0;left:0;width:100%;height:100%; z-index:15; background:rgba(5,5,18,0.92); backdrop-filter:blur(20px); padding:2rem 1.5rem; overflow-y:auto; display:none; flex-direction:column; align-items:center; }
     #adminPanel.active { display:flex; }
     .admin-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:1rem; max-width:950px; width:100%; margin-top:1.5rem; }
@@ -78,27 +143,35 @@
     .admin-card input[type="color"] { padding:0.1rem; height:35px; cursor:pointer; }
     .admin-log, .message-box, .quiz-log, .capsule-log { margin-top:1.5rem; max-width:950px; width:100%; background:rgba(20,15,45,0.6); border-radius:1.5rem; padding:1.2rem; color:#b0a0d4; font-size:0.8rem; }
     .last-visit { color: #fad974; font-size: 0.85rem; margin-top: 0.5rem; text-align: center; }
+
     #dragEditorOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,20,0.95); z-index:400; display:flex; flex-direction:column; align-items:center; visibility:hidden; }
     #dragEditorOverlay.active { visibility:visible; }
     #dragCanvas { flex:1; width:95%; position:relative; overflow:hidden; border:1px solid #6b4ecc; margin:1rem; border-radius:1rem; background:rgba(10,5,25,0.8); touch-action:none; }
     .drag-star { position:absolute; width:44px; height:44px; cursor:grab; transform:translate(-50%,-50%); z-index:2; touch-action:none; }
-    .drag-star:active { cursor:grabbing; } .drag-star svg { width:100%; height:100%; pointer-events:none; }
+    .drag-star:active { cursor:grabbing; }
+    .drag-star svg { width:100%; height:100%; pointer-events:none; }
     .drag-label { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:0.65rem; font-weight:bold; color:#1a0a2e; pointer-events:none; }
+
     #finalMessage { position:fixed; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.92); z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; visibility:hidden; }
     #finalMessage.active { visibility:visible; }
     .final-stars-container { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:300px; height:300px; z-index:1; }
     .final-star { position:absolute; width:20px; height:20px; animation: finalStarTwinkle 1s ease-in-out infinite; }
     @keyframes finalStarTwinkle { 0%,100%{opacity:0.5; transform:scale(0.8);} 50%{opacity:1; transform:scale(1.3);} }
     .final-text { font-size:1.2rem; color:#ffeaa7; text-shadow:0 0 30px #f5d742; padding:2rem; text-align:center; line-height:2.2; max-width:500px; z-index:2; position:relative; }
-    .typewriter-cursor { animation: blink 0.7s infinite; } @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
-    .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; cursor:crosshair; }
+    .typewriter-cursor { animation: blink 0.7s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; }
     .simple-map-wrap img { display:block; max-width:100%; height:auto; border-radius:1rem; }
-    .map-marker { position:absolute; background:#fad974; border-radius:50%; box-shadow:0 0 6px #fad974, 0 0 14px rgba(250,217,116,0.3); cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2; }
-    .map-marker:hover { transform:translate(-50%,-50%) scale(1.5); box-shadow:0 0 10px #ffeaa7, 0 0 20px #fad974; }
+    .map-marker { position:absolute; background:#fad974; border-radius:50%; box-shadow:0 0 10px #fad974, 0 0 20px rgba(250,217,116,0.4); cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2; }
+    .map-marker:hover { transform:translate(-50%,-50%) scale(1.5); box-shadow:0 0 16px #ffeaa7, 0 0 30px #fad974; }
     .map-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(20,15,45,0.95); backdrop-filter:blur(15px); border:1px solid rgba(250,217,116,0.5); border-radius:1.5rem; padding:1.5rem; max-width:300px; width:85%; z-index:500; text-align:center; box-shadow:0 0 40px rgba(0,0,0,0.8); display:none; }
-    .map-popup.active { display:block; } .map-popup h4 { color:#fad974; margin-bottom:0.5rem; } .map-popup p { color:#d4c0e0; font-size:0.9rem; line-height:1.5; }
+    .map-popup.active { display:block; }
+    .map-popup h4 { color:#fad974; margin-bottom:0.5rem; }
+    .map-popup p { color:#d4c0e0; font-size:0.9rem; line-height:1.5; }
     .map-popup img { max-width:140px; border-radius:0.5rem; margin-top:0.5rem; }
     .map-popup .close-popup { margin-top:0.8rem; background:transparent; border:1px solid rgba(255,255,255,0.3); color:#b0a0d4; padding:0.4rem 1.5rem; border-radius:2rem; cursor:pointer; font-family:inherit; }
+
     #mapEditorOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,20,0.95); z-index:400; display:flex; flex-direction:column; align-items:center; justify-content:center; visibility:hidden; }
     #mapEditorOverlay.active { visibility:visible; }
     .editor-toolbar { margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; justify-content:center; padding:0 1rem; }
@@ -107,221 +180,224 @@
     .marker-form { background:rgba(20,15,45,0.95); backdrop-filter:blur(10px); border-radius:1rem; padding:1rem; margin-top:0.5rem; display:flex; flex-direction:column; gap:0.5rem; width:320px; max-width:90%; border:1px solid #6b4ecc; }
     .marker-form input, .marker-form textarea { background:rgba(255,255,255,0.08); border:1px solid #6b4ecc; border-radius:0.7rem; padding:0.6rem; color:#fff; font-family:inherit; text-align:left; }
     .marker-form label { font-size:0.75rem; color:#b0a0c8; margin-bottom:-0.3rem; }
+
     .login-hint { color: rgba(180,170,220,0.35); font-size: 0.55rem; letter-spacing: 2px; margin-bottom: -0.8rem; font-style: italic; }
+
     .timer-display { font-size:1.6rem; color:#c4b5fd; text-shadow:0 0 20px #a78bfa; margin:1rem 0; letter-spacing:2px; font-weight:300; }
     .timer-display .hourglass { font-size:3rem; display:block; margin-bottom:0.5rem; animation: hourglassTilt 4s ease-in-out infinite; }
     @keyframes hourglassTilt { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(8deg); } 75% { transform: rotate(-8deg); } }
     .quiz-option { display:block; width:100%; padding:0.8rem; margin:0.4rem 0; background:rgba(255,255,255,0.05); border:1px solid rgba(180,150,255,0.4); border-radius:2rem; color:#f0e5ff; cursor:pointer; transition:0.3s; font-family:inherit; font-size:0.9rem; }
     .quiz-option:hover { background:rgba(180,150,255,0.2); border-color:#c9b0ff; }
     .quiz-option.selected { background:rgba(250,217,116,0.2); border-color:#fad974; color:#fad974; }
-    .rtl-text { direction: rtl; text-align: right; }
   </style>
 </head>
 <body>
   <canvas id="skyCanvas"></canvas>
-  <div class="nebula" id="nebula1"></div><div class="nebula" id="nebula2"></div><div class="nebula" id="nebula3"></div>
+  <div class="nebula" id="nebula1"></div>
+  <div class="nebula" id="nebula2"></div>
+  <div class="nebula" id="nebula3"></div>
+
   <div id="landing" class="app-layer"><div class="glass"><h1>✦ Heliganeh ✦</h1><div class="subtitle">a sky full of secrets</div><button class="btn" onclick="transitionToLogin()">enter the night</button></div></div>
   <div id="loginOverlay" class="overlay"><div class="glass"><h2>whisper the word</h2><div class="login-hint">the key to our flag</div><input type="password" id="loginPass" placeholder="········" autocomplete="off"><button class="btn" onclick="handleLogin()">unlock</button><div class="error-message" id="loginError"></div></div></div>
   <div id="musicPrompt" class="overlay"><div class="glass"><p style="font-size:1.2rem; margin-bottom:2rem;">🎵 soft music for the stars?</p><div style="display:flex; gap:1rem; justify-content:center;"><button class="btn" onclick="startExperience(true)">yes, please</button><button class="btn-ghost" onclick="startExperience(false)">no, thank you</button></div></div></div>
   <div id="introSequence"><div id="followText">follow me</div><div id="followStar"></div></div>
   <div id="skyView"><div class="sky-header"><div style="font-size:1.6rem; color:#efe5ff;">✦ Heliganeh's Sky ✦</div><div class="counter" id="counterDisplay">0 / 22 stars discovered</div><div class="poetic-note" id="poeticNote">in this sky, every star holds a secret from me to you…</div></div><div class="stars-container" id="starsContainer"></div><div class="crafted-sign">made with stardust for my bad angel</div><button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ full</button><div class="message-wings-wrap" onclick="openMessageBox()"><span class="message-wings">🪽</span><span class="message-label">send a message</span></div></div>
   <div id="starCodeModal" class="overlay"><div class="glass"><h3>🔑 star code</h3><input type="password" id="starCodeInput" placeholder="enter secret code" autocomplete="off"><button class="btn" onclick="submitStarCode()">open</button><button class="btn-ghost" style="margin-top:0.6rem;" onclick="closeStarCodeModal()">cancel</button><div class="error-message" id="starCodeError"></div></div></div>
-  <div id="contentModal" class="overlay"><div class="glass" style="max-width:90vw; width:95%;"><h3 id="contentTitle">✦</h3><div class="zoom-controls"><button class="zoom-btn" onclick="zoomContent(-0.2)">−</button><button class="zoom-btn" onclick="zoomContent(0.2)">+</button><button class="zoom-btn" onclick="resetZoom()" style="font-size:0.7rem;">↺</button></div><div id="contentDescription" class="rtl-text" style="color:#b0a0d4; font-size:0.85rem; margin:0.5rem 0; display:none;"></div><div class="zoomable-wrap" id="zoomableWrap"><div class="zoomable-content" id="contentBody" style="margin:0.5rem 0; transform:scale(1);"></div></div><div id="yeganehMapControls" style="display:none; margin-top:0.5rem;"><button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">📍 Add memory</button></div><button class="btn-ghost" onclick="closeContentModal()">close</button></div></div>
-  <div id="yeganehMarkerModal" class="overlay"><div class="glass rtl-text"><h3>📍 Add your memory</h3><input type="text" id="yeganehMarkerTitle" placeholder="Title..." style="text-align:right;"><textarea id="yeganehMarkerText" rows="2" placeholder="Your words..." style="text-align:right;"></textarea><button class="btn" onclick="saveYeganehMarker()">✨ Save</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeYeganehMarkerModal()">cancel</button></div></div>
-  <div class="map-popup rtl-text" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
-  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..." style="text-align:right;"></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
+  
+  <div id="contentModal" class="overlay">
+    <div class="glass" style="max-width:90vw; width:95%;">
+      <h3 id="contentTitle">✦</h3>
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomContent(-0.2)">−</button>
+        <button class="zoom-btn" onclick="zoomContent(0.2)">+</button>
+        <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.7rem;">↺</button>
+      </div>
+      <div id="contentDescription" style="color:#b0a0d4; font-size:0.85rem; margin:0.5rem 0; display:none;"></div>
+      <div class="zoomable-wrap" id="zoomableWrap">
+        <div class="zoomable-content" id="contentBody" style="margin:0.5rem 0; transform:scale(1);"></div>
+      </div>
+      <div id="yeganehMapControls" style="display:none; margin-top:0.5rem;">
+        <button class="btn-ghost" onclick="yeganehAddMarker()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>
+      </div>
+      <button class="btn-ghost" onclick="closeContentModal()">close</button>
+    </div>
+  </div>
+
+  <div id="yeganehMarkerModal" class="overlay">
+    <div class="glass">
+      <h3>📍 Add your memory</h3>
+      <input type="text" id="yeganehMarkerTitle" placeholder="Title...">
+      <textarea id="yeganehMarkerText" rows="2" placeholder="Your words..."></textarea>
+      <button class="btn" onclick="saveYeganehMarker()">✨ Save</button>
+      <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeYeganehMarkerModal()">cancel</button>
+    </div>
+  </div>
+
+  <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
+  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
   <div id="dragEditorOverlay"><div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;"><h3 style="color:#fad974;">✋ Drag stars to reposition</h3><div style="display:flex; gap:0.5rem;"><button class="btn" onclick="saveDragPositions()">💾 Save</button><button class="btn-ghost" onclick="closeDragEditor()">Cancel</button></div></div><div id="dragCanvas"></div></div>
   <div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
   <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
-  <div id="adminPanel"><div style="display:flex; justify-content:space-between; width:100%; max-width:950px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div><div class="last-visit" id="lastVisitDisplay"></div><div style="width:100%; max-width:950px; margin-top:1rem;"><label style="color:#b0a0c8; font-size:0.75rem;">🎵 Background Music URL</label><input type="text" id="bgMusicUrl" placeholder="Paste music link here..." style="text-align:left; direction:ltr;" onchange="saveBgMusicUrl()"></div><div class="admin-grid" id="adminGrid"></div><div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem;"><button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button><button class="btn-ghost" onclick="toggleMessages()">💌 messages</button><button class="btn-ghost" onclick="toggleQuizLog()">📝 quiz answers</button><button class="btn-ghost" onclick="toggleCapsuleLog()">⏳ time capsule</button><button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button><button class="btn-ghost" onclick="openDailyStarModal()">📨 daily star</button><button class="btn-ghost" onclick="previewFinalMessage()">👁 preview final</button><button class="btn-reset" onclick="resetYeganehData()">🔄 reset Yeganeh</button></div><div class="admin-log" id="activityLog" style="display:none;"></div><div class="message-box" id="adminMessages" style="display:none;"></div><div class="quiz-log" id="quizLog" style="display:none;"></div><div class="capsule-log" id="capsuleLog" style="display:none;"></div></div>
-  <div id="finalMessage"><div class="final-stars-container" id="finalStarsContainer"></div><div class="final-text rtl-text" id="finalMessageText"></div></div>
+
+  <div id="adminPanel">
+    <div style="display:flex; justify-content:space-between; width:100%; max-width:950px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div>
+    <div class="last-visit" id="lastVisitDisplay"></div>
+    <div style="width:100%; max-width:950px; margin-top:1rem;"><label style="color:#b0a0c8; font-size:0.75rem;">🎵 Background Music URL</label><input type="text" id="bgMusicUrl" placeholder="Paste music link here..." style="text-align:left; direction:ltr;" onchange="saveBgMusicUrl()"></div>
+    <div class="admin-grid" id="adminGrid"></div>
+    <div style="display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem;">
+      <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
+      <button class="btn-ghost" onclick="toggleMessages()">💌 messages</button>
+      <button class="btn-ghost" onclick="toggleQuizLog()">📝 quiz answers</button>
+      <button class="btn-ghost" onclick="toggleCapsuleLog()">⏳ time capsule</button>
+      <button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button>
+      <button class="btn-ghost" onclick="openDailyStarModal()">📨 daily star</button>
+      <button class="btn-ghost" onclick="previewFinalMessage()">👁 preview final</button>
+      <button class="btn-reset" onclick="resetYeganehData()">🔄 reset Yeganeh</button>
+    </div>
+    <div class="admin-log" id="activityLog" style="display:none;"></div>
+    <div class="message-box" id="adminMessages" style="display:none;"></div>
+    <div class="quiz-log" id="quizLog" style="display:none;"></div>
+    <div class="capsule-log" id="capsuleLog" style="display:none;"></div>
+  </div>
+
+  <div id="finalMessage">
+    <div class="final-stars-container" id="finalStarsContainer"></div>
+    <div class="final-text" id="finalMessageText"></div>
+  </div>
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
   <script>
-    // ⚡ CONSTANTS
     const YEGANEH_PASS = 'Heliganeh', ADMIN_PASS = '221B', TOTAL_STARS = 22;
     const DEFAULT_MUSIC = 'https://cdn.freesound.org/previews/612/612092_11861866-lq.mp3';
     const POETIC_LINES = { 0:"in this sky, every star holds a secret from me to you…", 5:"some secrets are silent, waiting for your touch…", 10:"you're getting closer to the heart of the story…", 16:"more than half of the love journey is walked…", 20:"the sky is almost full of our whispers…", 22:"now the whole sky belongs to you, Heliganeh ✦" };
     const FINAL_MESSAGE = `هر ستاره‌ای که توی این آسمون جا گرفت\nفقط یک بهانه بود برای فکر کردن به تو.\nاما این آسمون هیچ وقت پر از ستاره نبود،\nهمیشه پر از تو بود\nچون تو از اون رازهایی هستی\nکه آسمون از نگه داشتنش لذت می‌بره :)\n\nمراقب خودت باش\nرازِ آسمون`;
 
-    // ⚡ GLOBALS
-    let currentZoom = 1, currentYeganehMapStarIndex = null, yeganehAddMarkerMode = false, yeganehPendingCoord = null;
+    let currentZoom = 1;
+    let currentYeganehMapStarIndex = null;
 
-    // ⚡ SAFE LOCALSTORAGE HELPERS
-    function safeGet(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; } }
-    function safeSet(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch(e) {} }
-
-    function getStarPositions() {
-      let s = safeGet('starPositions', null);
-      if (s && s.length === TOTAL_STARS) return s;
-      const p = [];
-      for (let i = 0; i < TOTAL_STARS; i++) {
-        const a = (i * 1.1) + 0.5, r = 12 + (i * 1.6);
-        p.push({ x: Math.min(88, Math.max(8, 50 + Math.cos(a) * r)), y: Math.min(85, Math.max(10, 50 + Math.sin(a) * r * 0.7)) });
-      }
-      safeSet('starPositions', p);
-      return p;
-    }
+    function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[]; for(let i=0;i<TOTAL_STARS;i++) { const angle=(i*1.1)+0.5, radius=12+(i*1.6); p.push({x:Math.min(88,Math.max(8,50+Math.cos(angle)*radius)),y:Math.min(85,Math.max(10,50+Math.sin(angle)*radius*0.7))}); } localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
-    function savePositionsToStorage(pos) { safeSet('starPositions', pos); positions = pos; }
+    function savePositionsToStorage(pos) { localStorage.setItem('starPositions',JSON.stringify(pos)); positions=pos; }
 
-    function getStarStyles() {
-      let s = safeGet('starStyles', null);
-      if (s && s.length === TOTAL_STARS) return s;
-      const st = [];
-      for (let i = 0; i < TOTAL_STARS; i++) st.push({ lockedColor: '#7d6c9c', unlockedColor: '#fad974', twinkleSpeed: 3 });
-      safeSet('starStyles', st);
-      return st;
-    }
+    function getStarStyles() { let s=JSON.parse(localStorage.getItem('starStyles')); if(s&&s.length===TOTAL_STARS) return s; const st=[]; for(let i=0;i<TOTAL_STARS;i++) st.push({lockedColor:'#7d6c9c',unlockedColor:'#fad974',twinkleSpeed:3}); localStorage.setItem('starStyles',JSON.stringify(st)); return st; }
     let starStyles = getStarStyles();
-    function saveStarStyles(arr) { safeSet('starStyles', arr); starStyles = arr; }
+    function saveStarStyles(arr) { localStorage.setItem('starStyles',JSON.stringify(arr)); starStyles=arr; }
 
-    function loadState() {
-      let d = safeGet('starData', []);
-      if (!Array.isArray(d)) d = [];
-      d = d.map(i => ({ code: (i && i.code) || '', type: (i && i.type) || 'text', content: (i && i.content) || '', description: (i && i.description) || '' }));
-      while (d.length < TOTAL_STARS) d.push({ code: '', type: 'text', content: '', description: '' });
-      if (d.length > TOTAL_STARS) d = d.slice(0, TOTAL_STARS);
+    function loadState() { let d=JSON.parse(localStorage.getItem('starData'))||[]; d=d.map(item=>({code:item.code||'',type:item.type||'text',content:item.content||'',description:item.description||''})); while(d.length<TOTAL_STARS) d.push({code:'',type:'text',content:'',description:''}); if(d.length>TOTAL_STARS) d=d.slice(0,TOTAL_STARS); let o=JSON.parse(localStorage.getItem('openedStars'))||[]; o=o.filter(i=>i>=0&&i<TOTAL_STARS); let f=localStorage.getItem('finalShown')==='true'; let a=JSON.parse(localStorage.getItem('activityLog'))||[]; let msgs=JSON.parse(localStorage.getItem('yeganehMessages'))||[]; let ds=JSON.parse(localStorage.getItem('dailyStar'))||null; let qa=JSON.parse(localStorage.getItem('quizAnswers'))||{}; let cap=JSON.parse(localStorage.getItem('timeCapsule'))||null; let bgm=localStorage.getItem('bgMusicUrl')||DEFAULT_MUSIC; let lv=localStorage.getItem('lastVisit')||''; return {starData:d,opened:o,finalShown:f,activity:a,messages:msgs,dailyStar:ds,quizAnswers:qa,capsule:cap,bgMusicUrl:bgm,lastVisit:lv}; }
+    function saveOpened(arr) { localStorage.setItem('openedStars',JSON.stringify(arr)); }
+    function saveStarData(arr) { localStorage.setItem('starData',JSON.stringify(arr)); }
+    function saveActivity(arr) { localStorage.setItem('activityLog',JSON.stringify(arr)); }
+    function saveMessages(arr) { localStorage.setItem('yeganehMessages',JSON.stringify(arr)); }
+    function saveQuizAnswers(obj) { localStorage.setItem('quizAnswers',JSON.stringify(obj)); }
 
-      let o = safeGet('openedStars', []);
-      if (!Array.isArray(o)) o = [];
-      o = o.filter(i => i >= 0 && i < TOTAL_STARS);
+    const canvas=document.getElementById('skyCanvas'), ctx=canvas.getContext('2d');
+    let width,height,dust=[];
+    function resize() { width=canvas.width=window.innerWidth; height=canvas.height=window.innerHeight; }
+    window.addEventListener('resize',resize); resize();
+    function initDust() { dust=[]; for(let i=0;i<200;i++) dust.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*1.6+0.4,vx:(Math.random()-0.5)*0.08,vy:(Math.random()-0.5)*0.05,alpha:Math.random()*0.6+0.2,hue:Math.random()*40+250}); }
+    initDust(); window.addEventListener('resize',initDust);
+    function drawSky() { const c=state.opened.length; let hue; if(c<=7) hue=245; else if(c<=15) hue=235; else hue=225; document.body.style.background=`hsl(${hue},55%,3%)`; const g=ctx.createRadialGradient(width*0.4,height*0.3,0,width*0.6,height*0.7,width); g.addColorStop(0,`hsla(${hue+15},45%,7%,1)`); g.addColorStop(0.6,'#030312'); g.addColorStop(1,'#010108'); ctx.fillStyle=g; ctx.fillRect(0,0,width,height); for(let p of dust) { p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.fillStyle=`hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } if(Math.random()<0.006) { let sx=Math.random()*width*0.8,sy=Math.random()*height*0.5; ctx.strokeStyle='rgba(200,180,255,0.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+80,sy+25); ctx.stroke(); } requestAnimationFrame(drawSky); }
+    let state=loadState(); drawSky();
 
-      let f = localStorage.getItem('finalShown') === 'true';
-      let a = safeGet('activityLog', []);
-      let msgs = safeGet('yeganehMessages', []);
-      let ds = safeGet('dailyStar', null);
-      let qa = safeGet('quizAnswers', {});
-      let cap = safeGet('timeCapsule', null);
-      let bgm = localStorage.getItem('bgMusicUrl') || DEFAULT_MUSIC;
-      let lv = localStorage.getItem('lastVisit') || '';
+    const landing=document.getElementById('landing'), loginOverlay=document.getElementById('loginOverlay'), musicPrompt=document.getElementById('musicPrompt'), introSequence=document.getElementById('introSequence'), followStar=document.getElementById('followStar'), followText=document.getElementById('followText'), skyView=document.getElementById('skyView'), adminPanel=document.getElementById('adminPanel'), starsContainer=document.getElementById('starsContainer'), counterDisplay=document.getElementById('counterDisplay'), poeticNote=document.getElementById('poeticNote'), starCodeModal=document.getElementById('starCodeModal'), starCodeInput=document.getElementById('starCodeInput'), starCodeError=document.getElementById('starCodeError'), contentModal=document.getElementById('contentModal'), contentTitle=document.getElementById('contentTitle'), contentBody=document.getElementById('contentBody'), messageModal=document.getElementById('messageModal'), yeganehMessage=document.getElementById('yeganehMessage'), finalMessage=document.getElementById('finalMessage'), finalMessageText=document.getElementById('finalMessageText'), finalStarsContainer=document.getElementById('finalStarsContainer'), bgMusic=document.getElementById('bgMusic'), mapEditorOverlay=document.getElementById('mapEditorOverlay'), mapEditorCanvas=document.getElementById('mapEditorCanvas'), mapPopup=document.getElementById('mapPopup'), dragEditorOverlay=document.getElementById('dragEditorOverlay'), dragCanvas=document.getElementById('dragCanvas'), dailyStarModal=document.getElementById('dailyStarModal'), lastVisitDisplay=document.getElementById('lastVisitDisplay'), yeganehMarkerModal=document.getElementById('yeganehMarkerModal');
 
-      return { starData: d, opened: o, finalShown: f, activity: a, messages: msgs, dailyStar: ds, quizAnswers: qa, capsule: cap, bgMusicUrl: bgm, lastVisit: lv };
-    }
-    function saveOpened(arr) { safeSet('openedStars', arr); }
-    function saveStarData(arr) { safeSet('starData', arr); }
-    function saveActivity(arr) { safeSet('activityLog', arr); }
-    function saveMessages(arr) { safeSet('yeganehMessages', arr); }
-    function saveQuizAnswers(obj) { safeSet('quizAnswers', obj); }
+    let currentUser=null, pendingStar=null, currentMapStarIndex=null, mapMarkers=[], mapImage=null, mapImageUrl='', pendingMarkerCoord=null, dragStars=[], draggedStarIndex=null, selectedQuizOption=null;
 
-    // ⚡ CANVAS
-    const canvas = document.getElementById('skyCanvas'), ctx = canvas.getContext('2d');
-    let width, height, dust = [];
-    function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    function initDust() { dust = []; for (let i = 0; i < 200; i++) dust.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 1.6 + 0.4, vx: (Math.random() - 0.5) * 0.08, vy: (Math.random() - 0.5) * 0.05, alpha: Math.random() * 0.6 + 0.2, hue: Math.random() * 40 + 250 }); }
-    initDust(); window.addEventListener('resize', initDust);
-    function drawSky() { const c = state.opened.length; let hue; if (c <= 7) hue = 245; else if (c <= 15) hue = 235; else hue = 225; document.body.style.background = `hsl(${hue},55%,3%)`; const g = ctx.createRadialGradient(width * 0.4, height * 0.3, 0, width * 0.6, height * 0.7, width); g.addColorStop(0, `hsla(${hue + 15},45%,7%,1)`); g.addColorStop(0.6, '#030312'); g.addColorStop(1, '#010108'); ctx.fillStyle = g; ctx.fillRect(0, 0, width, height); for (let p of dust) { p.x += p.vx; p.y += p.vy; if (p.x < 0) p.x = width; if (p.x > width) p.x = 0; if (p.y < 0) p.y = height; if (p.y > height) p.y = 0; ctx.fillStyle = `hsla(${p.hue},60%,75%,${p.alpha})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); } if (Math.random() < 0.006) { let sx = Math.random() * width * 0.8, sy = Math.random() * height * 0.5; ctx.strokeStyle = 'rgba(200,180,255,0.5)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + 80, sy + 25); ctx.stroke(); } requestAnimationFrame(drawSky); }
-    let state = loadState(); drawSky();
+    function zoomContent(delta) { currentZoom=Math.min(3,Math.max(0.5,currentZoom+delta)); contentBody.style.transform=`scale(${currentZoom})`; }
+    function resetZoom() { currentZoom=1; contentBody.style.transform='scale(1)'; }
 
-    // ⚡ DOM REFS
-    const landing = document.getElementById('landing'), loginOverlay = document.getElementById('loginOverlay'), musicPrompt = document.getElementById('musicPrompt'), introSequence = document.getElementById('introSequence'), followStar = document.getElementById('followStar'), followText = document.getElementById('followText'), skyView = document.getElementById('skyView'), adminPanel = document.getElementById('adminPanel'), starsContainer = document.getElementById('starsContainer'), counterDisplay = document.getElementById('counterDisplay'), poeticNote = document.getElementById('poeticNote'), starCodeModal = document.getElementById('starCodeModal'), starCodeInput = document.getElementById('starCodeInput'), starCodeError = document.getElementById('starCodeError'), contentModal = document.getElementById('contentModal'), contentTitle = document.getElementById('contentTitle'), contentBody = document.getElementById('contentBody'), messageModal = document.getElementById('messageModal'), yeganehMessage = document.getElementById('yeganehMessage'), finalMessage = document.getElementById('finalMessage'), finalMessageText = document.getElementById('finalMessageText'), finalStarsContainer = document.getElementById('finalStarsContainer'), bgMusic = document.getElementById('bgMusic'), mapEditorOverlay = document.getElementById('mapEditorOverlay'), mapEditorCanvas = document.getElementById('mapEditorCanvas'), mapPopup = document.getElementById('mapPopup'), dragEditorOverlay = document.getElementById('dragEditorOverlay'), dragCanvas = document.getElementById('dragCanvas'), dailyStarModal = document.getElementById('dailyStarModal'), lastVisitDisplay = document.getElementById('lastVisitDisplay'), yeganehMarkerModal = document.getElementById('yeganehMarkerModal');
+    function transitionToLogin() { landing.style.display='none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
+    function handleLogin() { const pw=document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent=''; if(pw.toLowerCase()===YEGANEH_PASS.toLowerCase()) { currentUser='yeganeh'; loginOverlay.classList.remove('active'); const now=new Date().toLocaleString(); localStorage.setItem('lastVisit',now); state.lastVisit=now; musicPrompt.classList.add('active'); } else if(pw===ADMIN_PASS) { currentUser='admin'; loginOverlay.classList.remove('active'); showAdmin(); } else { document.getElementById('loginError').textContent='نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value=''; } }
 
-    let currentUser = null, pendingStar = null, currentMapStarIndex = null, mapMarkers = [], mapImage = null, mapImageUrl = '', pendingMarkerCoord = null, dragStars = [], draggedStarIndex = null, selectedQuizOption = null;
+    function startExperience(playMusic) { musicPrompt.classList.remove('active'); if(playMusic) { bgMusic.src=state.bgMusicUrl||DEFAULT_MUSIC; bgMusic.volume=0.3; bgMusic.play().catch(()=>{}); } startIntroSequence(); }
 
-    // ⚡ ZOOM
-    function zoomContent(d) { currentZoom = Math.min(3, Math.max(0.5, currentZoom + d)); contentBody.style.transform = `scale(${currentZoom})`; }
-    function resetZoom() { currentZoom = 1; contentBody.style.transform = 'scale(1)'; }
+    function startIntroSequence() { introSequence.classList.add('active'); followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.top='50%'; followStar.style.left='50%'; followStar.style.opacity='0'; followStar.style.transition='opacity 0.6s'; followStar.style.background='#fff'; followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)'; followText.style.opacity='0'; setTimeout(()=>{ followText.style.opacity='1'; },400); setTimeout(()=>{ followStar.style.opacity='1'; },1800); const cx=window.innerWidth/2, cy=window.innerHeight/2; let st=Date.now(); const dur=6200; const anim=()=>{ const el=Date.now()-st, pr=Math.min(el/dur,1); const ang=pr*Math.PI*1.8, rad=Math.min(window.innerWidth,window.innerHeight)*0.3*(1-pr*0.85); followStar.style.left=(cx+Math.cos(ang)*rad)+'px'; followStar.style.top=(cy+Math.sin(ang*1.3)*rad*0.5-pr*60)+'px'; if(pr<0.92) { followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.background='#fff'; followStar.style.boxShadow='0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)'; } if(pr>=0.92&&pr<1) { const sz=8+((pr-0.92)/0.08)*120; followStar.style.width=sz+'px'; followStar.style.height=sz+'px'; followStar.style.background='#ffeaa7'; followStar.style.boxShadow=`0 0 ${30+sz}px white, 0 0 ${60+sz*2}px #ffeaa7, 0 0 ${100+sz*3}px #fad974`; } if(pr<1) requestAnimationFrame(anim); else { document.querySelectorAll('.nebula').forEach(n=>n.style.opacity='0.18'); setTimeout(()=>{ introSequence.classList.remove('active'); followStar.style.opacity='0'; followText.style.opacity='0'; followStar.style.width='8px'; followStar.style.height='8px'; followStar.style.background='#fff'; showSky(); },500); } }; setTimeout(()=>requestAnimationFrame(anim),1800); }
 
-    // ⚡ NAVIGATION
-    function transitionToLogin() { landing.style.display = 'none'; loginOverlay.classList.add('active'); document.getElementById('loginPass').focus(); }
-    function handleLogin() {
-      const pw = document.getElementById('loginPass').value.trim(); document.getElementById('loginError').textContent = '';
-      if (pw.toLowerCase() === YEGANEH_PASS.toLowerCase()) { currentUser = 'yeganeh'; loginOverlay.classList.remove('active'); const now = new Date().toLocaleString(); localStorage.setItem('lastVisit', now); state.lastVisit = now; musicPrompt.classList.add('active'); }
-      else if (pw === ADMIN_PASS) { currentUser = 'admin'; loginOverlay.classList.remove('active'); showAdmin(); }
-      else { document.getElementById('loginError').textContent = 'نه یگانه اشتباهه😔🎀'; document.getElementById('loginPass').value = ''; }
-    }
-    function startExperience(playMusic) { musicPrompt.classList.remove('active'); if (playMusic) { bgMusic.src = state.bgMusicUrl || DEFAULT_MUSIC; bgMusic.volume = 0.3; bgMusic.play().catch(() => {}); } startIntroSequence(); }
-    function startIntroSequence() {
-      introSequence.classList.add('active'); followStar.style.width = '8px'; followStar.style.height = '8px'; followStar.style.top = '50%'; followStar.style.left = '50%'; followStar.style.opacity = '0'; followStar.style.transition = 'opacity 0.6s'; followStar.style.background = '#fff'; followStar.style.boxShadow = '0 0 12px 4px rgba(255,255,255,0.9), 0 0 30px 12px rgba(255,240,220,0.5), 0 0 60px 25px rgba(250,217,116,0.25)'; followText.style.opacity = '0';
-      setTimeout(() => { followText.style.opacity = '1'; }, 400);
-      setTimeout(() => { followStar.style.opacity = '1'; }, 1800);
-      const cx = window.innerWidth / 2, cy = window.innerHeight / 2; let st = Date.now(); const dur = 6200;
-      const anim = () => { const el = Date.now() - st, pr = Math.min(el / dur, 1); const ang = pr * Math.PI * 1.8, rad = Math.min(window.innerWidth, window.innerHeight) * 0.3 * (1 - pr * 0.85); followStar.style.left = (cx + Math.cos(ang) * rad) + 'px'; followStar.style.top = (cy + Math.sin(ang * 1.3) * rad * 0.5 - pr * 60) + 'px'; if (pr < 0.92) { followStar.style.width = '8px'; followStar.style.height = '8px'; followStar.style.background = '#fff'; } if (pr >= 0.92 && pr < 1) { const sz = 8 + ((pr - 0.92) / 0.08) * 120; followStar.style.width = sz + 'px'; followStar.style.height = sz + 'px'; followStar.style.background = '#ffeaa7'; followStar.style.boxShadow = `0 0 ${30 + sz}px white, 0 0 ${60 + sz * 2}px #ffeaa7, 0 0 ${100 + sz * 3}px #fad974`; } if (pr < 1) requestAnimationFrame(anim); else { document.querySelectorAll('.nebula').forEach(n => n.style.opacity = '0.18'); setTimeout(() => { introSequence.classList.remove('active'); followStar.style.opacity = '0'; followText.style.opacity = '0'; followStar.style.width = '8px'; followStar.style.height = '8px'; followStar.style.background = '#fff'; showSky(); }, 500); } };
-      setTimeout(() => requestAnimationFrame(anim), 1800);
-    }
-    function showSky() { state = loadState(); positions = getStarPositions(); starStyles = getStarStyles(); skyView.classList.add('active'); adminPanel.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); if (state.opened.length === TOTAL_STARS) revealFinal(); }
-    function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); document.getElementById('bgMusicUrl').value = state.bgMusicUrl || ''; if (state.lastVisit) lastVisitDisplay.textContent = '🕊️ Yeganeh last visited: ' + state.lastVisit; else lastVisitDisplay.textContent = '🕊️ Yeganeh has not visited yet'; renderAdmin(); }
-    function logout() { currentUser = null; skyView.classList.remove('active'); adminPanel.classList.remove('active'); landing.style.display = 'flex'; loginOverlay.classList.remove('active'); musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause(); }
+    function showSky() { state=loadState(); positions=getStarPositions(); starStyles=getStarStyles(); skyView.classList.add('active'); adminPanel.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); if(state.opened.length===TOTAL_STARS) revealFinal(); }
+    function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); document.getElementById('bgMusicUrl').value=state.bgMusicUrl||''; if(state.lastVisit) lastVisitDisplay.textContent='🕊️ Yeganeh last visited: '+state.lastVisit; else lastVisitDisplay.textContent='🕊️ Yeganeh has not visited yet'; renderAdmin(); }
+    function logout() { currentUser=null; skyView.classList.remove('active'); adminPanel.classList.remove('active'); landing.style.display='flex'; loginOverlay.classList.remove('active'); musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause(); }
 
-    // ⚡ STARS RENDERING
-    function renderStarsInstant() { starsContainer.innerHTML = ''; const os = new Set(state.opened); for (let i = 0; i < TOTAL_STARS; i++) { const pos = positions[i], unlocked = os.has(i), style = starStyles[i]; const el = createStarElement(i, pos, unlocked, style); el.style.opacity = '1'; el.style.transform = 'scale(1)'; starsContainer.appendChild(el); } if (state.dailyStar) { const dsd = new Date(state.dailyStar.date); const now = new Date(); if (now - dsd < 86400000) { const ds = document.createElement('div'); ds.className = 'star daily-star'; ds.style.left = '50%'; ds.style.top = '12%'; ds.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2.5"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#5c3d00;">✨</span>`; ds.addEventListener('click', () => showDailyStarContent()); starsContainer.appendChild(ds); } else { localStorage.removeItem('dailyStar'); state.dailyStar = null; } } if (state.capsule) { const cs = document.createElement('div'); cs.className = 'star capsule-star'; cs.style.left = '50%'; cs.style.top = '85%'; cs.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click', () => openCapsuleForYeganeh()); starsContainer.appendChild(cs); } }
-    function createStarElement(i, p, u, s) { const el = document.createElement('div'); el.className = 'star' + (u ? ' unlocked' : ''); el.style.left = p.x + '%'; el.style.top = p.y + '%'; const fc = u ? s.unlockedColor : s.lockedColor, sc = u ? '#ffeaa7' : '#aa99c4'; el.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${i + 1}</span>`; if (u) for (let s = 0; s < 3; s++) { let sp = document.createElement('div'); sp.className = 'sparkle'; sp.style.top = (20 + Math.random() * 40) + '%'; sp.style.left = (20 + Math.random() * 40) + '%'; sp.style.animationDelay = s * 0.5 + 's'; el.appendChild(sp); } el.addEventListener('click', (e) => handleStarClick(i, u, el, e)); return el; }
+    function renderStarsInstant() { starsContainer.innerHTML=''; const os=new Set(state.opened); for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=os.has(i), style=starStyles[i]; const el=createStarElement(i,pos,unlocked,style); el.style.opacity='1'; el.style.transform='scale(1)'; starsContainer.appendChild(el); } if(state.dailyStar) { const dsDate=new Date(state.dailyStar.date); const now=new Date(); if(now-dsDate<86400000) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='12%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2.5"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#5c3d00;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); } else { localStorage.removeItem('dailyStar'); state.dailyStar=null; } } if(state.capsule) { const cs=document.createElement('div'); cs.className='star capsule-star'; cs.style.left='50%'; cs.style.top='85%'; cs.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click',()=>openCapsuleForYeganeh()); starsContainer.appendChild(cs); } }
 
-    // ⚡ CONTENT
-    function showDailyStarContent() { if (!state.dailyStar) return; contentTitle.textContent = '📨 Daily Message'; contentBody.innerHTML = state.dailyStar.image ? `<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text || '')}</p>` : `<p>${escapeHtml(state.dailyStar.text || '')}</p>`; resetZoom(); contentModal.classList.add('active'); }
-    function openCapsuleForYeganeh() { if (!state.capsule) return; if (state.capsule.email) { const t = new Date(state.capsule.targetDate), n = new Date(), diff = t - n; if (diff <= 0) { contentTitle.textContent = '⏳ Time Capsule'; contentBody.innerHTML = '<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p>'; } else { const days = Math.floor(diff / 86400000), hours = Math.floor((diff % 86400000) / 3600000), mins = Math.floor((diff % 3600000) / 60000), secs = Math.floor((diff % 60000) / 1000); contentTitle.textContent = '⏳ Time Capsule'; contentBody.innerHTML = `<div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div><p style="color:#b0a0d4;">until your star arrives...</p>`; } } else { contentTitle.textContent = '⏳ Time Capsule'; contentBody.innerHTML = '<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>'; } resetZoom(); contentModal.classList.add('active'); }
-    function submitCapsuleEmail() { const email = document.getElementById('capsuleEmail')?.value.trim(); if (!email || !email.includes('@')) { alert('Please enter a valid email!'); return; } const now = new Date(), target = new Date(now); target.setFullYear(target.getFullYear() + 1); state.capsule = { email, targetDate: target.toISOString(), createdAt: now.toISOString() }; localStorage.setItem('timeCapsule', JSON.stringify(state.capsule)); contentBody.innerHTML = '<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
-    function handleStarClick(i, u, el, ev) { ev.stopPropagation(); el.classList.add('enlarged'); setTimeout(() => el.classList.remove('enlarged'), 600); if (u) setTimeout(() => showContent(i), 400); else { pendingStar = i; starCodeInput.value = ''; starCodeError.textContent = ''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
-    function submitStarCode() { const code = starCodeInput.value.trim(); if (!code) return; if (state.starData[pendingStar]?.code === code) { if (!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({ star: pendingStar + 1, time: new Date().toLocaleString() }); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els = document.querySelectorAll('.star'); if (els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(() => els[pendingStar].classList.remove('bursting'), 700); } playUnlockSound(); spawnShootingStar(); setTimeout(() => showContent(pendingStar), 500); if (state.opened.length === TOTAL_STARS) revealFinal(); } else { starCodeError.textContent = 'نه یگانه اشتباهه😔🎀'; starCodeInput.value = ''; } }
-    function playUnlockSound() { try { const ac = new (window.AudioContext || window.webkitAudioContext)(), o = ac.createOscillator(), g = ac.createGain(); o.connect(g); g.connect(ac.destination); o.type = 'sine'; o.frequency.setValueAtTime(800, ac.currentTime); o.frequency.exponentialRampToValueAtTime(1200, ac.currentTime + 0.2); g.gain.setValueAtTime(0.15, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.4); o.start(); o.stop(ac.currentTime + 0.4); } catch (e) {} }
-    function spawnShootingStar() { const sx = Math.random() * canvas.width * 0.8, sy = -10; let pr = 0; const anim = () => { pr += 0.03; const x = sx + pr * 80, y = sy + pr * 25; ctx.fillStyle = 'rgba(255,240,200,0.8)'; ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill(); if (pr < 1) requestAnimationFrame(anim); }; anim(); }
-    function updateCounterAndPoetry() { const c = state.opened.length; counterDisplay.textContent = c + ' / ' + TOTAL_STARS + ' stars discovered'; let l = ''; const t = Object.keys(POETIC_LINES).map(Number).sort((a, b) => b - a); for (let k of t) if (c >= k) { l = POETIC_LINES[k]; break; } poeticNote.textContent = l; }
-    function revealFinal() { if (state.finalShown) return; localStorage.setItem('finalShown', 'true'); finalMessage.classList.add('active'); finalStarsContainer.innerHTML = ''; for (let i = 0; i < 22; i++) { const s = document.createElement('div'); s.className = 'final-star'; s.style.left = Math.random() * 280 + 'px'; s.style.top = Math.random() * 280 + 'px'; s.style.animationDelay = Math.random() * 0.5 + 's'; s.innerHTML = '<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); }
-    function typewriterEffect(el, text, speed) { el.innerHTML = ''; let i = 0; const lines = text.split('\n'); function typeLine(li, ci) { if (li >= lines.length) { el.innerHTML += '<span class="typewriter-cursor">|</span>'; return; } if (ci < lines[li].length) { el.innerHTML = lines.slice(0, li).join('<br>') + (li > 0 ? '<br>' : '') + lines[li].substring(0, ci + 1) + '<span class="typewriter-cursor">|</span>'; setTimeout(() => typeLine(li, ci + 1), speed); } else { el.innerHTML = lines.slice(0, li + 1).join('<br>') + '<span class="typewriter-cursor">|</span>'; setTimeout(() => typeLine(li + 1, 0), speed * 2); } } typeLine(0, 0); setTimeout(() => finalMessage.classList.remove('active'), 20000); }
-    function previewFinalMessage() { finalMessage.classList.add('active'); finalStarsContainer.innerHTML = ''; for (let i = 0; i < 22; i++) { const s = document.createElement('div'); s.className = 'final-star'; s.style.left = Math.random() * 280 + 'px'; s.style.top = Math.random() * 280 + 'px'; s.style.animationDelay = Math.random() * 0.5 + 's'; s.innerHTML = '<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); setTimeout(() => finalMessage.classList.remove('active'), 20000); }
-    function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar = null; }
+    function createStarElement(index,pos,unlocked,style) { const el=document.createElement('div'); el.className='star'+(unlocked?' unlocked':''); el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; const fc=unlocked?style.unlockedColor:style.lockedColor, sc=unlocked?'#ffeaa7':'#aa99c4'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`; if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; el.appendChild(sp); } el.addEventListener('click',(e)=>handleStarClick(index,unlocked,el,e)); return el; }
 
-    // ⚡ CONTENT RENDERER
-    function showContent(i) { const d = state.starData[i]; contentTitle.textContent = '✦ star ' + (i + 1); contentBody.innerHTML = ''; resetZoom(); contentModal.classList.add('active'); const de = document.getElementById('contentDescription'); if (d.description && d.description.trim()) { de.textContent = d.description; de.style.display = 'block'; } else { de.style.display = 'none'; } document.getElementById('yeganehMapControls').style.display = 'none'; yeganehAddMarkerMode = false; if (!d || !d.content) { contentBody.innerHTML = '<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if (d.type === 'map') { renderSimpleMap(d, i); document.getElementById('yeganehMapControls').style.display = 'block'; return; } if (d.type === 'quiz') { renderQuiz(d, i); return; } if (d.type === 'essay') { renderEssay(d, i); return; } let html = ''; switch (d.type) { case 'text': html = `<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html = `<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html = `<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html = `<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id = d.content.replace('https://open.spotify.com/playlist/', '').split('?')[0]; html = `<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html = `<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html = `<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML = html; }
-    function renderQuiz(d, i) { let qd; try { qd = JSON.parse(d.content); } catch (e) { contentBody.innerHTML = '<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if (!qd.question || !qd.options) { contentBody.innerHTML = '<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html = `<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((o, oi) => { html += `<button class="quiz-option" data-opt="${oi}" onclick="selectQuizOption(this,${i},'${escapeHtml(o)}')">${escapeHtml(o)}</button>`; }); html += `<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${i})">Submit Answer</button>`; contentBody.innerHTML = html; selectedQuizOption = null; }
-    function selectQuizOption(el, si, o) { document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption = { starIndex: si, option: o }; }
-    function submitQuizAnswer(si) { if (!selectedQuizOption) { alert('Please select an option!'); return; } state.quizAnswers[si] = { answer: selectedQuizOption.option, time: new Date().toLocaleString() }; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML = '<p style="color:#fad974;">✨ Answer recorded!</p>'; }
-    function renderEssay(d, i) { let ed; try { ed = JSON.parse(d.content); } catch (e) { contentBody.innerHTML = '<p style="color:#ffb3b3;">Question data error.</p>'; return; } if (!ed.question) { contentBody.innerHTML = '<p style="color:#b0a0d4;">Question not set yet.</p>'; return; } contentBody.innerHTML = `<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(ed.question)}</p><textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea><button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${i})">Submit</button>`; }
-    function submitEssayAnswer(si) { const ans = document.getElementById('essayAnswer')?.value.trim(); if (!ans) { alert('Please write something!'); return; } state.quizAnswers[si] = { answer: ans, time: new Date().toLocaleString(), type: 'essay' }; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML = '<p style="color:#fad974;">✨ Your words are saved.</p>'; }
-    function renderSimpleMap(sd, si) { currentYeganehMapStarIndex = si; let md; try { md = JSON.parse(sd.content); } catch (e) { contentBody.innerHTML = '<p style="color:#ffb3b3;">Map data error.</p>'; return; } if (!md.image) { contentBody.innerHTML = '<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap = document.createElement('div'); wrap.className = 'simple-map-wrap'; const img = document.createElement('img'); img.src = md.image; img.style.maxWidth = '100%'; img.style.height = 'auto'; img.style.borderRadius = '1rem'; img.onerror = () => { contentBody.innerHTML = '<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); const all = [...(md.markers || []), ...(md.yeganehMarkers || [])]; if (all.length > 0) { img.onload = () => { all.forEach(m => { const mk = document.createElement('div'); mk.className = 'map-marker'; mk.style.width = '10px'; mk.style.height = '10px'; mk.style.left = (m.x / img.naturalWidth * 100) + '%'; mk.style.top = (m.y / img.naturalHeight * 100) + '%'; mk.addEventListener('click', (e) => { e.stopPropagation(); if (yeganehAddMarkerMode) return; document.getElementById('mapPopupTitle').textContent = m.title; document.getElementById('mapPopupText').textContent = m.text || ''; const pi = document.getElementById('mapPopupImage'); if (m.image) { pi.src = m.image; pi.style.display = 'block'; } else { pi.style.display = 'none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } wrap.addEventListener('click', function (e) { if (!yeganehAddMarkerMode) return; const rect = img.getBoundingClientRect(); const sx = img.naturalWidth / rect.width, sy = img.naturalHeight / rect.height; yeganehPendingCoord = { x: Math.round((e.clientX - rect.left) * sx), y: Math.round((e.clientY - rect.top) * sy) }; document.getElementById('yeganehMarkerTitle').value = ''; document.getElementById('yeganehMarkerText').value = ''; yeganehMarkerModal.classList.add('active'); }); contentBody.appendChild(wrap); }
-    function yeganehAddMarkerMode() { yeganehAddMarkerMode = true; alert('Click on the map to place your memory marker.'); }
-    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); yeganehAddMarkerMode = false; }
-    function saveYeganehMarker() { const t = document.getElementById('yeganehMarkerTitle').value.trim(), tx = document.getElementById('yeganehMarkerText').value.trim(); if (!t) { alert('Please enter a title!'); return; } const d = state.starData[currentYeganehMapStarIndex]; let md = {}; try { md = JSON.parse(d.content); } catch (e) { md = { image: '', markers: [] }; } if (!md.yeganehMarkers) md.yeganehMarkers = []; md.yeganehMarkers.push({ x: yeganehPendingCoord.x, y: yeganehPendingCoord.y, title: t, text: tx, addedBy: 'yeganeh' }); d.content = JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); yeganehAddMarkerMode = false; showContent(currentYeganehMapStarIndex); }
+    function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; resetZoom(); contentModal.classList.add('active'); }
+
+    function openCapsuleForYeganeh() { if(!state.capsule) return; if(state.capsule.email) { const t=new Date(state.capsule.targetDate), n=new Date(), diff=t-n; if(diff<=0) { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: '+escapeHtml(state.capsule.email)+'</p>'; } else { const days=Math.floor(diff/(1000*60*60*24)), hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), mins=Math.floor((diff%(1000*60*60))/(1000*60)), secs=Math.floor((diff%(1000*60))/1000); contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML=`<div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>`; } } else { contentTitle.textContent='⏳ Time Capsule'; contentBody.innerHTML='<p style="color:#c4b5fd; margin-bottom:1rem;">A star is waiting for you...<br>365 days from now.</p><input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ Send to the future</button>'; } resetZoom(); contentModal.classList.add('active'); }
+    function submitCapsuleEmail() { const email=document.getElementById('capsuleEmail')?.value.trim(); if(!email||!email.includes('@')) { alert('Please enter a valid email!'); return; } const now=new Date(), target=new Date(now); target.setFullYear(target.getFullYear()+1); state.capsule={email,targetDate:target.toISOString(),createdAt:now.toISOString()}; localStorage.setItem('timeCapsule',JSON.stringify(state.capsule)); contentBody.innerHTML='<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
+
+    function handleStarClick(index,isUnlocked,starEl,event) { event.stopPropagation(); starEl.classList.add('enlarged'); setTimeout(()=>starEl.classList.remove('enlarged'),600); if(isUnlocked) setTimeout(()=>showContent(index),400); else { pendingStar=index; starCodeInput.value=''; starCodeError.textContent=''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
+    function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),700); } playUnlockSound(); spawnShootingStar(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
+    function playUnlockSound() { try { const ac=new(window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain(); o.connect(g); g.connect(ac.destination); o.type='sine'; o.frequency.setValueAtTime(800,ac.currentTime); o.frequency.exponentialRampToValueAtTime(1200,ac.currentTime+0.2); g.gain.setValueAtTime(0.15,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.4); o.start(); o.stop(ac.currentTime+0.4); } catch(e) {} }
+    function spawnShootingStar() { const sx=Math.random()*canvas.width*0.8, sy=-10; let progress=0; const animate=()=>{ progress+=0.03; const x=sx+progress*80, y=sy+progress*25; ctx.fillStyle='rgba(255,240,200,0.8)'; ctx.beginPath(); ctx.arc(x,y,2.5,0,Math.PI*2); ctx.fill(); if(progress<1) requestAnimationFrame(animate); }; animate(); }
+    function updateCounterAndPoetry() { const c=state.opened.length; counterDisplay.textContent=c+' / '+TOTAL_STARS+' stars discovered'; let l=''; const t=Object.keys(POETIC_LINES).map(Number).sort((a,b)=>b-a); for(let k of t) if(c>=k) { l=POETIC_LINES[k]; break; } poeticNote.textContent=l; }
+
+    function revealFinal() { if(state.finalShown) return; localStorage.setItem('finalShown','true'); finalMessage.classList.add('active'); finalStarsContainer.innerHTML=''; for(let i=0;i<22;i++) { const s=document.createElement('div'); s.className='final-star'; s.style.left=Math.random()*280+'px'; s.style.top=Math.random()*280+'px'; s.style.animationDelay=Math.random()*0.5+'s'; s.innerHTML='<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); }
+    function typewriterEffect(el, text, speed) { el.innerHTML=''; let i=0; const lines=text.split('\n'); function typeLine(li, ci) { if(li>=lines.length) { el.innerHTML+='<span class="typewriter-cursor">|</span>'; return; } if(ci<lines[li].length) { el.innerHTML=lines.slice(0,li).join('<br>')+(li>0?'<br>':'')+lines[li].substring(0,ci+1)+'<span class="typewriter-cursor">|</span>'; setTimeout(()=>typeLine(li,ci+1),speed); } else { el.innerHTML=lines.slice(0,li+1).join('<br>')+'<span class="typewriter-cursor">|</span>'; setTimeout(()=>typeLine(li+1,0),speed*2); } } typeLine(0,0); setTimeout(()=>finalMessage.classList.remove('active'),20000); }
+    function previewFinalMessage() { finalMessage.classList.add('active'); finalStarsContainer.innerHTML=''; for(let i=0;i<22;i++) { const s=document.createElement('div'); s.className='final-star'; s.style.left=Math.random()*280+'px'; s.style.top=Math.random()*280+'px'; s.style.animationDelay=Math.random()*0.5+'s'; s.innerHTML='<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); setTimeout(()=>finalMessage.classList.remove('active'),20000); }
+    function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
+
+    function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; resetZoom(); contentModal.classList.add('active'); const descEl=document.getElementById('contentDescription'); if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; } else { descEl.style.display='none'; } document.getElementById('yeganehMapControls').style.display='none'; if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
+
+    function renderQuiz(d,index) { let qd; try { qd=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if(!qd.question||!qd.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((opt,i)=>{ html+=`<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this,${index},'${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`; }); html+=`<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`; contentBody.innerHTML=html; selectedQuizOption=null; }
+    function selectQuizOption(el,starIndex,option) { document.querySelectorAll('.quiz-option').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption={starIndex,option}; }
+    function submitQuizAnswer(si) { if(!selectedQuizOption) { alert('Please select an option!'); return; } state.quizAnswers[si]={answer:selectedQuizOption.option,time:new Date().toLocaleString()}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Answer recorded!</p><p style="color:#b0a0d4; font-size:0.8rem;">Your secret is safe in the stars.</p>'; }
+    function renderEssay(d,index) { let ed; try { ed=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Question data error.</p>'; return; } if(!ed.question) { contentBody.innerHTML='<p style="color:#b0a0d4;">Question not set yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(ed.question)}</p><textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea><button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${index})">Submit</button>`; contentBody.innerHTML=html; }
+    function submitEssayAnswer(si) { const ans=document.getElementById('essayAnswer')?.value.trim(); if(!ans) { alert('Please write something!'); return; } state.quizAnswers[si]={answer:ans,time:new Date().toLocaleString(),type:'essay'}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Your words are saved.</p><p style="color:#b0a0d4; font-size:0.8rem;">They will echo among the stars.</p>'; }
+
+    function renderSimpleMap(starData, starIndex) { currentYeganehMapStarIndex=starIndex; let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); const allMarkers=[...(md.markers||[]),...(md.yeganehMarkers||[])]; if(allMarkers.length>0) { img.onload=()=>{ allMarkers.forEach(m=>{ const mk=document.createElement('div'); mk.className='map-marker'; mk.style.width='14px'; mk.style.height='14px'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(e)=>{ e.stopPropagation(); document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } contentBody.appendChild(wrap); }
+
+    function yeganehAddMarker() { document.getElementById('yeganehMarkerTitle').value=''; document.getElementById('yeganehMarkerText').value=''; yeganehMarkerModal.classList.add('active'); }
+    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); }
+    function saveYeganehMarker() { const title=document.getElementById('yeganehMarkerTitle').value.trim(); const text=document.getElementById('yeganehMarkerText').value.trim(); if(!title) { alert('Please enter a title!'); return; } const d=state.starData[currentYeganehMapStarIndex]; let md={}; try { md=JSON.parse(d.content); } catch(e) { md={image:'',markers:[]}; } if(!md.yeganehMarkers) md.yeganehMarkers=[]; md.yeganehMarkers.push({x:300,y:250,title,text,addedBy:'yeganeh'}); d.content=JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); showContent(currentYeganehMapStarIndex); }
+
     function closeMapPopup() { mapPopup.classList.remove('active'); }
-    function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption = null; document.getElementById('yeganehMapControls').style.display = 'none'; yeganehAddMarkerMode = false; }
-    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); yeganehMarkerModal.classList.remove('active'); closeMapPopup(); yeganehAddMarkerMode = false; }
-    function openMessageBox() { yeganehMessage.value = ''; messageModal.classList.add('active'); }
+    function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption=null; document.getElementById('yeganehMapControls').style.display='none'; }
+    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); yeganehMarkerModal.classList.remove('active'); closeMapPopup(); }
+    function openMessageBox() { yeganehMessage.value=''; messageModal.classList.add('active'); }
     function closeMessageModal() { messageModal.classList.remove('active'); }
-    function sendYeganehMessage() { const msg = yeganehMessage.value.trim(); if (!msg) return; state.messages.push({ text: msg, time: new Date().toLocaleString() }); saveMessages(state.messages); messageModal.classList.remove('active'); }
+    function sendYeganehMessage() { const msg=yeganehMessage.value.trim(); if(!msg) return; state.messages.push({text:msg,time:new Date().toLocaleString()}); saveMessages(state.messages); messageModal.classList.remove('active'); }
 
-    // ⚡ ADMIN
-    function saveBgMusicUrl() { const url = document.getElementById('bgMusicUrl').value.trim(); state.bgMusicUrl = url || DEFAULT_MUSIC; localStorage.setItem('bgMusicUrl', state.bgMusicUrl); }
-    function openDailyStarModal() { document.getElementById('dailyStarTitle').value = ''; document.getElementById('dailyStarContent').value = ''; dailyStarModal.classList.add('active'); }
+    function saveBgMusicUrl() { const url=document.getElementById('bgMusicUrl').value.trim(); state.bgMusicUrl=url||DEFAULT_MUSIC; localStorage.setItem('bgMusicUrl',state.bgMusicUrl); }
+    function openDailyStarModal() { document.getElementById('dailyStarTitle').value=''; document.getElementById('dailyStarContent').value=''; dailyStarModal.classList.add('active'); }
     function closeDailyStarModal() { dailyStarModal.classList.remove('active'); }
-    function sendDailyStar() { const t = document.getElementById('dailyStarTitle').value.trim(), c = document.getElementById('dailyStarContent').value.trim(); if (!t && !c) return; const im = c.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd = { title: t, text: im ? '' : c, image: im ? c : '', date: new Date().toDateString() }; localStorage.setItem('dailyStar', JSON.stringify(dd)); state.dailyStar = dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
-    function openDragEditor() { dragStars = JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML = ''; dragStars.forEach((p, i) => { const el = document.createElement('div'); el.className = 'drag-star'; el.style.left = p.x + '%'; el.style.top = p.y + '%'; el.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i + 1}</span>`; el.addEventListener('pointerdown', (e) => { e.preventDefault(); el.setPointerCapture(e.pointerId); draggedStarIndex = i; const onMove = (ev) => { if (draggedStarIndex === null) return; const r = dragCanvas.getBoundingClientRect(); const x = Math.min(93, Math.max(3, Math.round(((ev.clientX - r.left) / r.width) * 1000) / 10)); const y = Math.min(93, Math.max(3, Math.round(((ev.clientY - r.top) / r.height) * 1000) / 10)); dragStars[draggedStarIndex] = { x, y }; el.style.left = x + '%'; el.style.top = y + '%'; }; const onUp = () => { el.removeEventListener('pointermove', onMove); el.removeEventListener('pointerup', onUp); draggedStarIndex = null; }; el.addEventListener('pointermove', onMove); el.addEventListener('pointerup', onUp); }); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
-    function saveDragPositions() { savePositionsToStorage(dragStars); positions = dragStars; closeDragEditor(); alert('Positions saved!'); }
+    function sendDailyStar() { const t=document.getElementById('dailyStarTitle').value.trim(), c=document.getElementById('dailyStarContent').value.trim(); if(!t&&!c) return; const im=c.match(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i); const dd={title:t,text:im?'':c,image:im?c:'',date:new Date().toDateString()}; localStorage.setItem('dailyStar',JSON.stringify(dd)); state.dailyStar=dd; dailyStarModal.classList.remove('active'); alert('Daily star sent!'); }
+
+    function openDragEditor() { dragStars=JSON.parse(JSON.stringify(getStarPositions())); dragCanvas.innerHTML=''; dragStars.forEach((pos,i)=>{ const el=document.createElement('div'); el.className='drag-star'; el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2"/></svg><span class="drag-label">${i+1}</span>`; el.addEventListener('pointerdown',(e)=>{ e.preventDefault(); el.setPointerCapture(e.pointerId); draggedStarIndex=i; const onMove=(ev)=>{ if(draggedStarIndex===null) return; const rect=dragCanvas.getBoundingClientRect(); const x=Math.min(93,Math.max(3,Math.round(((ev.clientX-rect.left)/rect.width)*1000)/10)); const y=Math.min(93,Math.max(3,Math.round(((ev.clientY-rect.top)/rect.height)*1000)/10)); dragStars[draggedStarIndex]={x,y}; el.style.left=x+'%'; el.style.top=y+'%'; }; const onUp=()=>{ el.removeEventListener('pointermove',onMove); el.removeEventListener('pointerup',onUp); draggedStarIndex=null; }; el.addEventListener('pointermove',onMove); el.addEventListener('pointerup',onUp); }); dragCanvas.appendChild(el); }); dragEditorOverlay.classList.add('active'); }
+    function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
-    function renderAdmin() { const g = document.getElementById('adminGrid'); g.innerHTML = ''; state.starData.forEach((d, i) => { const s = starStyles[i]; const c = document.createElement('div'); c.className = 'admin-card'; c.innerHTML = `<h4>✦ star ${i + 1} ${state.opened.includes(i) ? '· unlocked' : ''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type === 'text' ? 'selected' : ''}>text</option><option value="image" ${d.type === 'image' ? 'selected' : ''}>image</option><option value="audio" ${d.type === 'audio' ? 'selected' : ''}>audio</option><option value="video" ${d.type === 'video' ? 'selected' : ''}>video</option><option value="spotify" ${d.type === 'spotify' ? 'selected' : ''}>spotify</option><option value="link" ${d.type === 'link' ? 'selected' : ''}>link</option><option value="map" ${d.type === 'map' ? 'selected' : ''}>map</option><option value="quiz" ${d.type === 'quiz' ? 'selected' : ''}>quiz</option><option value="essay" ${d.type === 'essay' ? 'selected' : ''}>essay</option></select><label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content || '')}</textarea><label>description</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description || '')}</textarea><label>Locked</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type === 'map' ? `<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>` : ''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el => { el.addEventListener('change', (e) => { const idx = parseInt(e.target.dataset.idx), f = e.target.dataset.field; if (f === 'lockedColor' || f === 'unlockedColor') { starStyles[idx][f] = e.target.value; saveStarStyles(starStyles); } else if (f === 'description') { state.starData[idx].description = e.target.value; saveStarData(state.starData); } else { state.starData[idx][f] = e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
-    function toggleActivityLog() { const l = document.getElementById('activityLog'); l.style.display = l.style.display === 'block' ? 'none' : 'block'; l.innerHTML = state.activity.length ? state.activity.map(a => `✦ star ${a.star} unlocked at ${a.time}`).join('<br>') : '<p>No activity yet.</p>'; }
-    function toggleMessages() { const b = document.getElementById('adminMessages'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; b.innerHTML = state.messages.length ? state.messages.map(m => `<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join('') : '<p>No messages yet.</p>'; }
-    function toggleQuizLog() { const b = document.getElementById('quizLog'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; const e = Object.entries(state.quizAnswers); b.innerHTML = e.length ? e.map(([k, v]) => `<p>✦ star ${parseInt(k) + 1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type === 'essay' ? '📝' : ''}</p>`).join('') : '<p>No quiz answers yet.</p>'; }
-    function toggleCapsuleLog() { const b = document.getElementById('capsuleLog'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; if (state.capsule) { const t = new Date(state.capsule.targetDate), n = new Date(); const d = Math.floor((t - n) / 86400000); b.innerHTML = `<p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p>`; } else { b.innerHTML = '<p>No time capsule set yet.</p>'; } }
-    function resetYeganehData() { if (confirm('Reset all Yeganeh data?')) { ['openedStars', 'yeganehMessages', 'quizAnswers', 'timeCapsule', 'dailyStar', 'finalShown', 'lastVisit'].forEach(k => localStorage.removeItem(k)); state = loadState(); renderAdmin(); alert('Done.'); } }
-    function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {}); else document.exitFullscreen(); }
-    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]); }
 
-    // ⚡ FLOATING HEARTS ✦
-    document.addEventListener('click', (e) => { if (currentUser === 'yeganeh' && skyView.classList.contains('active')) { const h = document.createElement('div'); h.className = 'float-heart'; h.textContent = '✦'; h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; document.body.appendChild(h); setTimeout(() => h.remove(), 2000); } });
+    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option></select><label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea><label>description (shown above content)</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description||'')}</textarea>${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else if(f==='description') { state.starData[idx].description=e.target.value; saveStarData(state.starData); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
 
-    // ⚡ MAP EDITOR
-    function openMapEditor(si) { currentMapStarIndex = si; const d = state.starData[si]; try { const j = JSON.parse(d.content || '{}'); mapMarkers = j.markers || []; mapImageUrl = j.image || ''; } catch (e) { mapMarkers = []; mapImageUrl = ''; } if (!mapImageUrl) mapImageUrl = 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg'; document.getElementById('mapImageUrl').value = mapImageUrl; loadMapImage(); document.getElementById('mapEditorOverlay').classList.add('active'); renderMarkerList(); }
-    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex = null; }
-    function loadMapImage() { const u = document.getElementById('mapImageUrl').value.trim(); if (!u) return; mapImageUrl = u; const im = new Image(); im.crossOrigin = 'Anonymous'; im.onload = () => { mapImage = im; mapEditorCanvas.width = im.width; mapEditorCanvas.height = im.height; mapEditorCanvas.style.maxWidth = '100%'; mapEditorCanvas.style.height = 'auto'; drawEditorCanvas(); }; im.onerror = () => { alert('Failed to load image.'); }; im.src = u; }
-    function drawEditorCanvas() { if (!mapEditorCanvas || !mapImage) return; const c2 = mapEditorCanvas.getContext('2d'); c2.clearRect(0, 0, mapEditorCanvas.width, mapEditorCanvas.height); c2.drawImage(mapImage, 0, 0); mapMarkers.forEach(m => { c2.beginPath(); c2.arc(m.x, m.y, 10, 0, 2 * Math.PI); c2.fillStyle = '#fad974'; c2.shadowColor = '#fad974'; c2.shadowBlur = 14; c2.fill(); c2.shadowBlur = 0; c2.fillStyle = '#1a0a2e'; c2.font = 'bold 12px Vazirmatn'; c2.fillText(m.title, m.x + 15, m.y - 10); }); }
-    mapEditorCanvas.addEventListener('click', (e) => { const r = mapEditorCanvas.getBoundingClientRect(); const sx = mapEditorCanvas.width / r.width, sy = mapEditorCanvas.height / r.height; pendingMarkerCoord = { x: Math.round((e.clientX - r.left) * sx), y: Math.round((e.clientY - r.top) * sy) }; document.getElementById('markerForm').style.display = 'flex'; document.getElementById('markerTitle').value = ''; document.getElementById('markerText').value = ''; document.getElementById('markerImage').value = ''; });
-    function saveMarker() { const t = document.getElementById('markerTitle').value.trim(); if (!t) return; if (pendingMarkerCoord.editIndex !== undefined) { mapMarkers[pendingMarkerCoord.editIndex] = { x: pendingMarkerCoord.x, y: pendingMarkerCoord.y, title: t, text: document.getElementById('markerText').value.trim(), image: document.getElementById('markerImage').value.trim() }; } else { mapMarkers.push({ x: pendingMarkerCoord.x, y: pendingMarkerCoord.y, title: t, text: document.getElementById('markerText').value.trim(), image: document.getElementById('markerImage').value.trim() }); } document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; drawEditorCanvas(); renderMarkerList(); }
-    function cancelMarker() { document.getElementById('markerForm').style.display = 'none'; pendingMarkerCoord = null; }
-    function renderMarkerList() { document.getElementById('markerList').innerHTML = mapMarkers.map((m, i) => `<div style="cursor:pointer;display:flex;justify-content:space-between;padding:0.25rem 0.5rem;align-items:center;"><span onclick="editMarker(${i})" style="flex:1;">📍 ${escapeHtml(m.title)} ${m.image ? '🖼️' : ''}</span><span style="color:#ff8a8a;cursor:pointer;margin-left:0.5rem;" onclick="event.stopPropagation();deleteMarker(${i})">✕</span></div>`).join(''); }
-    function editMarker(i) { const m = mapMarkers[i]; document.getElementById('markerTitle').value = m.title; document.getElementById('markerText').value = m.text || ''; document.getElementById('markerImage').value = m.image || ''; pendingMarkerCoord = { x: m.x, y: m.y, editIndex: i }; document.getElementById('markerForm').style.display = 'flex'; }
-    function deleteMarker(i) { mapMarkers.splice(i, 1); drawEditorCanvas(); renderMarkerList(); }
-    function saveMapData() { if (currentMapStarIndex === null) return; state.starData[currentMapStarIndex].content = JSON.stringify({ image: mapImageUrl, markers: mapMarkers }); state.starData[currentMapStarIndex].type = 'map'; saveStarData(state.starData); closeMapEditor(); renderAdmin(); alert('Map saved!'); }
+    function toggleActivityLog() { const l=document.getElementById('activityLog'); l.style.display=l.style.display==='block'?'none':'block'; l.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
+    function toggleMessages() { const b=document.getElementById('adminMessages'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
+    function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const e=Object.entries(state.quizAnswers); b.innerHTML=e.length?e.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
+    function toggleCapsuleLog() { const b=document.getElementById('capsuleLog'); b.style.display=b.style.display==='block'?'none':'block'; if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); b.innerHTML=`<p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { b.innerHTML='<p>No time capsule set yet.</p>'; } }
+    function resetYeganehData() { if(confirm('Reset all Yeganeh data?')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('finalShown'); localStorage.removeItem('lastVisit'); state=loadState(); renderAdmin(); alert('Yeganeh data reset.'); } }
+    function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
+    function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
-    // ⚡ PRESET
-    (function preset() { let d = loadState().starData; const p = [{ code: '2217', type: 'link', content: 'https://DigiPostal.ir/xvjh8f5' }, { code: '4580', type: 'spotify', content: 'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw' }, { code: '3389', type: 'image', content: 'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg' }, { code: '6708', type: 'image', content: 'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg' }, { code: '5467', type: 'audio', content: 'assets/morse.wav' }, { code: '', type: 'map', content: '{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}' }]; let ch = false; for (let i = 0; i < p.length && i < TOTAL_STARS; i++) { if (!d[i].code && !d[i].content) { d[i] = p[i]; ch = true; } } if (ch) saveStarData(d); })();
+    document.addEventListener('click', (e) => { if (currentUser==='yeganeh'&&skyView.classList.contains('active')) { const heart=document.createElement('div'); heart.className='float-heart'; heart.textContent='✦'; heart.style.left=e.clientX+'px'; heart.style.top=e.clientY+'px'; document.body.appendChild(heart); setTimeout(()=>heart.remove(),2000); } });
 
-    // ⚡ EVENT LISTENERS
-    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-    starCodeInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitStarCode(); });
-    window.addEventListener('click', e => { if (e.target === starCodeModal) closeStarCodeModal(); if (e.target === contentModal) closeContentModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
-    landing.style.display = 'flex';
+    function openMapEditor(si) { currentMapStarIndex=si; const d=state.starData[si]; try { const j=JSON.parse(d.content||'{}'); mapMarkers=j.markers||[]; mapImageUrl=j.image||''; } catch(e) { mapMarkers=[]; mapImageUrl=''; } if(!mapImageUrl) mapImageUrl='https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg'; document.getElementById('mapImageUrl').value=mapImageUrl; loadMapImage(); document.getElementById('mapEditorOverlay').classList.add('active'); renderMarkerList(); }
+    function closeMapEditor() { document.getElementById('mapEditorOverlay').classList.remove('active'); currentMapStarIndex=null; }
+    function loadMapImage() { const u=document.getElementById('mapImageUrl').value.trim(); if(!u) return; mapImageUrl=u; const im=new Image(); im.crossOrigin='Anonymous'; im.onload=()=>{ mapImage=im; mapEditorCanvas.width=im.width; mapEditorCanvas.height=im.height; mapEditorCanvas.style.maxWidth='100%'; mapEditorCanvas.style.height='auto'; drawEditorCanvas(); }; im.onerror=()=>{ alert('Failed to load image.'); }; im.src=u; }
+    function drawEditorCanvas() { if(!mapEditorCanvas||!mapImage) return; const c2=mapEditorCanvas.getContext('2d'); c2.clearRect(0,0,mapEditorCanvas.width,mapEditorCanvas.height); c2.drawImage(mapImage,0,0); mapMarkers.forEach(m=>{ c2.beginPath(); c2.arc(m.x,m.y,10,0,2*Math.PI); c2.fillStyle='#fad974'; c2.shadowColor='#fad974'; c2.shadowBlur=14; c2.fill(); c2.shadowBlur=0; c2.fillStyle='#1a0a2e'; c2.font='bold 12px Vazirmatn'; c2.fillText(m.title,m.x+15,m.y-10); }); }
+    mapEditorCanvas.addEventListener('click',(e)=>{ const r=mapEditorCanvas.getBoundingClientRect(); const sx=mapEditorCanvas.width/r.width, sy=mapEditorCanvas.height/r.height; pendingMarkerCoord={x:Math.round((e.clientX-r.left)*sx),y:Math.round((e.clientY-r.top)*sy)}; document.getElementById('markerForm').style.display='flex'; document.getElementById('markerTitle').value=''; document.getElementById('markerText').value=''; document.getElementById('markerImage').value=''; });
+    function saveMarker() { const t=document.getElementById('markerTitle').value.trim(); if(!t) return; if(pendingMarkerCoord.editIndex!==undefined) { mapMarkers[pendingMarkerCoord.editIndex]={x:pendingMarkerCoord.x,y:pendingMarkerCoord.y,title:t,text:document.getElementById('markerText').value.trim(),image:document.getElementById('markerImage').value.trim()}; } else { mapMarkers.push({x:pendingMarkerCoord.x,y:pendingMarkerCoord.y,title:t,text:document.getElementById('markerText').value.trim(),image:document.getElementById('markerImage').value.trim()}); } document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; drawEditorCanvas(); renderMarkerList(); }
+    function cancelMarker() { document.getElementById('markerForm').style.display='none'; pendingMarkerCoord=null; }
+    function renderMarkerList() { document.getElementById('markerList').innerHTML=mapMarkers.map((m,i)=>`<div style="cursor:pointer;display:flex;justify-content:space-between;padding:0.25rem 0.5rem;align-items:center;"><span onclick="editMarker(${i})" style="flex:1;">📍 ${escapeHtml(m.title)} ${m.image?'🖼️':''}</span><span style="color:#ff8a8a;cursor:pointer;margin-left:0.5rem;" onclick="event.stopPropagation();deleteMarker(${i})">✕</span></div>`).join(''); }
+    function editMarker(index) { const m=mapMarkers[index]; document.getElementById('markerTitle').value=m.title; document.getElementById('markerText').value=m.text||''; document.getElementById('markerImage').value=m.image||''; pendingMarkerCoord={x:m.x,y:m.y,editIndex:index}; document.getElementById('markerForm').style.display='flex'; }
+    function deleteMarker(i) { mapMarkers.splice(i,1); drawEditorCanvas(); renderMarkerList(); }
+    function saveMapData() { if(currentMapStarIndex===null) return; state.starData[currentMapStarIndex].content=JSON.stringify({image:mapImageUrl,markers:mapMarkers}); state.starData[currentMapStarIndex].type='map'; saveStarData(state.starData); closeMapEditor(); renderAdmin(); alert('Map saved!'); }
+
+    (function preset() { let d=loadState().starData; const p=[{code:'2217',type:'link',content:'https://DigiPostal.ir/xvjh8f5'},{code:'4580',type:'spotify',content:'https://open.spotify.com/playlist/7InF5yCRlJ1vs6cIM4PcRB?si=ZWWaOzNxS46-_58OJ5Y1Hw'},{code:'3389',type:'image',content:'https://s6.uupload.ir/files/۲۰۲۶۰۶۲۶_۰۳۰۲۵۶_gqfy.jpg'},{code:'6708',type:'image',content:'https://uploadkon.ir/uploads/f56624_26Screenshot-۲۰۲۶۰۶۲۴-۰۴۱۹۵۳-Samsung-Notes.jpg'},{code:'5467',type:'audio',content:'assets/morse.wav'},{code:'',type:'map',content:'{"image":"https://s6.uupload.ir/files/۲۰۲۶۰۶۲۹_۱۴۵۲۲۷_d51t.jpg","markers":[]}'}]; let ch=false; for(let i=0;i<p.length&&i<TOTAL_STARS;i++) { if(!d[i].code&&!d[i].content) { d[i]=p[i]; ch=true; } } if(ch) saveStarData(d); })();
+
+    document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') handleLogin(); });
+    starCodeInput.addEventListener('keydown',e=>{ if(e.key==='Enter') submitStarCode(); });
+    window.addEventListener('click',e=>{ if(e.target===starCodeModal) closeStarCodeModal(); if(e.target===contentModal) closeContentModal(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAllModals(); });
+    landing.style.display='flex';
   </script>
 </body>
 </html>
