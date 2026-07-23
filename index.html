@@ -124,8 +124,8 @@
     .star.bursting { animation:burst 0.7s ease-out forwards !important; }
     @keyframes burst { 0%{transform:scale(1); filter:brightness(1);} 40%{transform:scale(2.5); filter:brightness(3) drop-shadow(0 0 60px #ffeaa7);} 100%{transform:scale(1); filter:brightness(1) drop-shadow(0 0 18px var(--gold));} }
 
-    /* ✦ قلب‌های آبی تیره */
-    .float-heart { position: fixed; pointer-events: none; z-index: 100; font-size: 1.5rem; animation: heartFloat 2s ease-out forwards; opacity: 0; color: #1e3a5f; text-shadow: 0 0 8px #2a4a7f; }
+    /* ✦ قلب‌های آبی تیره نورانی */
+    .float-heart { position: fixed; pointer-events: none; z-index: 100; font-size: 1.5rem; animation: heartFloat 2s ease-out forwards; opacity: 0; color: #6a9eff; text-shadow: 0 0 12px #4a7fdf, 0 0 25px #2a5fbf, 0 0 40px #1a3f8f; }
     @keyframes heartFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-80px) scale(1.8); } }
 
     .zoom-controls { display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem; }
@@ -161,10 +161,10 @@
     .typewriter-cursor { animation: blink 0.7s infinite; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
-    .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; }
+    .simple-map-wrap { position:relative; display:inline-block; max-width:100%; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:0.5rem; cursor:crosshair; }
     .simple-map-wrap img { display:block; max-width:100%; height:auto; border-radius:1rem; }
-    .map-marker { position:absolute; background:#fad974; border-radius:50%; box-shadow:0 0 10px #fad974, 0 0 20px rgba(250,217,116,0.4); cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2; }
-    .map-marker:hover { transform:translate(-50%,-50%) scale(1.5); box-shadow:0 0 16px #ffeaa7, 0 0 30px #fad974; }
+    .map-marker { position:absolute; background:#fad974; border-radius:50%; box-shadow:0 0 6px #fad974, 0 0 14px rgba(250,217,116,0.3); cursor:pointer; transform:translate(-50%,-50%); transition:transform 0.2s; z-index:2; }
+    .map-marker:hover { transform:translate(-50%,-50%) scale(1.5); box-shadow:0 0 10px #ffeaa7, 0 0 20px #fad974; }
     .map-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(20,15,45,0.95); backdrop-filter:blur(15px); border:1px solid rgba(250,217,116,0.5); border-radius:1.5rem; padding:1.5rem; max-width:300px; width:85%; z-index:500; text-align:center; box-shadow:0 0 40px rgba(0,0,0,0.8); display:none; }
     .map-popup.active { display:block; }
     .map-popup h4 { color:#fad974; margin-bottom:0.5rem; }
@@ -189,6 +189,9 @@
     .quiz-option { display:block; width:100%; padding:0.8rem; margin:0.4rem 0; background:rgba(255,255,255,0.05); border:1px solid rgba(180,150,255,0.4); border-radius:2rem; color:#f0e5ff; cursor:pointer; transition:0.3s; font-family:inherit; font-size:0.9rem; }
     .quiz-option:hover { background:rgba(180,150,255,0.2); border-color:#c9b0ff; }
     .quiz-option.selected { background:rgba(250,217,116,0.2); border-color:#fad974; color:#fad974; }
+
+    /* راست‌چین برای متن‌های فارسی */
+    .rtl-text { direction: rtl; text-align: right; }
   </style>
 </head>
 <body>
@@ -212,29 +215,29 @@
         <button class="zoom-btn" onclick="zoomContent(0.2)">+</button>
         <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.7rem;">↺</button>
       </div>
-      <div id="contentDescription" style="color:#b0a0d4; font-size:0.85rem; margin:0.5rem 0; display:none;"></div>
+      <div id="contentDescription" class="rtl-text" style="color:#b0a0d4; font-size:0.85rem; margin:0.5rem 0; display:none;"></div>
       <div class="zoomable-wrap" id="zoomableWrap">
         <div class="zoomable-content" id="contentBody" style="margin:0.5rem 0; transform:scale(1);"></div>
       </div>
       <div id="yeganehMapControls" style="display:none; margin-top:0.5rem;">
-        <button class="btn-ghost" onclick="yeganehAddMarker()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>
+        <button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">📍 Add memory to map</button>
       </div>
       <button class="btn-ghost" onclick="closeContentModal()">close</button>
     </div>
   </div>
 
   <div id="yeganehMarkerModal" class="overlay">
-    <div class="glass">
+    <div class="glass rtl-text">
       <h3>📍 Add your memory</h3>
-      <input type="text" id="yeganehMarkerTitle" placeholder="Title...">
-      <textarea id="yeganehMarkerText" rows="2" placeholder="Your words..."></textarea>
+      <input type="text" id="yeganehMarkerTitle" placeholder="Title..." style="text-align:right;">
+      <textarea id="yeganehMarkerText" rows="2" placeholder="Your words..." style="text-align:right;"></textarea>
       <button class="btn" onclick="saveYeganehMarker()">✨ Save</button>
       <button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeYeganehMarkerModal()">cancel</button>
     </div>
   </div>
 
-  <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
-  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..."></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
+  <div class="map-popup rtl-text" id="mapPopup"><h4 id="mapPopupTitle"></h4><p id="mapPopupText"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
+  <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..." style="text-align:right;"></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
   <div id="dragEditorOverlay"><div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;"><h3 style="color:#fad974;">✋ Drag stars to reposition</h3><div style="display:flex; gap:0.5rem;"><button class="btn" onclick="saveDragPositions()">💾 Save</button><button class="btn-ghost" onclick="closeDragEditor()">Cancel</button></div></div><div id="dragCanvas"></div></div>
   <div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
   <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
@@ -262,7 +265,7 @@
 
   <div id="finalMessage">
     <div class="final-stars-container" id="finalStarsContainer"></div>
-    <div class="final-text" id="finalMessageText"></div>
+    <div class="final-text rtl-text" id="finalMessageText"></div>
   </div>
   <audio id="bgMusic" loop preload="auto" crossorigin="anonymous"></audio>
 
@@ -274,6 +277,8 @@
 
     let currentZoom = 1;
     let currentYeganehMapStarIndex = null;
+    let yeganehAddMarkerMode = false;
+    let yeganehPendingCoord = null;
 
     function getStarPositions() { let s=JSON.parse(localStorage.getItem('starPositions')); if(s&&s.length===TOTAL_STARS) return s; const p=[]; for(let i=0;i<TOTAL_STARS;i++) { const angle=(i*1.1)+0.5, radius=12+(i*1.6); p.push({x:Math.min(88,Math.max(8,50+Math.cos(angle)*radius)),y:Math.min(85,Math.max(10,50+Math.sin(angle)*radius*0.7))}); } localStorage.setItem('starPositions',JSON.stringify(p)); return p; }
     let positions = getStarPositions();
@@ -337,7 +342,7 @@
     function previewFinalMessage() { finalMessage.classList.add('active'); finalStarsContainer.innerHTML=''; for(let i=0;i<22;i++) { const s=document.createElement('div'); s.className='final-star'; s.style.left=Math.random()*280+'px'; s.style.top=Math.random()*280+'px'; s.style.animationDelay=Math.random()*0.5+'s'; s.innerHTML='<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); setTimeout(()=>finalMessage.classList.remove('active'),20000); }
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
-    function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; resetZoom(); contentModal.classList.add('active'); const descEl=document.getElementById('contentDescription'); if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; } else { descEl.style.display='none'; } document.getElementById('yeganehMapControls').style.display='none'; if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
+    function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; resetZoom(); contentModal.classList.add('active'); const descEl=document.getElementById('contentDescription'); if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; } else { descEl.style.display='none'; } document.getElementById('yeganehMapControls').style.display='none'; yeganehAddMarkerMode=false; if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
 
     function renderQuiz(d,index) { let qd; try { qd=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if(!qd.question||!qd.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((opt,i)=>{ html+=`<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this,${index},'${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`; }); html+=`<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`; contentBody.innerHTML=html; selectedQuizOption=null; }
     function selectQuizOption(el,starIndex,option) { document.querySelectorAll('.quiz-option').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption={starIndex,option}; }
@@ -345,15 +350,29 @@
     function renderEssay(d,index) { let ed; try { ed=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Question data error.</p>'; return; } if(!ed.question) { contentBody.innerHTML='<p style="color:#b0a0d4;">Question not set yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(ed.question)}</p><textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea><button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${index})">Submit</button>`; contentBody.innerHTML=html; }
     function submitEssayAnswer(si) { const ans=document.getElementById('essayAnswer')?.value.trim(); if(!ans) { alert('Please write something!'); return; } state.quizAnswers[si]={answer:ans,time:new Date().toLocaleString(),type:'essay'}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Your words are saved.</p><p style="color:#b0a0d4; font-size:0.8rem;">They will echo among the stars.</p>'; }
 
-    function renderSimpleMap(starData, starIndex) { currentYeganehMapStarIndex=starIndex; let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); const allMarkers=[...(md.markers||[]),...(md.yeganehMarkers||[])]; if(allMarkers.length>0) { img.onload=()=>{ allMarkers.forEach(m=>{ const mk=document.createElement('div'); mk.className='map-marker'; mk.style.width='14px'; mk.style.height='14px'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(e)=>{ e.stopPropagation(); document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } contentBody.appendChild(wrap); }
+    function renderSimpleMap(starData, starIndex) { currentYeganehMapStarIndex=starIndex; let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; wrap.appendChild(img); const allMarkers=[...(md.markers||[]),...(md.yeganehMarkers||[])]; if(allMarkers.length>0) { img.onload=()=>{ allMarkers.forEach(m=>{ const mk=document.createElement('div'); mk.className='map-marker'; mk.style.width='10px'; mk.style.height='10px'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(e)=>{ e.stopPropagation(); if(yeganehAddMarkerMode) return; document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; }
+    // ✅ یگانه می‌تونه هرجای نقشه کلیک کنه و مارک بذاره
+    wrap.addEventListener('click', function(e) {
+      if(!yeganehAddMarkerMode) return;
+      const rect=img.getBoundingClientRect();
+      const scaleX=img.naturalWidth/rect.width;
+      const scaleY=img.naturalHeight/rect.height;
+      const x=Math.round((e.clientX-rect.left)*scaleX);
+      const y=Math.round((e.clientY-rect.top)*scaleY);
+      yeganehPendingCoord={x,y};
+      document.getElementById('yeganehMarkerTitle').value='';
+      document.getElementById('yeganehMarkerText').value='';
+      yeganehMarkerModal.classList.add('active');
+    });
+    contentBody.appendChild(wrap); }
 
-    function yeganehAddMarker() { document.getElementById('yeganehMarkerTitle').value=''; document.getElementById('yeganehMarkerText').value=''; yeganehMarkerModal.classList.add('active'); }
-    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); }
-    function saveYeganehMarker() { const title=document.getElementById('yeganehMarkerTitle').value.trim(); const text=document.getElementById('yeganehMarkerText').value.trim(); if(!title) { alert('Please enter a title!'); return; } const d=state.starData[currentYeganehMapStarIndex]; let md={}; try { md=JSON.parse(d.content); } catch(e) { md={image:'',markers:[]}; } if(!md.yeganehMarkers) md.yeganehMarkers=[]; md.yeganehMarkers.push({x:300,y:250,title,text,addedBy:'yeganeh'}); d.content=JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); showContent(currentYeganehMapStarIndex); }
+    function yeganehAddMarkerMode() { yeganehAddMarkerMode=true; alert('Click on the map to place your memory marker.'); }
+    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); yeganehAddMarkerMode=false; }
+    function saveYeganehMarker() { const title=document.getElementById('yeganehMarkerTitle').value.trim(); const text=document.getElementById('yeganehMarkerText').value.trim(); if(!title) { alert('Please enter a title!'); return; } const d=state.starData[currentYeganehMapStarIndex]; let md={}; try { md=JSON.parse(d.content); } catch(e) { md={image:'',markers:[]}; } if(!md.yeganehMarkers) md.yeganehMarkers=[]; md.yeganehMarkers.push({x:yeganehPendingCoord.x,y:yeganehPendingCoord.y,title,text,addedBy:'yeganeh'}); d.content=JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); yeganehAddMarkerMode=false; showContent(currentYeganehMapStarIndex); }
 
     function closeMapPopup() { mapPopup.classList.remove('active'); }
-    function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption=null; document.getElementById('yeganehMapControls').style.display='none'; }
-    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); yeganehMarkerModal.classList.remove('active'); closeMapPopup(); }
+    function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption=null; document.getElementById('yeganehMapControls').style.display='none'; yeganehAddMarkerMode=false; }
+    function closeAllModals() { starCodeModal.classList.remove('active'); contentModal.classList.remove('active'); messageModal.classList.remove('active'); dailyStarModal.classList.remove('active'); yeganehMarkerModal.classList.remove('active'); closeMapPopup(); yeganehAddMarkerMode=false; }
     function openMessageBox() { yeganehMessage.value=''; messageModal.classList.add('active'); }
     function closeMessageModal() { messageModal.classList.remove('active'); }
     function sendYeganehMessage() { const msg=yeganehMessage.value.trim(); if(!msg) return; state.messages.push({text:msg,time:new Date().toLocaleString()}); saveMessages(state.messages); messageModal.classList.remove('active'); }
@@ -400,4 +419,4 @@
     landing.style.display='flex';
   </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                                                                                                  </html>
