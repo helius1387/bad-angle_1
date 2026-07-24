@@ -115,8 +115,6 @@
     .star.enlarged { transform:scale(1.8) !important; z-index:50 !important; filter:drop-shadow(0 0 30px #ffeaa7); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     .star.daily-star { animation: dailyPulse 1.5s ease-in-out infinite; }
     @keyframes dailyPulse { 0%,100% { filter: drop-shadow(0 0 18px #fad974) drop-shadow(0 0 35px #f5d742) brightness(1.2); } 50% { filter: drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px #fad974) brightness(1.5); } }
-    .star.capsule-star { animation: capsuleGlow 2s ease-in-out infinite; }
-    @keyframes capsuleGlow { 0%,100% { filter: drop-shadow(0 0 10px #c4b5fd) drop-shadow(0 0 20px #a78bfa); } 50% { filter: drop-shadow(0 0 20px #ddd6fe) drop-shadow(0 0 40px #c4b5fd); } }
     .star svg { width:100%; height:100%; filter:drop-shadow(0 0 6px rgba(150,140,220,0.5)); transition:filter 0.6s; }
     .star.unlocked svg { filter:drop-shadow(0 0 18px var(--gold)) drop-shadow(0 0 40px #f5d742); animation:starGlow 3s infinite; }
     @keyframes starGlow { 0%,100%{filter:drop-shadow(0 0 16px var(--gold)) drop-shadow(0 0 35px #f5d742);} 50%{filter:drop-shadow(0 0 28px #ffeaa7) drop-shadow(0 0 55px var(--gold));} }
@@ -142,7 +140,7 @@
     .admin-card label { font-size:0.7rem; color:#b0a0c8; display:block; margin-top:0.4rem; }
     .admin-card input, .admin-card select, .admin-card textarea { width:100%; margin:0.2rem 0 0.5rem; background:rgba(255,255,255,0.05); border:1px solid #443366; border-radius:0.7rem; padding:0.4rem 0.7rem; color:#f0e5ff; font-family:inherit; font-size:0.8rem; }
     .admin-card input[type="color"] { padding:0.1rem; height:35px; cursor:pointer; }
-    .admin-log, .message-box, .quiz-log, .capsule-log, .capsule-info { margin-top:1.5rem; max-width:950px; width:100%; background:rgba(20,15,45,0.6); border-radius:1.5rem; padding:1.2rem; color:#b0a0d4; font-size:0.8rem; }
+    .admin-log, .message-box, .quiz-log, .capsule-info { margin-top:1.5rem; max-width:950px; width:100%; background:rgba(20,15,45,0.6); border-radius:1.5rem; padding:1.2rem; color:#b0a0d4; font-size:0.8rem; }
     .last-visit { color: #fad974; font-size: 0.85rem; margin-top: 0.5rem; text-align: center; }
 
     #dragEditorOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,20,0.95); z-index:400; display:flex; flex-direction:column; align-items:center; visibility:hidden; }
@@ -220,12 +218,12 @@
     </div>
   </div>
 
-  <div id="yeganehMarkerModal" class="overlay"><div class="glass"><h3>📍 Add your memory</h3><p style="color:#b0a0d4; font-size:0.7rem;">Click on the map where you want to place your memory</p><input type="text" id="yeganehMarkerTitle" placeholder="Title..." class="rtl-text"><textarea id="yeganehMarkerText" rows="2" placeholder="Your words..." class="rtl-text"></textarea><button class="btn" onclick="saveYeganehMarker()">✨ Save</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeYeganehMarkerModal()">cancel</button></div></div>
+  <div id="yeganehMarkerModal" class="overlay"><div class="glass"><h3>📍 Add your memory</h3><p style="color:#b0a0d4; font-size:0.7rem;">Click on the map</p><input type="text" id="yeganehMarkerTitle" placeholder="Title..." class="rtl-text"><textarea id="yeganehMarkerText" rows="2" placeholder="Your words..." class="rtl-text"></textarea><button class="btn" onclick="saveYeganehMarker()">✨ Save</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeYeganehMarkerModal()">cancel</button></div></div>
   <div class="map-popup" id="mapPopup"><h4 id="mapPopupTitle" class="rtl-text"></h4><p id="mapPopupText" class="rtl-text"></p><img id="mapPopupImage" style="display:none;" alt=""><button class="close-popup" onclick="closeMapPopup()">close</button></div>
   <div id="messageModal" class="overlay"><div class="glass"><h3>🪽 whisper to the sky</h3><textarea id="yeganehMessage" rows="3" placeholder="your words..." class="rtl-text"></textarea><button class="btn" onclick="sendYeganehMessage()">send to Khorshid</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeMessageModal()">cancel</button></div></div>
   <div id="dragEditorOverlay"><div style="display:flex; justify-content:space-between; width:95%; align-items:center; margin-top:1rem;"><h3 style="color:#fad974;">✋ Drag stars to reposition</h3><div style="display:flex; gap:0.5rem;"><button class="btn" onclick="saveDragPositions()">💾 Save</button><button class="btn-ghost" onclick="closeDragEditor()">Cancel</button></div></div><div id="dragCanvas"></div></div>
   <div id="mapEditorOverlay"><div class="editor-toolbar"><button class="btn-ghost" onclick="closeMapEditor()">↩ back</button><input type="text" id="mapImageUrl" placeholder="Map image URL" style="width:180px; font-size:0.8rem;"><button class="btn" onclick="loadMapImage()">Load</button></div><div class="editor-canvas-wrap"><canvas id="mapEditorCanvas"></canvas></div><div class="marker-form" id="markerForm" style="display:none;"><label>Memory Title *</label><input type="text" id="markerTitle" placeholder="e.g., First meeting"><label>Text</label><textarea id="markerText" rows="2" placeholder="Write your memory..."></textarea><label>Image URL (optional)</label><input type="text" id="markerImage" placeholder="https://..."><div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;"><button class="btn" onclick="saveMarker()">Save Marker</button><button class="btn-ghost" onclick="cancelMarker()">Cancel</button></div></div><div id="markerList" style="max-height:12vh; overflow-y:auto; width:300px; margin-top:0.5rem; font-size:0.75rem; color:#b0a0d4;"></div><button class="btn" style="margin-top:0.8rem;" onclick="saveMapData()">💾 Save Map to Star</button></div>
-  <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title (e.g., Good morning!)"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
+  <div id="dailyStarModal" class="overlay"><div class="glass"><h3>📨 Send Daily Star to Yeganeh</h3><input type="text" id="dailyStarTitle" placeholder="Title"><textarea id="dailyStarContent" rows="3" placeholder="Message or image URL..."></textarea><button class="btn" onclick="sendDailyStar()">✨ Send Now</button><button class="btn-ghost" style="margin-top:0.5rem;" onclick="closeDailyStarModal()">cancel</button></div></div>
 
   <div id="adminPanel">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:950px; align-items:center;"><h2 style="color:#cbb8ff;">🛠 Admin · Khorshid</h2><button class="btn-ghost" onclick="logout()">↩ leave</button></div>
@@ -237,7 +235,7 @@
       <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
       <button class="btn-ghost" onclick="toggleMessages()">💌 messages</button>
       <button class="btn-ghost" onclick="toggleQuizLog()">📝 quiz answers</button>
-      <button class="btn-ghost" onclick="toggleCapsuleInfo()">⏳ capsule info</button>
+      <button class="btn-ghost" onclick="toggleCapsuleInfo()">⏳ time capsule info</button>
       <button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button>
       <button class="btn-ghost" onclick="openDailyStarModal()">📨 daily star</button>
       <button class="btn-ghost" onclick="previewFinalMessage()">👁 preview final</button>
@@ -307,33 +305,26 @@
 
     function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; resetZoom(); contentModal.classList.add('active'); }
 
-    // ✅ CAPSULE — مستقیم از showContent برای ستاره‌های نوع capsule
-    function openCapsuleModal() {
-      contentTitle.textContent = '⏳ Time Capsule';
-      resetZoom();
-      contentModal.classList.add('active');
-      
+    // ✅ CAPSULE — خود ستاره کپسوله
+    function openCapsule(index) {
       if (!state.capsule) {
+        contentTitle.textContent = '⏳ Time Capsule';
         contentBody.innerHTML = `
           <p style="color:#c4b5fd; margin-bottom:1rem;">شما یک پیام به مقصد ۳۶۵ روز دیگر دارید<br>لطفاً ایمیل خود را وارد کنید</p>
           <input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;">
           <button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ ثبت</button>
         `;
-        return;
+        resetZoom(); contentModal.classList.add('active'); return;
       }
-      
       const t = new Date(state.capsule.targetDate), n = new Date(), diff = t - n;
+      contentTitle.textContent = '⏳ Time Capsule';
       if (diff <= 0) {
-        contentBody.innerHTML = '<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: ' + escapeHtml(state.capsule.email) + '</p>';
+        contentBody.innerHTML = '<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Sent to: '+escapeHtml(state.capsule.email)+'</p>';
       } else {
-        const days = Math.floor(diff / (1000*60*60*24)), hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60)), mins = Math.floor((diff % (1000*60*60)) / (1000*60)), secs = Math.floor((diff % (1000*60)) / 1000);
-        contentBody.innerHTML = `
-          <div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div>
-          <p style="color:#b0a0d4;">until your star arrives...</p>
-          <p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p>
-          <button class="btn-small" onclick="editCapsuleEmail()">✏️ Edit email</button>
-        `;
+        const days=Math.floor(diff/(1000*60*60*24)), hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), mins=Math.floor((diff%(1000*60*60))/(1000*60)), secs=Math.floor((diff%(1000*60))/1000);
+        contentBody.innerHTML = `<div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div><p style="color:#b0a0d4;">until your star arrives...</p><p style="font-size:0.6rem; color:#7d6c9c;">Sent to: ${escapeHtml(state.capsule.email)}</p><button class="btn-small" onclick="editCapsuleEmail()">✏️ Edit email</button>`;
       }
+      resetZoom(); contentModal.classList.add('active');
     }
 
     function submitCapsuleEmail() { const email=document.getElementById('capsuleEmail')?.value.trim(); if(!email||!email.includes('@')) { alert('Please enter a valid email!'); return; } const now=new Date(), target=new Date(now); target.setFullYear(target.getFullYear()+1); state.capsule={email,targetDate:target.toISOString(),createdAt:now.toISOString()}; localStorage.setItem('timeCapsule',JSON.stringify(state.capsule)); contentBody.innerHTML='<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
@@ -350,36 +341,16 @@
     function previewFinalMessage() { finalMessage.classList.add('active'); finalStarsContainer.innerHTML=''; for(let i=0;i<22;i++) { const s=document.createElement('div'); s.className='final-star'; s.style.left=Math.random()*280+'px'; s.style.top=Math.random()*280+'px'; s.style.animationDelay=Math.random()*0.5+'s'; s.innerHTML='<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); setTimeout(()=>finalMessage.classList.remove('active'),20000); }
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
-    // ✅ showContent — capsule مستقیم باز می‌شه
-    function showContent(index) {
-      const d=state.starData[index];
-      contentTitle.textContent='✦ star '+(index+1);
-      contentBody.innerHTML='';
-      resetZoom();
-      contentModal.classList.add('active');
-      
-      // ✅ capsule — بدون نیاز به content
-      if(d.type==='capsule') {
-        document.getElementById('contentDescription').style.display='none';
-        document.getElementById('yeganehMapControls').style.display='none';
-        openCapsuleModal();
-        return;
-      }
-      
-      const descEl=document.getElementById('contentDescription');
-      if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; }
-      else { descEl.style.display='none'; }
-      document.getElementById('yeganehMapControls').style.display='none';
-      yeganehAddMarkerActive=false;
-      
+    function showContent(index) { const d=state.starData[index];
+      // ✅ اگه نوع ستاره capsule باشه، مستقیم کپسول رو نشون بده
+      if(d.type==='capsule') { openCapsule(index); return; }
+      contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; resetZoom(); contentModal.classList.add('active');
+      const descEl=document.getElementById('contentDescription'); if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; } else { descEl.style.display='none'; }
+      document.getElementById('yeganehMapControls').style.display='none'; yeganehAddMarkerActive=false;
       if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; }
       if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; }
-      if(d.type==='quiz') { renderQuiz(d,index); return; }
-      if(d.type==='essay') { renderEssay(d,index); return; }
-      let html='';
-      switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; }
-      contentBody.innerHTML=html;
-    }
+      if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; }
+      let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
 
     function renderQuiz(d,index) { let qd; try { qd=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if(!qd.question||!qd.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((opt,i)=>{ html+=`<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this,${index},'${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`; }); html+=`<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`; contentBody.innerHTML=html; selectedQuizOption=null; }
     function selectQuizOption(el,starIndex,option) { document.querySelectorAll('.quiz-option').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption={starIndex,option}; }
@@ -387,12 +358,12 @@
     function renderEssay(d,index) { let ed; try { ed=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Question data error.</p>'; return; } if(!ed.question) { contentBody.innerHTML='<p style="color:#b0a0d4;">Question not set yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(ed.question)}</p><textarea id="essayAnswer" rows="4" placeholder="Write your answer..." style="text-align:left; border-radius:1rem;"></textarea><button class="btn" style="margin-top:0.5rem;" onclick="submitEssayAnswer(${index})">Submit</button>`; contentBody.innerHTML=html; }
     function submitEssayAnswer(si) { const ans=document.getElementById('essayAnswer')?.value.trim(); if(!ans) { alert('Please write something!'); return; } state.quizAnswers[si]={answer:ans,time:new Date().toLocaleString(),type:'essay'}; saveQuizAnswers(state.quizAnswers); contentBody.innerHTML='<p style="color:#fad974;">✨ Your words are saved.</p><p style="color:#b0a0d4; font-size:0.8rem;">They will echo among the stars.</p>'; }
 
-    function renderSimpleMap(starData, starIndex) { currentYeganehMapStarIndex=starIndex; let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; if(yeganehAddMarkerActive) wrap.style.cursor='crosshair'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.onerror=()=>{ contentBody.innerHTML='<p style="color:#ffb3b3;">Failed to load map image.</p>'; }; img.addEventListener('click', (e) => { if (!yeganehAddMarkerActive) return; const rect = img.getBoundingClientRect(); yeganehPendingCoord = { x: Math.round((e.clientX - rect.left) * (img.naturalWidth / rect.width)), y: Math.round((e.clientY - rect.top) * (img.naturalHeight / rect.height)) }; yeganehMarkerModal.classList.add('active'); document.getElementById('yeganehMarkerTitle').value = ''; document.getElementById('yeganehMarkerText').value = ''; }); wrap.appendChild(img); const allMarkers=[...(md.markers||[]),...(md.yeganehMarkers||[])]; if(allMarkers.length>0) { img.onload=()=>{ allMarkers.forEach(m=>{ const isYeganeh=m.addedBy==='yeganeh'; const mk=document.createElement('div'); mk.className='map-marker '+(isYeganeh?'yeganeh-marker':'admin-marker'); mk.style.width=isYeganeh?'8px':'14px'; mk.style.height=isYeganeh?'8px':'14px'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(ev)=>{ ev.stopPropagation(); if(yeganehAddMarkerActive) { const rect2=img.getBoundingClientRect(); yeganehPendingCoord={x:Math.round((ev.clientX-rect2.left)*(img.naturalWidth/rect2.width)),y:Math.round((ev.clientY-rect2.top)*(img.naturalHeight/rect2.height))}; yeganehMarkerModal.classList.add('active'); return; } document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } contentBody.appendChild(wrap); }
+    function renderSimpleMap(starData, starIndex) { currentYeganehMapStarIndex=starIndex; let md; try { md=JSON.parse(starData.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Map data error.</p>'; return; } if(!md.image) { contentBody.innerHTML='<p style="color:#b0a0d4;">Map image not set yet.</p>'; return; } const wrap=document.createElement('div'); wrap.className='simple-map-wrap'; if(yeganehAddMarkerActive) wrap.style.cursor='crosshair'; const img=document.createElement('img'); img.src=md.image; img.style.maxWidth='100%'; img.style.height='auto'; img.style.borderRadius='1rem'; img.addEventListener('click',(e)=>{ if(!yeganehAddMarkerActive) return; const rect=img.getBoundingClientRect(); yeganehPendingCoord={x:Math.round((e.clientX-rect.left)*(img.naturalWidth/rect.width)),y:Math.round((e.clientY-rect.top)*(img.naturalHeight/rect.height))}; yeganehMarkerModal.classList.add('active'); document.getElementById('yeganehMarkerTitle').value=''; document.getElementById('yeganehMarkerText').value=''; }); wrap.appendChild(img); const allMarkers=[...(md.markers||[]),...(md.yeganehMarkers||[])]; if(allMarkers.length>0) { img.onload=()=>{ allMarkers.forEach(m=>{ const isYeganeh=m.addedBy==='yeganeh'; const mk=document.createElement('div'); mk.className='map-marker '+(isYeganeh?'yeganeh-marker':'admin-marker'); mk.style.width=isYeganeh?'8px':'14px'; mk.style.height=isYeganeh?'8px':'14px'; mk.style.left=(m.x/img.naturalWidth*100)+'%'; mk.style.top=(m.y/img.naturalHeight*100)+'%'; mk.addEventListener('click',(ev)=>{ ev.stopPropagation(); if(yeganehAddMarkerActive) { const rect2=img.getBoundingClientRect(); yeganehPendingCoord={x:Math.round((ev.clientX-rect2.left)*(img.naturalWidth/rect2.width)),y:Math.round((ev.clientY-rect2.top)*(img.naturalHeight/rect2.height))}; yeganehMarkerModal.classList.add('active'); return; } document.getElementById('mapPopupTitle').textContent=m.title; document.getElementById('mapPopupText').textContent=m.text||''; const pi=document.getElementById('mapPopupImage'); if(m.image) { pi.src=m.image; pi.style.display='block'; } else { pi.style.display='none'; } mapPopup.classList.add('active'); }); wrap.appendChild(mk); }); }; } contentBody.appendChild(wrap); }
 
-    function yeganehAddMarkerMode() { yeganehAddMarkerActive = true; document.getElementById('yeganehMapControls').innerHTML = '<p style="color:#fad974; font-size:0.7rem;">Click on the map to place your memory...</p><button class="btn-ghost" onclick="cancelYeganehMarkerMode()" style="font-size:0.6rem; padding:0.2rem 0.8rem; margin-top:0.3rem;">cancel</button>'; }
-    function cancelYeganehMarkerMode() { yeganehAddMarkerActive = false; document.getElementById('yeganehMapControls').innerHTML = '<button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>'; }
-    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); yeganehAddMarkerActive = false; document.getElementById('yeganehMapControls').innerHTML = '<button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>'; }
-    function saveYeganehMarker() { const title=document.getElementById('yeganehMarkerTitle').value.trim(); const text=document.getElementById('yeganehMarkerText').value.trim(); if(!title) { alert('Please enter a title!'); return; } if(!yeganehPendingCoord) { alert('Please click on the map first!'); return; } const d=state.starData[currentYeganehMapStarIndex]; let md={}; try { md=JSON.parse(d.content); } catch(e) { md={image:'',markers:[]}; } if(!md.yeganehMarkers) md.yeganehMarkers=[]; md.yeganehMarkers.push({x:yeganehPendingCoord.x, y:yeganehPendingCoord.y, title, text, addedBy:'yeganeh'}); d.content=JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); showContent(currentYeganehMapStarIndex); }
+    function yeganehAddMarkerMode() { yeganehAddMarkerActive=true; document.getElementById('yeganehMapControls').innerHTML='<p style="color:#fad974; font-size:0.7rem;">Click on the map...</p><button class="btn-ghost" onclick="cancelYeganehMarkerMode()" style="font-size:0.6rem; padding:0.2rem 0.8rem; margin-top:0.3rem;">cancel</button>'; }
+    function cancelYeganehMarkerMode() { yeganehAddMarkerActive=false; document.getElementById('yeganehMapControls').innerHTML='<button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>'; }
+    function closeYeganehMarkerModal() { yeganehMarkerModal.classList.remove('active'); yeganehAddMarkerActive=false; document.getElementById('yeganehMapControls').innerHTML='<button class="btn-ghost" onclick="yeganehAddMarkerMode()" style="font-size:0.7rem; padding:0.3rem 1rem;">+ Add memory</button>'; }
+    function saveYeganehMarker() { const title=document.getElementById('yeganehMarkerTitle').value.trim(), text=document.getElementById('yeganehMarkerText').value.trim(); if(!title) { alert('Please enter a title!'); return; } if(!yeganehPendingCoord) { alert('Click on map first!'); return; } const d=state.starData[currentYeganehMapStarIndex]; let md={}; try { md=JSON.parse(d.content); } catch(e) { md={image:'',markers:[]}; } if(!md.yeganehMarkers) md.yeganehMarkers=[]; md.yeganehMarkers.push({x:yeganehPendingCoord.x,y:yeganehPendingCoord.y,title,text,addedBy:'yeganeh'}); d.content=JSON.stringify(md); saveStarData(state.starData); closeYeganehMarkerModal(); showContent(currentYeganehMapStarIndex); }
 
     function closeMapPopup() { mapPopup.classList.remove('active'); }
     function closeContentModal() { contentModal.classList.remove('active'); closeMapPopup(); selectedQuizOption=null; document.getElementById('yeganehMapControls').style.display='none'; yeganehAddMarkerActive=false; }
@@ -410,7 +381,7 @@
     function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
 
-    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const isCapsule=d.type==='capsule'; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option><option value="capsule" ${d.type==='capsule'?'selected':''}>capsule (time capsule)</option></select>${isCapsule?'<p style="color:#c4b5fd; font-size:0.65rem;">No content needed — just set a code</p>':'<label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>'}${isCapsule?'':'<label>description (shown above content)</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description||'')}</textarea>'}${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else if(f==='description') { state.starData[idx].description=e.target.value; saveStarData(state.starData); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
+    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const isCapsule=d.type==='capsule'; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option><option value="capsule" ${d.type==='capsule'?'selected':''}>capsule (time capsule)</option></select>${!isCapsule?`<label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>`:'<p style="color:#c4b5fd; font-size:0.7rem;">⏳ No content needed</p>'}<label>description (shown above content)</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description||'')}</textarea>${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else if(f==='description') { state.starData[idx].description=e.target.value; saveStarData(state.starData); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
 
     function toggleActivityLog() { const l=document.getElementById('activityLog'); l.style.display=l.style.display==='block'?'none':'block'; l.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
     function toggleMessages() { const b=document.getElementById('adminMessages'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
@@ -418,21 +389,7 @@
     function toggleCapsuleInfo() { if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); capsuleInfo.innerHTML=`<h4 style="color:#c4b5fd;">⏳ Time Capsule</h4><p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { capsuleInfo.innerHTML='<p style="color:#b0a0d4;">No time capsule set yet.</p>'; } capsuleInfo.style.display=capsuleInfo.style.display==='block'?'none':'block'; }
     
     // ✅ ریست فقط داده‌های یگانه
-    function resetYeganehData() {
-      if(confirm('Reset all Yeganeh data?\n\nThis will clear: opened stars, messages, quiz answers, time capsule, daily star, and final message.\n\nAdmin settings (codes, content, colors, positions) will be preserved.')) {
-        localStorage.removeItem('openedStars');
-        localStorage.removeItem('yeganehMessages');
-        localStorage.removeItem('quizAnswers');
-        localStorage.removeItem('timeCapsule');
-        localStorage.removeItem('dailyStar');
-        localStorage.removeItem('finalShown');
-        localStorage.removeItem('lastVisit');
-        state=loadState();
-        renderAdmin();
-        alert('✅ Yeganeh data has been reset.\nAdmin settings are safe.');
-      }
-    }
-    
+    function resetYeganehData() { if(confirm('Reset all Yeganeh data? (Stars, messages, capsule, daily star, quiz answers)\n\nAdmin settings (codes, contents, colors, positions) will be KEPT.')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('finalShown'); localStorage.removeItem('lastVisit'); state=loadState(); renderAdmin(); alert('✅ Yeganeh data reset.\n\n🗑️ Cleared: stars, messages, capsule, daily star, quiz answers\n🔒 Kept: codes, contents, colors, positions, music URL'); } }
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
