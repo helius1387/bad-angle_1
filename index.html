@@ -194,7 +194,6 @@
     .quiz-option.selected { background:rgba(250,217,116,0.2); border-color:#fad974; color:#fad974; }
 
     .rtl-text { direction: rtl; text-align: right; }
-    .capsule-star-yeganeh { animation: capsuleGlow 2s ease-in-out infinite; }
   </style>
 </head>
 <body>
@@ -238,7 +237,7 @@
       <button class="btn-ghost" onclick="toggleActivityLog()">🌸 activity log</button>
       <button class="btn-ghost" onclick="toggleMessages()">💌 messages</button>
       <button class="btn-ghost" onclick="toggleQuizLog()">📝 quiz answers</button>
-      <button class="btn-ghost" onclick="toggleCapsuleInfo()">⏳ time capsule info</button>
+      <button class="btn-ghost" onclick="toggleCapsuleInfo()">⏳ capsule info</button>
       <button class="btn-ghost" onclick="openDragEditor()">✋ drag stars</button>
       <button class="btn-ghost" onclick="openDailyStarModal()">📨 daily star</button>
       <button class="btn-ghost" onclick="previewFinalMessage()">👁 preview final</button>
@@ -302,38 +301,32 @@
     function showAdmin() { skyView.classList.remove('active'); adminPanel.classList.add('active'); document.getElementById('bgMusicUrl').value=state.bgMusicUrl||''; if(state.lastVisit) lastVisitDisplay.textContent='🕊️ Yeganeh last visited: '+state.lastVisit; else lastVisitDisplay.textContent='🕊️ Yeganeh has not visited yet'; renderAdmin(); }
     function logout() { currentUser=null; skyView.classList.remove('active'); adminPanel.classList.remove('active'); landing.style.display='flex'; loginOverlay.classList.remove('active'); musicPrompt.classList.remove('active'); closeAllModals(); bgMusic.pause(); }
 
-    function renderStarsInstant() { starsContainer.innerHTML=''; const os=new Set(state.opened); for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=os.has(i), style=starStyles[i]; const el=createStarElement(i,pos,unlocked,style); el.style.opacity='1'; el.style.transform='scale(1)'; starsContainer.appendChild(el); } if(state.dailyStar) { const dsDate=new Date(state.dailyStar.date); const now=new Date(); if(now-dsDate<86400000) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='12%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2.5"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#5c3d00;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); } else { localStorage.removeItem('dailyStar'); state.dailyStar=null; } } if(state.capsule) { const cs=document.createElement('div'); cs.className='star capsule-star'; cs.style.left='50%'; cs.style.top='85%'; cs.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#c4b5fd" stroke="#ddd6fe" stroke-width="2"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#2d1b5a;">⏳</span>`; cs.addEventListener('click',()=>openCapsuleForYeganeh()); starsContainer.appendChild(cs); } }
+    function renderStarsInstant() { starsContainer.innerHTML=''; const os=new Set(state.opened); for(let i=0;i<TOTAL_STARS;i++) { const pos=positions[i], unlocked=os.has(i), style=starStyles[i]; const el=createStarElement(i,pos,unlocked,style); el.style.opacity='1'; el.style.transform='scale(1)'; starsContainer.appendChild(el); } if(state.dailyStar) { const dsDate=new Date(state.dailyStar.date); const now=new Date(); if(now-dsDate<86400000) { const ds=document.createElement('div'); ds.className='star daily-star'; ds.style.left='50%'; ds.style.top='12%'; ds.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974" stroke="#ffeaa7" stroke-width="2.5"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:0.6rem;color:#5c3d00;">✨</span>`; ds.addEventListener('click',()=>showDailyStarContent()); starsContainer.appendChild(ds); } else { localStorage.removeItem('dailyStar'); state.dailyStar=null; } } }
 
     function createStarElement(index,pos,unlocked,style) { const el=document.createElement('div'); el.className='star'+(unlocked?' unlocked':''); el.style.left=pos.x+'%'; el.style.top=pos.y+'%'; const fc=unlocked?style.unlockedColor:style.lockedColor, sc=unlocked?'#ffeaa7':'#aa99c4'; el.innerHTML=`<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="${fc}" stroke="${sc}" stroke-width="2"/></svg><span class="star-number">${index+1}</span>`; if(unlocked) for(let s=0;s<3;s++) { let sp=document.createElement('div'); sp.className='sparkle'; sp.style.top=(20+Math.random()*40)+'%'; sp.style.left=(20+Math.random()*40)+'%'; sp.style.animationDelay=s*0.5+'s'; el.appendChild(sp); } el.addEventListener('click',(e)=>handleStarClick(index,unlocked,el,e)); return el; }
 
     function showDailyStarContent() { if(!state.dailyStar) return; contentTitle.textContent='📨 Daily Message'; contentBody.innerHTML=state.dailyStar.image?`<img src="${escapeHtml(state.dailyStar.image)}" style="max-width:100%; border-radius:1rem;"><p style="margin-top:0.8rem;">${escapeHtml(state.dailyStar.text||'')}</p>`:`<p>${escapeHtml(state.dailyStar.text||'')}</p>`; resetZoom(); contentModal.classList.add('active'); }
 
-    // ✅ CAPSULE — ستاره کپسول زمان
-    function openCapsuleForYeganeh() {
+    // ✅ CAPSULE — مستقیم از showContent برای ستاره‌های نوع capsule
+    function openCapsuleModal() {
+      contentTitle.textContent = '⏳ Time Capsule';
+      resetZoom();
+      contentModal.classList.add('active');
+      
       if (!state.capsule) {
-        // کپسول هنوز ساخته نشده
-        contentTitle.textContent = '⏳ Time Capsule';
         contentBody.innerHTML = `
           <p style="color:#c4b5fd; margin-bottom:1rem;">شما یک پیام به مقصد ۳۶۵ روز دیگر دارید<br>لطفاً ایمیل خود را وارد کنید</p>
           <input type="email" id="capsuleEmail" placeholder="your@email.com" style="text-align:left; direction:ltr;">
           <button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">✨ ثبت</button>
         `;
-        resetZoom();
-        contentModal.classList.add('active');
         return;
       }
       
-      // کپسول وجود داره
       const t = new Date(state.capsule.targetDate), n = new Date(), diff = t - n;
-      contentTitle.textContent = '⏳ Time Capsule';
-      
       if (diff <= 0) {
         contentBody.innerHTML = '<p style="color:#c4b5fd;">Your star has arrived! Check your email ✨</p><p style="font-size:0.7rem; color:#b0a0d4;">Message sent to: ' + escapeHtml(state.capsule.email) + '</p>';
       } else {
-        const days = Math.floor(diff / (1000*60*60*24));
-        const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-        const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-        const secs = Math.floor((diff % (1000*60)) / 1000);
+        const days = Math.floor(diff / (1000*60*60*24)), hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60)), mins = Math.floor((diff % (1000*60*60)) / (1000*60)), secs = Math.floor((diff % (1000*60)) / 1000);
         contentBody.innerHTML = `
           <div class="timer-display"><span class="hourglass">⏳</span>${days}d ${hours}h ${mins}m ${secs}s</div>
           <p style="color:#b0a0d4;">until your star arrives...</p>
@@ -341,27 +334,10 @@
           <button class="btn-small" onclick="editCapsuleEmail()">✏️ Edit email</button>
         `;
       }
-      resetZoom();
-      contentModal.classList.add('active');
     }
 
-    function submitCapsuleEmail() {
-      const email = document.getElementById('capsuleEmail')?.value.trim();
-      if (!email || !email.includes('@')) { alert('Please enter a valid email!'); return; }
-      const now = new Date(), target = new Date(now);
-      target.setFullYear(target.getFullYear() + 1);
-      state.capsule = { email, targetDate: target.toISOString(), createdAt: now.toISOString() };
-      localStorage.setItem('timeCapsule', JSON.stringify(state.capsule));
-      contentBody.innerHTML = '<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>';
-    }
-
-    function editCapsuleEmail() {
-      contentBody.innerHTML = `
-        <p style="color:#c4b5fd; margin-bottom:1rem;">ویرایش ایمیل</p>
-        <input type="email" id="capsuleEmail" value="${escapeHtml(state.capsule.email)}" style="text-align:left; direction:ltr;">
-        <button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">💾 Save</button>
-      `;
-    }
+    function submitCapsuleEmail() { const email=document.getElementById('capsuleEmail')?.value.trim(); if(!email||!email.includes('@')) { alert('Please enter a valid email!'); return; } const now=new Date(), target=new Date(now); target.setFullYear(target.getFullYear()+1); state.capsule={email,targetDate:target.toISOString(),createdAt:now.toISOString()}; localStorage.setItem('timeCapsule',JSON.stringify(state.capsule)); contentBody.innerHTML='<p style="color:#c4b5fd; font-size:1.2rem;">🎉 Congratulations!</p><p style="color:#b0a0d4;">A star has been sent to your future.<br>Come back anytime to see the countdown ✨</p>'; }
+    function editCapsuleEmail() { contentBody.innerHTML=`<p style="color:#c4b5fd; margin-bottom:1rem;">ویرایش ایمیل</p><input type="email" id="capsuleEmail" value="${escapeHtml(state.capsule.email)}" style="text-align:left; direction:ltr;"><button class="btn" onclick="submitCapsuleEmail()" style="margin-top:0.5rem;">💾 Save</button>`; }
 
     function handleStarClick(index,isUnlocked,starEl,event) { event.stopPropagation(); starEl.classList.add('enlarged'); setTimeout(()=>starEl.classList.remove('enlarged'),600); if(isUnlocked) setTimeout(()=>showContent(index),400); else { pendingStar=index; starCodeInput.value=''; starCodeError.textContent=''; starCodeModal.classList.add('active'); starCodeInput.focus(); } }
     function submitStarCode() { const code=starCodeInput.value.trim(); if(!code) return; if(state.starData[pendingStar]?.code===code) { if(!state.opened.includes(pendingStar)) { state.opened.push(pendingStar); saveOpened(state.opened); state.activity.push({star:pendingStar+1,time:new Date().toLocaleString()}); saveActivity(state.activity); } starCodeModal.classList.remove('active'); renderStarsInstant(); updateCounterAndPoetry(); const els=document.querySelectorAll('.star'); if(els[pendingStar]) { els[pendingStar].classList.add('bursting'); setTimeout(()=>els[pendingStar].classList.remove('bursting'),700); } playUnlockSound(); spawnShootingStar(); setTimeout(()=>showContent(pendingStar),500); if(state.opened.length===TOTAL_STARS) revealFinal(); } else { starCodeError.textContent='نه یگانه اشتباهه😔🎀'; starCodeInput.value=''; } }
@@ -374,7 +350,36 @@
     function previewFinalMessage() { finalMessage.classList.add('active'); finalStarsContainer.innerHTML=''; for(let i=0;i<22;i++) { const s=document.createElement('div'); s.className='final-star'; s.style.left=Math.random()*280+'px'; s.style.top=Math.random()*280+'px'; s.style.animationDelay=Math.random()*0.5+'s'; s.innerHTML='<svg viewBox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#fad974"/></svg>'; finalStarsContainer.appendChild(s); } typewriterEffect(finalMessageText, FINAL_MESSAGE, 60); setTimeout(()=>finalMessage.classList.remove('active'),20000); }
     function closeStarCodeModal() { starCodeModal.classList.remove('active'); pendingStar=null; }
 
-    function showContent(index) { const d=state.starData[index]; contentTitle.textContent='✦ star '+(index+1); contentBody.innerHTML=''; resetZoom(); contentModal.classList.add('active'); const descEl=document.getElementById('contentDescription'); if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; } else { descEl.style.display='none'; } document.getElementById('yeganehMapControls').style.display='none'; yeganehAddMarkerActive=false; if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; } if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; } if(d.type==='quiz') { renderQuiz(d,index); return; } if(d.type==='essay') { renderEssay(d,index); return; } let html=''; switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; } contentBody.innerHTML=html; }
+    // ✅ showContent — capsule مستقیم باز می‌شه
+    function showContent(index) {
+      const d=state.starData[index];
+      contentTitle.textContent='✦ star '+(index+1);
+      contentBody.innerHTML='';
+      resetZoom();
+      contentModal.classList.add('active');
+      
+      // ✅ capsule — بدون نیاز به content
+      if(d.type==='capsule') {
+        document.getElementById('contentDescription').style.display='none';
+        document.getElementById('yeganehMapControls').style.display='none';
+        openCapsuleModal();
+        return;
+      }
+      
+      const descEl=document.getElementById('contentDescription');
+      if(d.description&&d.description.trim()) { descEl.textContent=d.description; descEl.style.display='block'; }
+      else { descEl.style.display='none'; }
+      document.getElementById('yeganehMapControls').style.display='none';
+      yeganehAddMarkerActive=false;
+      
+      if(!d||!d.content) { contentBody.innerHTML='<p style="color:#b0a0d4;">this star holds a secret yet to be revealed…</p>'; return; }
+      if(d.type==='map') { renderSimpleMap(d,index); document.getElementById('yeganehMapControls').style.display='block'; return; }
+      if(d.type==='quiz') { renderQuiz(d,index); return; }
+      if(d.type==='essay') { renderEssay(d,index); return; }
+      let html='';
+      switch(d.type) { case 'text': html=`<p style="white-space:pre-wrap;line-height:1.8;">${escapeHtml(d.content)}</p>`; break; case 'image': html=`<img src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1.2rem;">`; break; case 'audio': html=`<audio controls src="${escapeHtml(d.content)}" style="width:100%;"></audio>`; break; case 'video': html=`<video controls src="${escapeHtml(d.content)}" style="max-width:100%;border-radius:1rem;"></video>`; break; case 'spotify': let id=d.content.replace('https://open.spotify.com/playlist/','').split('?')[0]; html=`<iframe src="https://open.spotify.com/embed/playlist/${id}" width="100%" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`; break; case 'link': html=`<a href="${escapeHtml(d.content)}" target="_blank" style="color:#fad974;">open link ↗</a>`; break; default: html=`<p>${escapeHtml(d.content)}</p>`; }
+      contentBody.innerHTML=html;
+    }
 
     function renderQuiz(d,index) { let qd; try { qd=JSON.parse(d.content); } catch(e) { contentBody.innerHTML='<p style="color:#ffb3b3;">Quiz data error.</p>'; return; } if(!qd.question||!qd.options) { contentBody.innerHTML='<p style="color:#b0a0d4;">Quiz not configured yet.</p>'; return; } let html=`<p style="color:#fad974; margin-bottom:1rem;">${escapeHtml(qd.question)}</p>`; qd.options.forEach((opt,i)=>{ html+=`<button class="quiz-option" data-opt="${i}" onclick="selectQuizOption(this,${index},'${escapeHtml(opt)}')">${escapeHtml(opt)}</button>`; }); html+=`<button class="btn" style="margin-top:1rem;" onclick="submitQuizAnswer(${index})">Submit Answer</button>`; contentBody.innerHTML=html; selectedQuizOption=null; }
     function selectQuizOption(el,starIndex,option) { document.querySelectorAll('.quiz-option').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); selectedQuizOption={starIndex,option}; }
@@ -405,13 +410,29 @@
     function saveDragPositions() { savePositionsToStorage(dragStars); positions=dragStars; closeDragEditor(); alert('Positions saved!'); }
     function closeDragEditor() { dragEditorOverlay.classList.remove('active'); }
 
-    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option><option value="capsule" ${d.type==='capsule'?'selected':''}>capsule (time capsule)</option></select><label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea><label>description (shown above content)</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description||'')}</textarea>${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else if(f==='description') { state.starData[idx].description=e.target.value; saveStarData(state.starData); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
+    function renderAdmin() { const g=document.getElementById('adminGrid'); g.innerHTML=''; state.starData.forEach((d,i)=>{ const s=starStyles[i]; const isCapsule=d.type==='capsule'; const c=document.createElement('div'); c.className='admin-card'; c.innerHTML=`<h4>✦ star ${i+1} ${state.opened.includes(i)?'· unlocked':''}</h4><label>code</label><input type="text" value="${escapeHtml(d.code)}" data-idx="${i}" data-field="code"><label>type</label><select data-idx="${i}" data-field="type"><option value="text" ${d.type==='text'?'selected':''}>text</option><option value="image" ${d.type==='image'?'selected':''}>image</option><option value="audio" ${d.type==='audio'?'selected':''}>audio</option><option value="video" ${d.type==='video'?'selected':''}>video</option><option value="spotify" ${d.type==='spotify'?'selected':''}>spotify</option><option value="link" ${d.type==='link'?'selected':''}>link</option><option value="map" ${d.type==='map'?'selected':''}>map</option><option value="quiz" ${d.type==='quiz'?'selected':''}>quiz (MCQ)</option><option value="essay" ${d.type==='essay'?'selected':''}>essay question</option><option value="capsule" ${d.type==='capsule'?'selected':''}>capsule (time capsule)</option></select>${isCapsule?'<p style="color:#c4b5fd; font-size:0.65rem;">No content needed — just set a code</p>':'<label>content</label><textarea rows="2" data-idx="${i}" data-field="content">${escapeHtml(d.content||'')}</textarea>'}${isCapsule?'':'<label>description (shown above content)</label><textarea rows="2" data-idx="${i}" data-field="description" style="font-size:0.75rem;">${escapeHtml(d.description||'')}</textarea>'}${d.type==='quiz'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"...","options":["A","B","C"]}</p>':''}${d.type==='essay'?'<p style="font-size:0.6rem;color:#b0a0c8;">Format: {"question":"..."}</p>':''}<label>Locked Color</label><input type="color" value="${s.lockedColor}" data-idx="${i}" data-field="lockedColor" style="width:50px;"><label>Unlocked Color</label><input type="color" value="${s.unlockedColor}" data-idx="${i}" data-field="unlockedColor" style="width:50px;">${d.type==='map'?`<button class="btn-ghost" onclick="openMapEditor(${i})">🗺️ Edit Map</button>`:''}`; g.appendChild(c); }); document.querySelectorAll('#adminGrid input, #adminGrid select, #adminGrid textarea').forEach(el=>{ el.addEventListener('change',(e)=>{ const idx=parseInt(e.target.dataset.idx), f=e.target.dataset.field; if(f==='lockedColor'||f==='unlockedColor') { starStyles[idx][f]=e.target.value; saveStarStyles(starStyles); } else if(f==='description') { state.starData[idx].description=e.target.value; saveStarData(state.starData); } else { state.starData[idx][f]=e.target.value; saveStarData(state.starData); } renderAdmin(); }); }); }
 
     function toggleActivityLog() { const l=document.getElementById('activityLog'); l.style.display=l.style.display==='block'?'none':'block'; l.innerHTML=state.activity.length?state.activity.map(a=>`✦ star ${a.star} unlocked at ${a.time}`).join('<br>'):'<p>No activity yet.</p>'; }
     function toggleMessages() { const b=document.getElementById('adminMessages'); b.style.display=b.style.display==='block'?'none':'block'; b.innerHTML=state.messages.length?state.messages.map(m=>`<p>💌 "${escapeHtml(m.text)}" — ${m.time}</p>`).join(''):'<p>No messages yet.</p>'; }
     function toggleQuizLog() { const b=document.getElementById('quizLog'); b.style.display=b.style.display==='block'?'none':'block'; const e=Object.entries(state.quizAnswers); b.innerHTML=e.length?e.map(([k,v])=>`<p>✦ star ${parseInt(k)+1}: "${escapeHtml(v.answer)}" — ${v.time} ${v.type==='essay'?'📝':''}</p>`).join(''):'<p>No quiz answers yet.</p>'; }
     function toggleCapsuleInfo() { if(state.capsule) { const t=new Date(state.capsule.targetDate), n=new Date(); const d=Math.floor((t-n)/(1000*60*60*24)); capsuleInfo.innerHTML=`<h4 style="color:#c4b5fd;">⏳ Time Capsule</h4><p>📧 Email: ${escapeHtml(state.capsule.email)}</p><p>⏳ ${d} days remaining</p><p>📅 Target: ${t.toLocaleDateString()}</p>`; } else { capsuleInfo.innerHTML='<p style="color:#b0a0d4;">No time capsule set yet.</p>'; } capsuleInfo.style.display=capsuleInfo.style.display==='block'?'none':'block'; }
-    function resetYeganehData() { if(confirm('Reset all Yeganeh data?')) { localStorage.removeItem('openedStars'); localStorage.removeItem('yeganehMessages'); localStorage.removeItem('quizAnswers'); localStorage.removeItem('timeCapsule'); localStorage.removeItem('dailyStar'); localStorage.removeItem('finalShown'); localStorage.removeItem('lastVisit'); state=loadState(); renderAdmin(); alert('Yeganeh data reset.'); } }
+    
+    // ✅ ریست فقط داده‌های یگانه
+    function resetYeganehData() {
+      if(confirm('Reset all Yeganeh data?\n\nThis will clear: opened stars, messages, quiz answers, time capsule, daily star, and final message.\n\nAdmin settings (codes, content, colors, positions) will be preserved.')) {
+        localStorage.removeItem('openedStars');
+        localStorage.removeItem('yeganehMessages');
+        localStorage.removeItem('quizAnswers');
+        localStorage.removeItem('timeCapsule');
+        localStorage.removeItem('dailyStar');
+        localStorage.removeItem('finalShown');
+        localStorage.removeItem('lastVisit');
+        state=loadState();
+        renderAdmin();
+        alert('✅ Yeganeh data has been reset.\nAdmin settings are safe.');
+      }
+    }
+    
     function toggleFullscreen() { if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
     function escapeHtml(str) { return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
